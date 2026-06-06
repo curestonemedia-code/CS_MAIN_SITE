@@ -34,7 +34,7 @@ const STATIC_FALLBACKS: Review[] = [
     color: "bg-slate-600"
   },
   {
-    id: 'f2',
+    id: 'f3',
     name: "Zakirhussain",
     initials: "P",
     image: "https://lh3.googleusercontent.com/a-/ALV-UjWsxlfLWhloWXpGaGT1ShU0HLQx1kLIr-zncybqQ3U7yPpG5jSp=w144-h144-p-rp-mo-br100",
@@ -44,7 +44,7 @@ const STATIC_FALLBACKS: Review[] = [
     color: "bg-slate-600"
   },
   {
-    id: 'f2',
+    id: 'f4',
     name: "Shobhit Jaryal",
     initials: "P",
     image: "https://lh3.googleusercontent.com/a-/ALV-UjVm5ukTku-oIZDIdJDEDJNnT0JhbnG7csKMNQP276F1NIz-SGRe0g=w144-h144-p-rp-mo-ba2-br100",
@@ -54,7 +54,7 @@ const STATIC_FALLBACKS: Review[] = [
     color: "bg-slate-600"
   },
   {
-    id: 'f2',
+    id: 'f5',
     name: "vijay",
     initials: "P",
     image: "https://lh3.googleusercontent.com/a-/ALV-UjVfiGeqt8J7vEskngsOrcRukiQGULP_pgq4czyeaqBCMifLiII=w144-h144-p-rp-mo-br100",
@@ -64,7 +64,7 @@ const STATIC_FALLBACKS: Review[] = [
     color: "bg-slate-600"
   },
   {
-    id: 'f2',
+    id: 'f6',
     name: "Sunny",
     initials: "P",
     image: "https://lh3.googleusercontent.com/a-/ALV-UjXmHknejWQ7R-KNgCRIBN_1K7S2h_wrZ8wU5XDn5CqaDloKHyo0=w144-h144-p-rp-mo-br100",
