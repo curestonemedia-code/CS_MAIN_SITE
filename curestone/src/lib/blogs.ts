@@ -1,0 +1,257 @@
+import { cleanText, sanityFetch } from "./sanity";
+
+export const BLOGS_PER_PAGE = 12;
+
+export type BlogTaxonomy = {
+  _id: string;
+  title: string;
+  slug: string;
+  description?: string;
+  count?: number;
+};
+
+export type SanityImageAsset = {
+  _id?: string;
+  url?: string;
+  metadata?: {
+    lqip?: string;
+    dimensions?: {
+      width?: number;
+      height?: number;
+      aspectRatio?: number;
+    };
+  };
+};
+
+export type SanityImage = {
+  alt?: string;
+  caption?: string;
+  asset?: SanityImageAsset;
+};
+
+export type BlogAuthor = {
+  name?: string;
+  description?: string;
+  avatar?: SanityImage;
+};
+
+export type BlogCard = {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  publishedAt?: string;
+  updatedAt?: string;
+  readingTime?: number;
+  coverImage?: SanityImage;
+  author?: BlogAuthor;
+  categories?: BlogTaxonomy[];
+  tags?: BlogTaxonomy[];
+};
+
+export type PortableTextChild = {
+  _key: string;
+  _type: "span";
+  text?: string;
+  marks?: string[];
+};
+
+export type PortableTextBlock = {
+  _key: string;
+  _type: string;
+  style?: string;
+  listItem?: "bullet" | "number";
+  level?: number;
+  children?: PortableTextChild[];
+  markDefs?: Array<{
+    _key: string;
+    _type: string;
+    href?: string;
+  }>;
+  asset?: SanityImageAsset;
+  alt?: string;
+  caption?: string;
+  language?: string;
+  code?: string;
+};
+
+export type BlogPost = BlogCard & {
+  body?: PortableTextBlock[];
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    ogImage?: SanityImage;
+  };
+};
+
+export type BlogFilters = {
+  page?: number;
+  category?: string;
+  q?: string;
+};
+
+const imageFields = `
+  asset->{_id,url,metadata{lqip,dimensions{width,height,aspectRatio}}},
+  alt,
+  caption
+`;
+
+const authorFields = `
+  "author": coalesce(authorRef->{name,description,avatar{${imageFields}}}, author)
+`;
+
+const cardFields = `
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  publishedAt,
+  updatedAt,
+  readingTime,
+  coverImage{${imageFields}},
+  ${authorFields},
+  "categories": categories[]->{_id,title,"slug": slug.current,description},
+  "tags": tags[]->{_id,title,"slug": slug.current,description}
+`;
+
+const baseFilter = `
+  _type == "blogPost" &&
+  defined(slug.current) &&
+  isPublished != false &&
+  ($category == null || references(*[_type == "category" && slug.current == $category][0]._id)) &&
+  ($search == null || title match $search || excerpt match $search)
+`;
+
+export async function getBlogIndex(filters: BlogFilters) {
+  const page = Math.max(1, filters.page || 1);
+  const start = (page - 1) * BLOGS_PER_PAGE;
+  const end = start + BLOGS_PER_PAGE;
+  const params = {
+    start,
+    end,
+    category: filters.category || null,
+    search: filters.q ? `*${filters.q}*` : null,
+  };
+
+  const [posts, total, categories] = await Promise.all([
+    sanityFetch<BlogCard[]>({
+      query: `*[${baseFilter}] | order(publishedAt desc)[${start}...${end}]{${cardFields}}`,
+      params,
+    }),
+    sanityFetch<number>({
+      query: `count(*[${baseFilter}])`,
+      params,
+    }),
+    sanityFetch<BlogTaxonomy[]>({
+      query: `*[_type == "category"] | order(title asc){
+        _id,
+        title,
+        "slug": slug.current,
+        description,
+        "count": count(*[_type == "blogPost" && isPublished != false && references(^._id)])
+      }`,
+    }),
+  ]);
+
+  return {
+    posts: posts.map(normalizeBlogCard),
+    total,
+    totalPages: Math.max(1, Math.ceil(total / BLOGS_PER_PAGE)),
+    page,
+    categories: categories.filter((item) => item.slug),
+  };
+}
+
+export async function getBlogPost(slug: string) {
+  const slugCandidates = getSlugCandidates(slug);
+  const post = await sanityFetch<BlogPost | null>({
+    query: `*[_type == "blogPost" && slug.current in $slugs && isPublished != false][0]{
+      ${cardFields},
+      body[]{
+        ...,
+        _type == "image" => {${imageFields}},
+        markDefs[]
+      },
+      seo{
+        metaTitle,
+        metaDescription,
+        ogImage{${imageFields}}
+      }
+    }`,
+    params: { slugs: slugCandidates },
+  });
+
+  return post ? normalizeBlogPost(post) : null;
+}
+
+export async function getRelatedBlogs(post: BlogPost, limit = 3) {
+  const categoryIds = post.categories?.map((category) => category._id).filter(Boolean) || [];
+
+  if (!categoryIds.length) return [];
+
+  const related = await sanityFetch<BlogCard[]>({
+    query: `*[
+      _type == "blogPost" &&
+      _id != $id &&
+      isPublished != false &&
+      count((categories[]._ref)[@ in $categoryIds]) > 0
+    ] | order(publishedAt desc)[0...${limit}]{${cardFields}}`,
+    params: { id: post._id, categoryIds, limit },
+  });
+
+  return related.map(normalizeBlogCard);
+}
+
+function normalizeBlogCard(post: BlogCard): BlogCard {
+  return {
+    ...post,
+    excerpt: cleanText(post.excerpt),
+    categories: post.categories || [],
+    tags: post.tags || [],
+  };
+}
+
+function normalizeBlogPost(post: BlogPost): BlogPost {
+  return {
+    ...normalizeBlogCard(post),
+    body: post.body || [],
+    seo: post.seo,
+  };
+}
+
+function getSlugCandidates(slug: string) {
+  const decoded = safeDecodeURIComponent(slug);
+
+  return Array.from(
+    new Set([
+      slug,
+      decoded,
+      slug.normalize("NFC"),
+      slug.normalize("NFKC"),
+      decoded.normalize("NFC"),
+      decoded.normalize("NFKC"),
+    ])
+  );
+}
+
+function safeDecodeURIComponent(value: string) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+export function formatDate(value?: string) {
+  if (!value) return "Recently updated";
+
+  return new Intl.DateTimeFormat("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(value));
+}
+
+export function getReadTime(post: Pick<BlogCard, "readingTime">) {
+  return post.readingTime ? `${post.readingTime} min read` : "Quick read";
+}

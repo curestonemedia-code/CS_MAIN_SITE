@@ -1,10 +1,6 @@
 import os
 
-locations = [
-    "Bhiwadi", "Rewari", "Sonipat", "Jhajjar", "Karnal", "Panipat", "Rohtak", 
-    "Bahadurgarh", "Dwarka", "Janakpuri", "Rk Puram", "Kalka Ji", "Bhiwani", 
-    "Hisar", "Faridabad", "Pitampura", "Manesar", "Vikas Puri"
-]
+locations = []
 
 template = """import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -14,17 +10,17 @@ import GlobalReach from "@/components/home/GlobalReach";
 import LocationLeadForm from "@/components/home/LocationLeadForm";
 
 export const metadata: Metadata = {
-  title: "Kidney Stone Surgery Cost in {{LOCATION}} | CureStone",
+  title: "Kidney Stone Surgery Cost in {{LOCATION}} | Cure Stone",
   description: "Advanced laser treatment starting from ₹58,000. Experience USFDA approved technology with {{LOCATION}}'s top-tier urologists.",
   alternates: {
     canonical: "https://curestone.in/{{LOCATION_LOWER}}",
   },
   openGraph: {
-    title: "Kidney Stone Surgery Cost in {{LOCATION}} | CureStone",
+    title: "Kidney Stone Surgery Cost in {{LOCATION}} | Cure Stone",
     description: "Advanced laser treatment starting from ₹58,000. Experience USFDA approved technology with {{LOCATION}}'s top-tier urologists.",
     url: "https://curestone.in/{{LOCATION_LOWER}}",
-    siteName: "CureStone",
-    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Kidney Stone Surgery Cost in {{LOCATION}} | CureStone" }],
+    siteName: "Cure Stone",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Kidney Stone Surgery Cost in {{LOCATION}} | Cure Stone" }],
     locale: "en_IN",
     type: "website",
   },
@@ -53,7 +49,7 @@ const breadcrumbSchema = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
-  name: "CureStone – Kidney Stone Surgery {{LOCATION}}",
+  name: "Cure Stone – Kidney Stone Surgery {{LOCATION}}",
   description: "Advanced RIRS laser kidney stone surgery serving patients from {{LOCATION}}. No cuts, 98% success rate.",
   url: "https://curestone.in/{{LOCATION_LOWER}}",
   telephone: "+91-88002-63884",
@@ -138,12 +134,12 @@ export default function {{LOCATION_COMPONENT}}SurgeryPage() {
           </div>
         </section>
 
-        {/* Trust Section - Why Choose CureStone */}
+        {/* Trust Section - Why Choose Cure Stone */}
         <section className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
               <div className="max-w-2xl">
-                <h2 className="font-sans text-4xl lg:text-5xl font-bold text-blue-900 tracking-tight mb-6">Why Choose <span className="text-amber-600">CureStone</span> in {{LOCATION}}?</h2>
+                <h2 className="font-sans text-4xl lg:text-5xl font-bold text-blue-900 tracking-tight mb-6">Why Choose <span className="text-amber-600">Cure Stone</span> in {{LOCATION}}?</h2>
                 <p className="text-lg text-slate-600">We redefine kidney stone care by combining clinical precision with a sanctuary-like patient experience.</p>
               </div>
             </div>

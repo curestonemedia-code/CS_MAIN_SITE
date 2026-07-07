@@ -109,7 +109,7 @@ export default function AppointmentForm() {
                 <span className="text-primary italic">World-Class</span> Care.
               </h2>
               <p className="text-lg text-slate-500 leading-relaxed font-medium">
-                Book your FANS-RIRS consultation. Zero radiation, zero cuts, 100% recovery focus.
+                Book your FANS-RIRS consultation for kidney stone treatment in Gurgaon. Your recovery plan depends on your scan, stone size, and clinical condition.
               </p>
             </div>
 
@@ -192,7 +192,7 @@ export default function AppointmentForm() {
                 </button>
                 
                 <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest">
-                  🛡️ Secure & Confidential · HIPAA Compliant
+                  Secure & Confidential
                 </p>
               </form>
             </div>

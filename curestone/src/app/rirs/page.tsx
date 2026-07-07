@@ -3,9 +3,59 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+const TITLE = "RIRS Surgery in Gurgaon | Kidney Stone Laser Treatment";
+const DESCRIPTION = "RIRS surgery in Gurgaon for selected kidney stone cases at Cure Stone Hospital, Sector 52. Consult for scan-based treatment planning and recovery guidance.";
+const URL = "https://thecurestone.com/rirs";
+
 export const metadata: Metadata = {
-  title: "RIRS Kidney Stone Surgery | Cure Stone — Laser Treatment Delhi",
-  description: "RIRS (Retrograde Intrarenal Surgery) is India's most advanced kidney stone treatment. No cuts, no radiation, 98% success rate. Book with Dr. Deepanshu Gupta.",
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: URL,
+  },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: URL,
+    siteName: "Cure Stone",
+    type: "website",
+    locale: "en_IN",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: TITLE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og-image.svg"],
+  },
+};
+
+const procedureSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  name: "RIRS — Retrograde Intrarenal Surgery",
+  procedureType: "http://schema.org/PercutaneousProcedure",
+  description: DESCRIPTION,
+  howPerformed:
+    "A thin, flexible ureteroscope is passed through the natural urinary pathway to reach the kidney, where a Holmium or Thulium laser fragments the stone into fine dust under direct visualisation.",
+  preparation: "Suitable for kidney stones up to 20mm, confirmed by CT KUB imaging and clinical assessment.",
+  followup: "Most patients are discharged the same day or within 24 hours, with normal activity resuming in 1–2 days.",
+  bodyLocation: "Kidney",
+  provider: {
+    "@type": "MedicalBusiness",
+    name: "Cure Stone",
+    "@id": "https://thecurestone.com/#organization",
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://thecurestone.com" },
+    { "@type": "ListItem", position: 2, name: "Specialties", item: "https://thecurestone.com/specialties" },
+    { "@type": "ListItem", position: 3, name: "RIRS Surgery", item: URL },
+  ],
 };
 
 const steps = [
@@ -20,7 +70,7 @@ const steps = [
 const tableData = [
   { feature: "Incisions", rirs: "None", eswl: "None", pcnl: "Small keyhole" },
   { feature: "Radiation", rirs: "None (FANS-RIRS)", eswl: "Yes", pcnl: "Minimal" },
-  { feature: "Stone-Free Rate", rirs: "98%", eswl: "60–70%", pcnl: "90–95%" },
+  { feature: "Outcome Factors", rirs: "Stone size and anatomy", eswl: "Often for selected small stones", pcnl: "Often for larger stones" },
   { feature: "Recovery", rirs: "1–2 days", eswl: "2–3 days", pcnl: "3–5 days" },
   { feature: "Anaesthesia", rirs: "Spinal", eswl: "None", pcnl: "General / Spinal" },
   { feature: "Stone Size", rirs: "Up to 20mm", eswl: "Up to 10mm", pcnl: "20mm+" },
@@ -30,6 +80,14 @@ const tableData = [
 export default function RIRSPage() {
   return (
     <div className="flex flex-col min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(procedureSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+      />
       <Navbar />
 
       {/* Hero */}
@@ -39,12 +97,12 @@ export default function RIRSPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="max-w-3xl">
-              <span className="inline-block px-4 py-1.5 mb-6 text-[10px] font-black tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full uppercase">Gold Standard Treatment</span>
+              <span className="inline-block px-4 py-1.5 mb-6 text-[10px] font-black tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full uppercase">RIRS Surgery in Gurgaon</span>
               <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.1] md:leading-[1.05] mb-6">
                 Fans RIRS <span className="text-primary italic">Laser Surgery</span>
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl mb-10">
-                Retrograde Intrarenal Surgery — the world&apos;s most advanced kidney stone treatment. A flexible laser scope passes through natural pathways. <strong className="text-slate-900">Zero cuts. Zero radiation. 98% stone-free.</strong>
+                Retrograde Intrarenal Surgery is a laser treatment option for selected kidney stones. A flexible laser scope passes through natural urinary pathways. <strong className="text-slate-900">Suitability depends on stone size, location and scan findings.</strong>
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/book" className="px-8 py-4 bg-primary text-white font-black rounded-2xl shadow-xl shadow-primary/30 hover:bg-primary-dark hover:scale-105 active:scale-95 transition-all text-center">
@@ -76,7 +134,7 @@ export default function RIRSPage() {
       {/* Stats Bar */}
       <div className="bg-primary py-6 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
-          {[["98%", "Stone-Free Rate"], ["24 Hrs", "Average Discharge"], ["0", "Incisions / Cuts"], ["9000+", "Procedures Done"]].map(([val, lab], i) => (
+          {[["RIRS", "Laser Treatment"], ["24 Hrs", "Typical Short Stay"], ["Natural", "Urinary Pathway"], ["9000+", "Procedures Done"]].map(([val, lab], i) => (
             <div key={i}>
               <p className="text-3xl font-black">{val}</p>
               <p className="text-xs font-bold uppercase tracking-widest text-white/70 mt-1">{lab}</p>
@@ -110,14 +168,14 @@ export default function RIRSPage() {
               </div>
 
               <div className="bg-primary/5 border border-primary/10 rounded-3xl p-6 md:p-8">
-                <h3 className="text-xl font-black text-foreground mb-6 text-center lg:text-left">RIRS is ideal when…</h3>
+                <h3 className="text-xl font-black text-foreground mb-6 text-center lg:text-left">RIRS may be considered when...</h3>
                 <div className="space-y-4">
                   {[
-                    ["🎯", "Stone 5–20mm", "RIRS is the first-line treatment for stones in this common range."],
+                    ["🎯", "Stone 5-20mm", "RIRS may be suitable for selected stones in this common range."],
                     ["🫁", "Stone inside the kidney", "Particularly stones in the renal pelvis or lower pole."],
                     ["🚫", "Failed ESWL", "When shock-wave therapy has not cleared the stone."],
-                    ["👧", "Children & elderly", "The non-invasive approach is safer for high-risk patients."],
-                    ["🌐", "Bilateral stones", "Both kidneys can be treated in a single session."],
+                    ["👧", "Children & elderly", "A natural-route approach may be considered for selected high-risk patients."],
+                    ["🌐", "Bilateral stones", "Treatment planning depends on scan findings and patient fitness."],
                   ].map(([icon, title, desc], i) => (
                     <div key={i} className="flex items-start gap-4 p-4 bg-white rounded-2xl border border-border/30 shadow-sm">
                       <span className="text-2xl shrink-0">{icon}</span>

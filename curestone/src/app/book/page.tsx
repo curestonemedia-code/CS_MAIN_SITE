@@ -57,9 +57,9 @@ export default function BookPage() {
           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-white leading-[1.05] mb-6">
             Book Your <span className="text-primary italic">Consultation</span>
           </h1>
-          <p className="text-lg text-white/60 font-medium max-w-2xl mx-auto mb-10">Speak directly with Dr. Deepanshu Gupta — India's leading FANS-RIRS expert. Free first consultation. No waiting. No cuts.</p>
+          <p className="text-lg text-white/60 font-medium max-w-2xl mx-auto mb-10">Speak with Dr. Deepanshu Gupta about kidney stone surgery in Gurgaon, RIRS options, scan review, and treatment planning.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            {["Call Back in 15 mins", "Online & In-Clinic", "Free First Consult", "HIPAA Compliant"].map((t, i) => (
+            {["Call Back in 15 mins", "Online & In-Clinic", "Free First Consult", "Secure & Confidential"].map((t, i) => (
               <span key={i} className="flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/10 rounded-full text-sm font-bold text-white/70">
                 <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                 {t}
@@ -87,7 +87,7 @@ export default function BookPage() {
               ) : (
                 <div className="bg-white/70 backdrop-blur-2xl p-8 md:p-10 rounded-[2.5rem] border border-white shadow-2xl shadow-primary/5">
                   <h2 className="text-2xl font-black text-slate-900 mb-1">Schedule Free Consultation</h2>
-                  <p className="text-sm text-slate-500 font-medium mb-8">Fill in the details and we'll reach out within 15 minutes.</p>
+                  <p className="text-sm text-slate-500 font-medium mb-8">Fill in the details and we&apos;ll reach out within 15 minutes.</p>
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid md:grid-cols-2 gap-5">
                       <div className="space-y-1.5">
@@ -130,7 +130,7 @@ export default function BookPage() {
                     </button>
                     <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
                       <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm0 17.91c-3.71-.94-6-4.79-6-8.91V6.3l6-2.25 6 2.25V11c0 4.12-2.29 7.97-6 8.91z" /></svg>
-                      Secure & Confidential · HIPAA Compliant
+                      Secure & Confidential
                     </p>
                   </form>
                 </div>
@@ -138,7 +138,12 @@ export default function BookPage() {
 
               {/* FAQ Section */}
               <div className="space-y-6">
-                <h3 className="text-2xl font-black text-foreground">Frequently Asked Questions</h3>
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="text-2xl font-black text-foreground">Frequently Asked Questions</h3>
+                  <Link href="/faqs" className="text-sm font-black text-primary hover:underline whitespace-nowrap">
+                    See All FAQs →
+                  </Link>
+                </div>
                 <div className="space-y-3">
                   {faqs.map((faq, i) => (
                     <div key={i} className="bg-white border border-border/50 rounded-2xl overflow-hidden">
@@ -172,7 +177,7 @@ export default function BookPage() {
               {/* Map Card */}
               <div className="bg-white border border-border/50 rounded-3xl overflow-hidden shadow-sm">
                 <div className="w-full h-64 bg-slate-100">
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3508.3183934021354!2d77.06771327549376!3d28.439816975770583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1775543986563!5m2!1sen!2sin" width="600" height="450" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="w-full h-full"></iframe>
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14033.273570394473!2d77.070288!3d28.439817!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1782981388299!5m2!1sen!2sin" width="600" height="450" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="strict-origin-when-cross-origin" className="w-full h-full"></iframe>
                 </div>
                 <div className="p-6">
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Our Location</p>
@@ -181,8 +186,8 @@ export default function BookPage() {
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                     </div>
                     <div>
-                      <p className="font-bold text-sm text-slate-900 leading-tight">Cure Stone Kidney Clinic</p>
-                      <p className="text-xs text-slate-500 mt-1">Delhi, India</p>
+                      <p className="font-bold text-sm text-slate-900 leading-tight">Cure Stone Hospital</p>
+                      <p className="text-xs text-slate-500 mt-1">Sector 52, Near Plot 3, Rd No D-13 A, Ardee City, Gurugram, Haryana 122003</p>
                       <p className="text-[10px] font-black text-primary uppercase tracking-widest mt-2">Mon–Sat, 10 AM – 7 PM</p>
                     </div>
                   </div>
@@ -192,7 +197,7 @@ export default function BookPage() {
               {/* Features Card */}
               <div className="bg-primary/5 border border-primary/10 p-8 rounded-3xl space-y-4">
                 <p className="text-[10px] font-black uppercase tracking-widest text-primary">Why Cure Stone</p>
-                {["98% Stone-Free Rate", "9000+ Successful Surgeries", "Zero Radiation RIRS", "International Patients Welcome"].map((item, i) => (
+                {["RIRS Surgery in Gurgaon", "9000+ Surgeries Done", "Radiation-Aware Planning", "Sector 52 Hospital"].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                       <svg className="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>

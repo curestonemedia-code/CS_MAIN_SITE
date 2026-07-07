@@ -5,8 +5,9 @@ const Marquee = () => {
   const items = [
     "9000+ Surgeries Done",
     "30,000+ Happy Patients",
-    "No Cuts · No Scars · No Radiation",
-    "India's Best Kidney Stone Treatment",
+    "Minimally Invasive Laser Options",
+    "Kidney Stone Treatment in Gurgaon",
+    "RIRS Surgery in Gurgaon",
     "Expertise of 15+ Years",
     "Senior Consultant Dr. Deepanshu Gupta",
   ];

@@ -15,21 +15,21 @@ const STAGES = [
   },
   {
     tag: "",
-    line1: "INDIA'S BEST",
-    line2: "KIDNEY STONE TREATMENT",
-    desc: "1st Ever to start Fans-RIRS in North India — By Dr. Deepanshu Gupta.",
+    line1: "ADVANCED",
+    line2: "KIDNEY STONE CARE",
+    desc: "FANS-RIRS and Advanced laser stone treatment\nat Cure Stone Hospital, Sector 52, Gurgaon.",
   },
   {
     tag: "",
-    line1: "UNMATCHED",
-    line2: "SUCCESS RATE",
-    desc: "Maintaining a 98% stone-free success rate over 9,000+ Surgeries done.",
+    line1: "LASER STONE",
+    line2: "TREATMENT",
+    desc: "Personalized kidney stone surgery in Gurgaon with RIRS, PCNL, ESWL and URSL options.",
   },
   {
     tag: "Book Free Consultation",
     line1: "TAKE CONTROL",
     line2: "OF YOUR HEALTH",
-    desc: "Consult India's leading kidney specialist today at Cure Stone.",
+    desc: "Consult a urologist doctor in Gurgaon at Cure Stone Hospital.",
   },
 ];
 
@@ -530,6 +530,7 @@ export default function Hero() {
                         maxWidth: 480,
                         fontSize: "clamp(0.8rem, 1.5vw, 0.98rem)",
                         willChange: "transform, opacity",
+                        whiteSpace: "pre-line",
                       }}
                     >
                       {s.desc}

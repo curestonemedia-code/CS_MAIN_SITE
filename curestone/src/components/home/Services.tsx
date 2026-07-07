@@ -39,7 +39,7 @@ const Services = () => {
             Center of Excellence for <span className="text-primary">Kidney Stone</span> Treatment
           </h2>
           <p className="mt-4 text-text-light font-medium max-w-2xl mx-auto text-sm sm:text-base">
-            Specialised care across kidney stones, urology & gallbladder — all under one expert roof in Delhi NCR.
+            Specialised care across kidney stones, urology & gallbladder — all under one expert roof in Sector 52, Gurgaon.
           </p>
         </div>
 
@@ -109,8 +109,8 @@ const ServiceCard = ({ service }: { service: typeof SERVICES[0] }) => (
     <p className="text-text-mid font-medium leading-relaxed mb-8 flex-grow">
       {service.shortDesc}
     </p>
-    <Link 
-      href={service.slug === '/' ? '/' : `/specialties/${service.slug}`}
+    <Link
+      href={`/specialties/${service.slug}`}
       className="text-primary font-black text-sm uppercase tracking-widest hover:tracking-[0.2em] transition-all flex items-center gap-2 group/btn no-underline"
     >
       Explore Excellence <span className="group-hover:translate-x-2 transition-transform">→</span>

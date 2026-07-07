@@ -18,11 +18,11 @@ const STORIES: Story[] = [
     id: 1,
     badge: "SUCCESS STORY",
     title: "Life After RIRS Surgery: A Transparent Journey",
-    description: "Follow our patients through their first 24 hours post-operation. Witness the rapid recovery and specialized care that defines the Cure Stone experience.",
+    description: "Follow patient recovery journeys after stone procedures and the specialized care planning that defines the Cure Stone experience.",
     stats: [
-      { label: "Stone Clearance", value: "99.9%" },
-      { label: "Success Rate", value: "98%" },
-      { label: "Recovery", value: "24 Hrs" }
+      { label: "Case Review", value: "Scan-Based" },
+      { label: "Treatment Plan", value: "Personalized" },
+      { label: "Recovery", value: "Case-Based" }
     ],
     videoThumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
     videoTitle: "RIRS Post-Op: Real Patient Recovery Vlog",
@@ -31,12 +31,12 @@ const STORIES: Story[] = [
   {
     id: 2,
     badge: "PATIENT CASE",
-    title: "Compassionate Care, Permanent Solutions",
-    description: "Real stories from patients who travelled across the country to seek advanced urological care. From chronic pain to a stone-free life.",
+    title: "Compassionate Care, Long-Term Planning",
+    description: "Real stories from patients who travelled for advanced urological care, scan review, minimally invasive options, and prevention guidance.",
     stats: [
-      { label: "Cases Solved", value: "30,000+" },
-      { label: "Global Rating", value: "4.9★" },
-      { label: "Satisfaction", value: "100%" }
+      { label: "Patients", value: "30,000+" },
+      { label: "Reviews", value: "4.9" },
+      { label: "Care", value: "Follow-Up" }
     ],
     videoThumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
     videoTitle: "Real Stories, Real Care — Patient Recovery Journeys",

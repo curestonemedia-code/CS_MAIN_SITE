@@ -8,22 +8,21 @@ import LocationLeadForm from "@/components/home/LocationLeadForm";
 import ExpertVideos from "@/components/home/ExpertVideos";
 
 export const metadata: Metadata = {
-  title: "Kidney Stone Surgery Cost in Gurgaon | CureStone",
-  description: "Advanced laser treatment starting from ₹58,000. Experience USFDA approved technology with Gurgaon's top-tier urologists.",
+  title: "Kidney Stone Surgery in Gurgaon | RIRS Surgery & Treatment",
+  description: "Learn about kidney stone surgery in Gurgaon, RIRS surgery cost considerations, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
   alternates: {
-    canonical: "https://curestone.in/gurgaon",
+    canonical: "https://thecurestone.com/gurgaon",
   },
   openGraph: {
-    title: "Kidney Stone Surgery Cost in Gurgaon | CureStone",
-    description: "Advanced laser treatment starting from ₹58,000. Experience USFDA approved technology with Gurgaon's top-tier urologists.",
-    url: "https://curestone.in/gurgaon",
-    siteName: "CureStone",
-    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Kidney Stone Surgery Cost in Gurgaon | CureStone" }],
+    title: "Kidney Stone Surgery in Gurgaon | RIRS Surgery & Treatment",
+    description: "Kidney stone treatment in Gurgaon with RIRS, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
+    url: "https://thecurestone.com/gurgaon",
+    siteName: "Cure Stone",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Kidney Stone Surgery in Gurgaon | Cure Stone" }],
     locale: "en_IN",
     type: "website",
   },
 };
-
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -33,13 +32,13 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://curestone.in",
+      item: "https://thecurestone.com",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Kidney Stone Surgery Gurgaon",
-      item: "https://curestone.in/gurgaon",
+      item: "https://thecurestone.com/gurgaon",
     },
   ],
 };
@@ -47,9 +46,9 @@ const breadcrumbSchema = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
-  name: "CureStone – Kidney Stone Surgery Gurgaon",
-  description: "Advanced RIRS laser kidney stone surgery serving patients from Gurgaon. No cuts, 98% success rate.",
-  url: "https://curestone.in/gurgaon",
+  name: "Cure Stone – Kidney Stone Surgery Gurgaon",
+  description: "Kidney stone surgery and RIRS laser treatment options at Cure Stone Hospital in Sector 52, Gurgaon.",
+  url: "https://thecurestone.com/gurgaon",
   telephone: "+91-88002-63884",
   address: {
     "@type": "PostalAddress",
@@ -100,10 +99,10 @@ export default function GurgaonPage() {
                 <span className="material-symbols-outlined text-sm">location_on</span> Gurgaon Clinical Excellence
               </div>
               <h1 className="font-sans text-5xl lg:text-7xl font-extrabold text-blue-900 leading-tight tracking-tighter mb-8">
-                Kidney Stone Surgery <br />Cost in <span className="text-amber-600">Gurgaon</span>
+                Kidney Stone Surgery <br /> in <span className="text-amber-600">Gurgaon</span>
               </h1>
               <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mb-12">
-                Advanced laser treatment starting from <span className="text-blue-900 font-bold text-3xl block lg:inline mt-2 lg:mt-0">₹58,000</span>. Experience USFDA approved technology with Gurgaon&apos;s top-tier urologists.
+                Learn about kidney stone surgery in Gurgaon, RIRS surgery cost factors, and treatment options after scan review with a urologist doctor in Gurgaon.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
                 <div className="flex flex-col gap-1">
@@ -132,12 +131,12 @@ export default function GurgaonPage() {
           </div>
         </section>
 
-        {/* Trust Section - Why Choose CureStone */}
+        {/* Trust Section - Why Choose Cure Stone */}
         <section className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
               <div className="max-w-2xl">
-                <h2 className="font-sans text-4xl lg:text-5xl font-bold text-blue-900 tracking-tight mb-6">Why Choose <span className="text-amber-600">CureStone</span> in Gurgaon?</h2>
+                <h2 className="font-sans text-4xl lg:text-5xl font-bold text-blue-900 tracking-tight mb-6">Why Choose <span className="text-amber-600">Cure Stone</span> in Gurgaon?</h2>
                 <p className="text-lg text-slate-600">We redefine kidney stone care by combining clinical precision with a sanctuary-like patient experience.</p>
               </div>
             </div>
@@ -147,7 +146,7 @@ export default function GurgaonPage() {
                   <span className="material-symbols-outlined text-amber-600 text-3xl">medical_services</span>
                 </div>
                 <h4 className="font-sans text-2xl font-bold text-blue-900">Advanced Laser Tech</h4>
-                <p className="text-slate-600 leading-relaxed">Painless, stitchless, and bloodless procedures using state-of-the-art Holmium Laser technology for 100% stone clearance.</p>
+                <p className="text-slate-600 leading-relaxed">Minimally invasive laser options using Holmium or Thulium technology for selected kidney stone cases after clinical evaluation.</p>
               </div>
               <div className="bg-slate-50 p-10 rounded-[2.5rem] flex flex-col gap-6 group hover:bg-slate-100 transition-colors duration-500">
                 <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center">
@@ -180,8 +179,8 @@ export default function GurgaonPage() {
         <section className="py-20 max-w-7xl mx-auto px-8">
           <div className="editorial-gradient rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden">
             <div className="relative z-10">
-              <h2 className="font-sans text-4xl lg:text-6xl font-extrabold text-white mb-8 tracking-tighter">Ready to be Stone-Free?</h2>
-              <p className="text-blue-100 text-xl max-w-2xl mx-auto mb-12 opacity-90">Join 9000+ happy patients in Gurgaon. Book your first clinical consultation with our experts today.</p>
+              <h2 className="font-sans text-4xl lg:text-6xl font-extrabold text-white mb-8 tracking-tighter">Ready to Discuss Kidney Stone Treatment?</h2>
+              <p className="text-blue-100 text-xl max-w-2xl mx-auto mb-12 opacity-90">Book a kidney stone consultation in Gurgaon and review your scans with our care team.</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                 <Link href="/book" className="bg-amber-500 text-white px-12 py-5 rounded-full font-sans font-bold text-lg hover:bg-white hover:text-blue-900 transition-all duration-300">
                   Book Free Appointment

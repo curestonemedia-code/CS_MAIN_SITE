@@ -16,7 +16,7 @@ const TreatmentTracker = () => {
     let title = "Fans-RIRS Laser Standard";
     let tag = "Clinical Recommendation";
     let tagClass = "bg-primary/5 text-primary border-primary/20";
-    let text = `Stones between 5–10mm have low chance of spontaneous passage. Fans-RIRS provides 98% clearance safely and without radiation.`;
+    let text = `Stones between 5–10mm may have a lower chance of spontaneous passage. FANS-RIRS may be considered after clinical evaluation and imaging review.`;
 
     if (isRecovery) {
       risk = "RECOVERY";

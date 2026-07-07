@@ -3,14 +3,64 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+const TITLE = "URSL Treatment in Gurgaon | Ureteric Stone Laser Surgery";
+const DESCRIPTION = "URSL uses a rigid or semi-rigid scope to treat selected ureteric stones with laser. Consult Cure Stone Hospital in Gurgaon for scan-based planning.";
+const URL = "https://thecurestone.com/ursl";
+
 export const metadata: Metadata = {
-  title: "URSL Treatment | Cure Stone — Ureteric Stone Laser Surgery Delhi",
-  description: "URSL (Ureteroscopic Lithotripsy) uses a rigid/semi-rigid scope to treat ureteric stones with laser. Fast, effective, stone-free results.",
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: URL,
+  },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: URL,
+    siteName: "Cure Stone",
+    type: "website",
+    locale: "en_IN",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: TITLE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og-image.svg"],
+  },
+};
+
+const procedureSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  name: "URSL — Ureteroscopic Lithotripsy",
+  procedureType: "http://schema.org/PercutaneousProcedure",
+  description: DESCRIPTION,
+  howPerformed:
+    "A rigid or semi-rigid ureteroscope is passed through natural pathways to the ureter, where high-power laser pulses fragment the stone before fragments are removed with a basket or flushed out.",
+  preparation: "A CT KUB scan maps the stone's exact size and location in the mid or lower ureter beforehand.",
+  followup: "Most patients are mobile within hours and discharged within 24 hours.",
+  bodyLocation: "Ureter",
+  provider: {
+    "@type": "MedicalBusiness",
+    name: "Cure Stone",
+    "@id": "https://thecurestone.com/#organization",
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://thecurestone.com" },
+    { "@type": "ListItem", position: 2, name: "Specialties", item: "https://thecurestone.com/specialties" },
+    { "@type": "ListItem", position: 3, name: "URSL Treatment", item: URL },
+  ],
 };
 
 const steps = [
   { num: "01", title: "Diagnostic Prep", desc: "A precise CT KUB scan is performed to map the stone's exact size and location." },
-  { num: "02", title: "Anaesthesia", desc: "Patient is given spinal or general anaesthesia for a completely painless experience." },
+  { num: "02", title: "Anaesthesia", desc: "Patient is given spinal or general anaesthesia for comfort during the procedure." },
   { num: "03", title: "Scope Insertion", desc: "A rigid or semi-rigid ureteroscope is gently passed through natural pathways." },
   { num: "04", title: "Laser Pulsing", desc: "High-power laser energy pulses are used to fragment the stone instantly." },
   { num: "05", title: "Clearance", desc: "Small stone fragments are either removed with a basket or flushed out." },
@@ -19,7 +69,7 @@ const steps = [
 
 const tableData = [
   { feature: "Stone Location", rirs: "Kidney / Upper Ureter", ursl: "Mid / Lower Ureter", eswl: "Kidney / Upper Ureter" },
-  { feature: "Success (Ureter)", rirs: "98%", ursl: "98%+", eswl: "65%" },
+  { feature: "Outcome Factors", rirs: "Upper tract anatomy", ursl: "Ureter stone position", eswl: "Selected small stones" },
   { feature: "Incisions", rirs: "None", ursl: "None", eswl: "None" },
   { feature: "Hospital Stay", rirs: "24 Hrs", ursl: "24 Hrs", eswl: "Outpatient" },
   { feature: "Scope Used", rirs: "Flexible", ursl: "Rigid / Semi-rigid", eswl: "No Scope" },
@@ -28,6 +78,14 @@ const tableData = [
 export default function URSLPage() {
   return (
     <div className="flex flex-col min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(procedureSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+      />
       <Navbar />
 
       {/* Hero */}
@@ -42,7 +100,7 @@ export default function URSLPage() {
                 URSL <span className="text-primary italic">Treatment</span>
               </h1>
               <p className="text-lg md:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl mb-10">
-                Ureteroscopic Lithotripsy (URSL) — the gold standard for treating stones stuck in the ureter. A high-precision approach to clear obstructions and relieve pain immediately.
+                Ureteroscopic Lithotripsy (URSL) is a laser treatment option for selected stones stuck in the ureter. It can help clear obstruction after clinical evaluation and imaging review.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/book" className="px-8 py-4 bg-primary text-white font-black rounded-2xl shadow-xl shadow-primary/30 hover:bg-primary-dark hover:scale-105 active:scale-95 transition-all text-center">
@@ -74,7 +132,7 @@ export default function URSLPage() {
       {/* Stats Bar */}
       <div className="bg-primary py-8 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
-          {[["95%+", "Success Rate"], ["24 Hrs", "Typical Stay"], ["0", "Incisions"], ["9000+", "Surgeries Done"]].map(([val, lab], i) => (
+          {[["URSL", "Ureter Stone Care"], ["24 Hrs", "Typical Stay"], ["Natural", "Urinary Pathway"], ["9000+", "Surgeries Done"]].map(([val, lab], i) => (
             <div key={i}>
               <p className="text-3xl md:text-4xl font-black tracking-tight">{val}</p>
               <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-white/60 mt-2">{lab}</p>
@@ -95,7 +153,7 @@ export default function URSLPage() {
                   URSL is specifically optimized for stones that have moved from the kidney into the ureter. Using a slim, rigid ureteroscope, our surgeons directly reach the stone to deliver laser energy.
                 </p>
                 <p className="text-base md:text-lg text-text-mid font-medium leading-relaxed mb-8">
-                  This procedure is highly effective for impacted stones that cause severe pain or blockage, offering immediate relief without any external cuts or scars.
+                  This procedure may be used for impacted stones that cause severe pain or blockage, with no external incision.
                 </p>
                 <div className="space-y-4">
                   {["Rigid & Semi-Rigid Technology", "Laser Fragmentation Precision", "Effective for Stuck Stones", "Minimal Downtime"].map((item, i) => (
@@ -232,4 +290,3 @@ export default function URSLPage() {
     </div>
   );
 }
-

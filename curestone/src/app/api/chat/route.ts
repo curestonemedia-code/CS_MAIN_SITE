@@ -1,22 +1,45 @@
 import Groq from "groq-sdk";
+import type { ChatCompletionMessageParam } from "groq-sdk/resources/chat/completions";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 
-// 1. Initialize Rate Limiter
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+type ChatMessage = {
+  role: "user" | "assistant" | "system";
+  content: string;
+};
 
-const ratelimit = new Ratelimit({
-  redis: redis,
-  limiter: Ratelimit.slidingWindow(5, "1m"),
-  analytics: true,
-});
+let cachedRatelimit: Ratelimit | null | undefined;
+let cachedGroq: Groq | null | undefined;
 
-// Initialize Groq
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+function getRatelimit() {
+  if (cachedRatelimit !== undefined) return cachedRatelimit;
+
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!url || !token) {
+    cachedRatelimit = null;
+    return cachedRatelimit;
+  }
+
+  cachedRatelimit = new Ratelimit({
+    redis: new Redis({ url, token }),
+    limiter: Ratelimit.slidingWindow(5, "1m"),
+    analytics: true,
+  });
+
+  return cachedRatelimit;
+}
+
+function getGroq() {
+  if (cachedGroq !== undefined) return cachedGroq;
+
+  const apiKey = process.env.GROQ_API_KEY;
+  cachedGroq = apiKey ? new Groq({ apiKey }) : null;
+
+  return cachedGroq;
+}
 
 // 2. High-Conversion Professional System Prompt
 const SYSTEM_PROMPT = `### INSTITUTIONAL IDENTITY
@@ -48,9 +71,14 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
 
   try {
-    const { success, limit, reset } = await ratelimit.limit(`chat_${ip}`);
+    const ratelimit = getRatelimit();
+    const rateLimitResult = await ratelimit?.limit(`chat_${ip}`);
 
-    if (!success) {
+    if (!rateLimitResult) {
+      console.warn("Rate limiting disabled: Upstash Redis environment is not configured.");
+    } else if (!rateLimitResult.success) {
+      const { limit, reset } = rateLimitResult;
+
       return NextResponse.json(
         { reply: "Slow down! You've sent too many messages. Please wait a minute." },
         {
@@ -65,13 +93,24 @@ export async function POST(req: NextRequest) {
 
   try {
     const { messages, language, userName } = await req.json();
+    const groq = getGroq();
+
+    if (!groq) {
+      return NextResponse.json({
+        reply: "I'm connecting with the hospital. Call +91 88002 63884."
+      });
+    }
 
     // --- AI CHAT LOGIC (GROQ POWERED) ---
     // Extract history and format for Groq
-    const groqHistory = messages.slice(-10).map((m: any) => ({
-      role: m.role === "user" ? "user" : "assistant",
-      content: m.content,
-    }));
+    const chatMessages = Array.isArray(messages) ? (messages as ChatMessage[]) : [];
+    const groqHistory: ChatCompletionMessageParam[] = chatMessages
+      .slice(-10)
+      .filter((m) => typeof m.content === "string")
+      .map((m) => ({
+        role: m.role === "user" ? "user" : "assistant",
+        content: m.content,
+      }));
 
     let finalSystemPrompt = SYSTEM_PROMPT;
     if (userName) {
@@ -97,9 +136,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ reply: chatCompletion.choices[0]?.message?.content || "" });
 
-  } catch (error: any) {
-    console.error("Chat API Error:", error?.message || error);
-    console.error("Error details:", JSON.stringify(error?.error || error?.response?.data || {}, null, 2));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : error;
+    console.error("Chat API Error:", message);
     return NextResponse.json({ reply: "I'm connecting with the hospital. Call +91 88002 63884." }, { status: 200 });
   }
 }

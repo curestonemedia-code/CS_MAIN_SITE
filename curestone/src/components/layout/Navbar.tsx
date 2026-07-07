@@ -21,15 +21,16 @@ const SocialIcons = {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    handleScroll();
+    const frame = requestAnimationFrame(handleScroll);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -44,16 +45,10 @@ export default function Navbar() {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Cure Stone AI", href: "/checker", highlight: true },
-    { name: "RIRS", href: "/rirs" },
-    { name: "URSL", href: "/ursl" },
-    { name: "Mini PCNL", href: "/mini-pcnl" },
-    { name: "ESWL", href: "/eswl" },
-
-
+    { name: "Specialties", href: "/specialties" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
-
-  if (!mounted) return <nav className="fixed top-0 w-full h-20 z-50 bg-transparent" />;
-
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 bg-white/95 backdrop-blur-xl border-b border-slate-100 ${scrolled ? "h-16 shadow-md" : "h-20"}`}>
@@ -61,7 +56,7 @@ export default function Navbar() {
 
           <Link href="/" className="flex items-center shrink-0 z-[70]">
             <div className={`relative transition-all duration-300 ${scrolled ? "w-28 h-10" : "w-32 h-12"}`}>
-              <Image src="https://theCurestone.com/wp-content/uploads/2021/05/PNG-Black-e1664728676618.png" alt="Cure Stone Logo" fill className="object-contain object-left" priority unoptimized />
+              <Image src="/PNG-Black-e1664728676618.png" alt="Cure Stone Logo" fill className="object-contain object-left" priority />
             </div>
           </Link>
 
@@ -71,7 +66,7 @@ export default function Navbar() {
               <Link key={link.href} href={link.href} className={`relative px-2 xl:px-4 py-2 group whitespace-nowrap ${link.highlight ? "" : "font-bold text-slate-600 hover:text-primary text-sm"}`}>
                 {link.highlight ? (
                   <div className="relative">
-                    {/* Pulsing Highlight Border for CureStone AI */}
+                    {/* Pulsing Highlight Border for Cure Stone AI */}
                     <div className="absolute inset-0 rounded-full border-2 border-primary animate-pulse" />
                     <div className="absolute inset-[-4px] rounded-full border border-primary/20" />
                     <span className="relative px-3 xl:px-4 py-1.5 flex items-center gap-2 text-xs xl:text-sm font-black text-primary uppercase whitespace-nowrap">
@@ -113,7 +108,7 @@ export default function Navbar() {
         {/* Mobile Header with Close Button */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-slate-100">
           <div className="relative w-28 h-10">
-            <Image src="https://theCurestone.com/wp-content/uploads/2021/05/PNG-Black-e1664728676618.png" alt="Logo" fill className="object-contain" unoptimized />
+            <Image src="/PNG-Black-e1664728676618.png" alt="Logo" fill className="object-contain" />
           </div>
           <button onClick={() => setIsOpen(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></svg>

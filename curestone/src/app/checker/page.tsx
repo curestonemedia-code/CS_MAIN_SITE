@@ -68,7 +68,11 @@ function renderMarkdown(text: string) {
             height="250"
             frameBorder="0"
             scrolling="no"
-            src="https://maps.google.com/maps?width=100%25&height=250&hl=en&q=Cure%20Stone%20Hospital,%20Sector%2052,%20Gurugram+(Cure%20Stone%20Hospital)&t=&z=15&ie=UTF8&iwloc=B&output=embed"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14033.273570394473!2d77.070288!3d28.439817!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1782981388299!5m2!1sen!2sin"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            title="Cure Stone Hospital Location"
           />
         </div>
       );

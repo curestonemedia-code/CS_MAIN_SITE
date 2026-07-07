@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Activity, HeartPulse, Shield, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const PhysioSection = () => {
   const features = [
@@ -61,10 +62,12 @@ const PhysioSection = () => {
           <div className="relative z-10 h-[500px] lg:h-[600px] w-full rounded-[2.5rem] overflow-hidden bg-slate-200 border border-border/50 shadow-2xl group">
             {/* Using a placeholder aesthetic image for Physio if a real one doesn't exist, styled beautifully */}
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/80 to-transparent z-10 opacity-60 mix-blend-multiply group-hover:opacity-40 transition-opacity duration-500"></div>
-            <img 
-              src="https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=2000&auto=format&fit=crop" 
-              alt="Advanced Physiotherapy" 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            <Image
+              src="https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=2000&auto=format&fit=crop"
+              alt="Advanced Physiotherapy"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
             
             {/* Floating Badge */}
