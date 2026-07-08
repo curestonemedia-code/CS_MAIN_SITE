@@ -101,9 +101,6 @@ export const metadata: Metadata = {
     ],
   },
   manifest: "/site.webmanifest",
-  verification: {
-    google: "YOUR_GOOGLE_SEARCH_CONSOLE_TOKEN",
-  },
 };
 
 // JSON-LD Structured Data
