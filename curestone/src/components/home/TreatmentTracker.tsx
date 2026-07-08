@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import React, { useState, useMemo } from 'react';
 
 const TreatmentTracker = () => {
@@ -204,10 +205,10 @@ const TreatmentTracker = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="flex-1 px-8 py-4 bg-foreground text-white font-black rounded-xl sm:rounded-2xl shadow-xl hover:bg-black transition-all hover:-translate-y-1 active:scale-95 text-sm">
+              <Link href="/book" className="flex-1 px-8 py-4 bg-foreground text-white font-black rounded-xl sm:rounded-2xl shadow-xl hover:bg-black transition-all hover:-translate-y-1 active:scale-95 text-sm sm:text-base flex items-center justify-center gap-2">
                 Consult Specialist
-              </button>
-              <button onClick={reset} className="px-6 py-4 border-2 border-border text-[9px] font-black rounded-xl sm:rounded-2xl hover:bg-background-alt transition-all uppercase">
+              </Link>
+              <button onClick={reset} className="px-6 py-4 border-2 border-border text-[12px] font-black rounded-xl sm:rounded-2xl hover:bg-background-alt transition-all uppercase">
                 Reset
               </button>
             </div>
