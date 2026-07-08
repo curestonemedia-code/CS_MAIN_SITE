@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { CalendarClock, Mail, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 
-const TITLE = "Contact Cure Stone Hospital | Sector 52, Gurgaon";
+const TITLE = "Contact Us | Sector 52, Gurgaon";
 const DESCRIPTION =
   "Contact Cure Stone Hospital in Sector 52, Gurgaon for kidney stone consultation, RIRS, PCNL, URSL, ESWL, appointment booking, and directions.";
 const URL = "https://thecurestone.com/contact";

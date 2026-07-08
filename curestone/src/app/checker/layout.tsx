@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const TITLE = "Cure Stone AI Symptom Checker | Kidney Stone Assistant";
+const TITLE = "Cure Stone AI Symptom Checker";
 const DESCRIPTION =
   "Ask Cure Stone AI about kidney stone symptoms, RIRS, PCNL, ESWL and URSL treatment options. A free, instant assistant from Cure Stone Hospital, Sector 52, Gurgaon.";
 const URL = "https://thecurestone.com/checker";

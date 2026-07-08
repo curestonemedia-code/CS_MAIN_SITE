@@ -2,8 +2,12 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import type { Metadata } from "next";
+import FaqAccordion from "@/components/FaqAccordion";
+import { FAQ_CATEGORIES } from "@/constants/faqs";
 
-const TITLE = "URSL Treatment in Gurgaon | Ureteric Stone Laser Surgery";
+const faqCategory = FAQ_CATEGORIES.find((category) => category.slug === "ursl")!;
+
+const TITLE = "URSL Treatment in Gurgaon | Laser Surgery";
 const DESCRIPTION = "URSL uses a rigid or semi-rigid scope to treat selected ureteric stones with laser. Consult Cure Stone Hospital in Gurgaon for scan-based planning.";
 const URL = "https://thecurestone.com/ursl";
 
@@ -58,6 +62,19 @@ const breadcrumbSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqCategory.items.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.a,
+    },
+  })),
+};
+
 const steps = [
   { num: "01", title: "Diagnostic Prep", desc: "A precise CT KUB scan is performed to map the stone's exact size and location." },
   { num: "02", title: "Anaesthesia", desc: "Patient is given spinal or general anaesthesia for comfort during the procedure." },
@@ -85,6 +102,10 @@ export default function URSLPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
       />
       <Navbar />
 
@@ -266,6 +287,16 @@ export default function URSLPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="py-16 md:py-24 bg-slate-50">
+          <div className="max-w-3xl mx-auto px-6 lg:px-12">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 text-center">
+              URSL <span className="text-primary italic">FAQs</span>
+            </h2>
+            <FaqAccordion items={faqCategory.items} />
           </div>
         </section>
 

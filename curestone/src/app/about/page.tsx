@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, Building2, MapPin, ShieldCheck, Stethoscope } from "lucide-react";
 
-const TITLE = "About Cure Stone Hospital | Kidney Stone Care in Gurgaon";
+const TITLE = "About Us | Kidney Stone Care in Gurgaon";
 const DESCRIPTION =
   "Learn about Cure Stone Hospital in Sector 52, Gurgaon, focused on kidney stone treatment, RIRS, PCNL, URSL, ESWL, and urology care.";
 const URL = "https://thecurestone.com/about";

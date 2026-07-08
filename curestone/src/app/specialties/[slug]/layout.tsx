@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: SpecialtyLayoutProps): Promis
     return { title: "Specialty Not Found | Cure Stone" };
   }
 
-  const title = `${service.name} | Cure Stone Hospital, Sector 52 Gurgaon`;
+  const title = `${service.name}, Gurgaon`;
   const description = service.shortDesc;
   const url = `${SITE_URL}/specialties/${service.slug}`;
 

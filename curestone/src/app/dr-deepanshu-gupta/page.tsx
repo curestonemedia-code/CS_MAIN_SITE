@@ -18,7 +18,7 @@ import {
   Users,
 } from "lucide-react";
 
-const TITLE = "Dr. Deepanshu Gupta | Urologist Doctor in Gurgaon";
+const TITLE = "Dr. Deepanshu Gupta | Urologist in Gurgaon";
 const DESCRIPTION =
   "Profile of Dr. Deepanshu Gupta, senior urologist and kidney stone specialist at Cure Stone Hospital, Sector 52, Gurgaon.";
 const URL = "https://thecurestone.com/dr-deepanshu-gupta";

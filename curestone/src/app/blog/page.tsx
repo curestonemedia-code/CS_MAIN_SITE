@@ -17,7 +17,7 @@ import { ArrowRight, CalendarDays, Clock3, Folder, Search } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-const TITLE = "Kidney Stone Blogs & Health Articles | Cure Stone";
+const TITLE = "Kidney Stone Blogs & Health Articles";
 const DESCRIPTION =
   "Articles on kidney stones, laser treatment, RIRS, PCNL, diet, and urology care from Cure Stone Hospital in Gurgaon.";
 const URL = "https://thecurestone.com/blog";

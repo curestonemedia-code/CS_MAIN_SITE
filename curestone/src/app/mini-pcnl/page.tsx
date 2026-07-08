@@ -2,8 +2,12 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import type { Metadata } from "next";
+import FaqAccordion from "@/components/FaqAccordion";
+import { FAQ_CATEGORIES } from "@/constants/faqs";
 
-const TITLE = "Mini PCNL Kidney Stone Surgery | Cure Stone";
+const faqCategory = FAQ_CATEGORIES.find((category) => category.slug === "pcnl")!;
+
+const TITLE = "Mini PCNL Kidney Stone Surgery, Gurgaon";
 const DESCRIPTION = "Mini PCNL is a minimally invasive kidney stone surgery option for selected large or complex stones. Consult Cure Stone Hospital in Gurgaon for case-based guidance.";
 const URL = "https://thecurestone.com/mini-pcnl";
 
@@ -58,6 +62,19 @@ const breadcrumbSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqCategory.items.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.a,
+    },
+  })),
+};
+
 const steps = [
   { num: "01", title: "Anaesthesia & Vitals", desc: "General or spinal anaesthesia is given so you remain comfortable. Vitals are checked before starting." },
   { num: "02", title: "Small Incision", desc: "A tiny 'keyhole' incision (about 1 cm) is made on the back to access the kidney directly." },
@@ -85,6 +102,10 @@ export default function MiniPCNLPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
       />
       <Navbar />
 
@@ -247,6 +268,16 @@ export default function MiniPCNLPage() {
                 </table>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="py-16 md:py-24 bg-white">
+          <div className="max-w-3xl mx-auto px-6 lg:px-12">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 text-center">
+              Mini PCNL <span className="text-primary italic">FAQs</span>
+            </h2>
+            <FaqAccordion items={faqCategory.items} />
           </div>
         </section>
 
