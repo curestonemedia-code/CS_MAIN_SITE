@@ -55,7 +55,7 @@ export const SERVICES: ServiceDetail[] = [
     ]
   },
   {
-    slug: "urology-andrology-treatment",
+    slug: "",
     icon: "⚕️",
     name: "Urology & Andrology",
     shortDesc: "Expert diagnosis for prostate issues, UTIs, male sexual health and urological disorders.",
@@ -93,7 +93,7 @@ export const SERVICES: ServiceDetail[] = [
     ]
   },
   {
-    slug: "gallbladder-stone-treatment",
+    slug: "",
     icon: "🫚",
     name: "Gallbladder Stone Treatment",
     shortDesc: "Laparoscopic cholecystectomy for gallbladder stones — minimally invasive, fast recovery.",
