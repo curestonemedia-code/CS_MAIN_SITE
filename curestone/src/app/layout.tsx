@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -234,6 +235,7 @@ export default function RootLayout({
         <meta name="ICBM" content="28.4595, 77.0266" />
       </head>
       <body className="font-sans min-h-full flex flex-col">{children}</body>
+      <GoogleAnalytics gaId="G-DH8MHSNF6C" />
     </html>
   );
 }
