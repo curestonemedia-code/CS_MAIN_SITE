@@ -4,11 +4,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Droplet, Star, Sparkle, Target } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const AestheticSection = () => {
   const features = [
     { icon: <Droplet className="w-5 h-5" />, title: "Skin Rejuvenation", desc: "Anti-aging & glow treatments" },
-    { icon: <Target className="w-5 h-5" />, title: "Laser Hair Reduction", desc: "Painless & permanent solutions" },
+    { icon: <Target className="w-5 h-5" />, title: "Laser Hair Reduction", desc: "Comfort-focused treatment plans" },
     { icon: <Sparkle className="w-5 h-5" />, title: "Clinical Aesthetics", desc: "Botox, fillers & injectables" },
     { icon: <Star className="w-5 h-5" />, title: "Hair Restoration", desc: "Advanced PRP & transplants" }
   ];
@@ -26,10 +27,12 @@ const AestheticSection = () => {
           {/* Visual Column */}
           <div className="relative h-[500px] lg:h-[650px] w-full rounded-t-full rounded-b-[3rem] overflow-hidden border border-white/10 shadow-2xl group lg:order-first">
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent z-10"></div>
-            <img 
-              src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=2000&auto=format&fit=crop" 
-              alt="Aesthetic Medicine" 
-              className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+            <Image
+              src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=2000&auto=format&fit=crop"
+              alt="Aesthetic Medicine"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
             />
             
             <div className="absolute bottom-10 left-0 right-0 z-20 flex justify-center">
@@ -43,7 +46,7 @@ const AestheticSection = () => {
                  </div>
                  <div className="text-left">
                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Premium Care</p>
-                   <p className="text-sm font-medium">Top Tier Dermatologists</p>
+                   <p className="text-sm font-medium">Dermatology Care Team</p>
                  </div>
                </div>
             </div>
@@ -60,7 +63,7 @@ const AestheticSection = () => {
                 With Precision.
               </h2>
               <p className="text-lg text-zinc-400 font-medium leading-relaxed max-w-lg">
-                Step into a world of refined aesthetic medicine. We deliver subtle, natural-looking enhancements using the world's most advanced laser and clinical technologies.
+                Step into a world of refined aesthetic medicine. We deliver subtle, natural-looking enhancements using advanced laser and clinical technologies.
               </p>
             </div>
 

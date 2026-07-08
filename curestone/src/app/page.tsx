@@ -16,17 +16,17 @@ import Footer from "@/components/layout/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Best Kidney Stone Laser Surgery in Gurgaon & Delhi NCR",
+  title: "Kidney Stone Surgery in Gurgaon | RIRS & Laser Stone Treatment",
   description:
-    "CureStone specialises in advanced RIRS laser kidney stone surgery. Painless, stitch-free procedures with 98% success rate in Gurgaon & Delhi NCR. Cashless insurance accepted. Book your free consultation today.",
+    "Cure Stone offers kidney stone treatment in Gurgaon with RIRS, PCNL, ESWL and URSL options at Sector 52. Consult a urologist doctor in Gurgaon.",
   alternates: {
-    canonical: "https://curestone.in",
+    canonical: "https://thecurestone.com",
   },
   openGraph: {
-    title: "CureStone | Best Kidney Stone Laser Surgery in Gurgaon & Delhi NCR",
+    title: "Cure Stone | Kidney Stone Surgery in Gurgaon",
     description:
-      "Advanced RIRS laser surgery — no cuts, no scars, 98% success rate. Serving Gurgaon, Delhi, and all of India.",
-    url: "https://curestone.in",
+      "RIRS surgery in Gurgaon and laser stone treatment options at Cure Stone Hospital, Sector 52.",
+    url: "https://thecurestone.com",
     images: [{ url: "/og-image.svg", width: 1200, height: 630 }],
   },
 };

@@ -6,15 +6,14 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin/", "/portal/", "/api/", "/checker/"],
-      },
-      {
-        userAgent: "Googlebot",
-        allow: "/",
         disallow: ["/admin/", "/portal/", "/api/"],
       },
     ],
-    sitemap: "https://curestone.in/sitemap.xml",
-    host: "https://curestone.in",
+    sitemap: [
+      "https://thecurestone.com/sitemap.xml",
+      "https://thecurestone.com/specialties/sitemap.xml",
+      "https://thecurestone.com/blog/sitemap.xml",
+    ],
+    host: "https://thecurestone.com",
   };
 }

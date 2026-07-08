@@ -3,9 +3,59 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+const TITLE = "ESWL Lithotripsy | Cure Stone — Non-Invasive Kidney Stone Treatment";
+const DESCRIPTION = "ESWL uses shock waves to break kidney stones without surgery. Learn about candidacy, procedure and recovery at Cure Stone Hospital in Sector 52, Gurgaon.";
+const URL = "https://thecurestone.com/eswl";
+
 export const metadata: Metadata = {
-  title: "ESWL Lithotripsy | Cure Stone — Non-Invasive Kidney Stone Treatment",
-  description: "ESWL uses shock waves to break kidney stones without surgery. Learn about candidacy, procedure and recovery. Delhi NCR.",
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: URL,
+  },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: URL,
+    siteName: "Cure Stone",
+    type: "website",
+    locale: "en_IN",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: TITLE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og-image.svg"],
+  },
+};
+
+const procedureSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  name: "ESWL — Extracorporeal Shock Wave Lithotripsy",
+  procedureType: "http://schema.org/NoninvasiveProcedure",
+  description: DESCRIPTION,
+  howPerformed:
+    "A lithotripter machine directs high-energy shock waves through the skin to the stone under ultrasound or fluoroscopy guidance, fragmenting it into pieces small enough to pass in urine.",
+  preparation: "Suitable for stones smaller than 10mm in the kidney or upper/middle ureter, confirmed by CT KUB imaging.",
+  followup: "Most patients resume light activities within 24–48 hours; multiple sessions may be required for larger stones.",
+  bodyLocation: "Kidney, Ureter",
+  provider: {
+    "@type": "MedicalBusiness",
+    name: "Cure Stone",
+    "@id": "https://thecurestone.com/#organization",
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://thecurestone.com" },
+    { "@type": "ListItem", position: 2, name: "Specialties", item: "https://thecurestone.com/specialties" },
+    { "@type": "ListItem", position: 3, name: "ESWL Lithotripsy", item: URL },
+  ],
 };
 
 const facts = [
@@ -18,6 +68,14 @@ const facts = [
 export default function ESWLPage() {
   return (
     <div className="flex flex-col min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(procedureSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+      />
       <Navbar />
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-slate-50 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(43,92,230,0.1),transparent_60%)]" />

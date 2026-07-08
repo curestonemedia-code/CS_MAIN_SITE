@@ -1,178 +1,283 @@
-import { BLOG_POSTS, BlogPost } from "@/constants/blogs";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { notFound } from "next/navigation";
+import PortableTextRenderer from "@/components/blog/PortableTextRenderer";
+import SanityImage from "@/components/blog/SanityImage";
+import { formatDate, getBlogPost, getReadTime, getRelatedBlogs, type BlogCard } from "@/lib/blogs";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Metadata } from "next";
-import Image from "next/image";
+import { notFound } from "next/navigation";
+import { ArrowRight, CalendarDays, Clock3, UserRound } from "lucide-react";
 
-interface Props {
+export const dynamic = "force-dynamic";
+
+type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
-}
+};
 
-export async function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({
-    slug: post.slug,
-  }));
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
-  if (!post) return { title: "Article Not Found" };
+  const post = await getBlogPost(slug);
+
+  if (!post) {
+    return {
+      title: "Article Not Found | Cure Stone",
+    };
+  }
+
+  const title = post.seo?.metaTitle || `${post.title} | Cure Stone Health Blog`;
+  const description = post.seo?.metaDescription || post.excerpt || "";
+  const image = post.seo?.ogImage?.asset?.url || post.coverImage?.asset?.url;
+  const url = `https://thecurestone.com/blog/${post.slug}`;
 
   return {
-    title: `${post.title} | Cure Stone Health Blog`,
-    description: post.excerpt,
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title,
+      description,
+      url,
+      siteName: "Cure Stone",
+      locale: "en_IN",
       type: "article",
-      publishedTime: post.date,
-      authors: [post.author],
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
+      authors: post.author?.name ? [post.author.name] : undefined,
+      images: [{ url: image || "/og-image.svg", width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image || "/og-image.svg"],
     },
   };
 }
 
-export default async function BlogPostPage({ params }: Props) {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = await getBlogPost(slug);
 
-  if (!post) {
-    notFound();
-  }
+  if (!post) notFound();
 
-  const relatedPosts = BLOG_POSTS.filter(
-    (p) => p.category === post.category && p.slug !== post.slug
-  ).slice(0, 3);
+  const relatedPosts = await getRelatedBlogs(post);
+  const primaryCategory = post.categories?.[0];
+  const postUrl = `https://thecurestone.com/blog/${post.slug}`;
+  const postImage = post.seo?.ogImage?.asset?.url || post.coverImage?.asset?.url;
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    headline: post.title,
+    description: post.seo?.metaDescription || post.excerpt || "",
+    url: postUrl,
+    image: postImage,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    author: {
+      "@type": "Person",
+      name: post.author?.name || "Cure Stone Editorial Team",
+    },
+    publisher: {
+      "@type": "MedicalBusiness",
+      name: "Cure Stone",
+      "@id": "https://thecurestone.com/#organization",
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": postUrl,
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://thecurestone.com" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://thecurestone.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: postUrl },
+    ],
+  };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+      />
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-20">
-        <article className="max-w-4xl mx-auto px-6 lg:px-12">
-          
-          {/* Header */}
-          <header className="mb-12">
-            <nav className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 mb-8">
-              <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
-              <span>/</span>
-              <span className="text-primary">{post.category}</span>
+      <main className="flex-grow pt-28">
+        <article>
+          <header className="mx-auto max-w-5xl px-6 lg:px-12">
+            <nav className="mb-8 flex flex-wrap items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+              <Link href="/blog" className="hover:text-primary">
+                Blog
+              </Link>
+              {primaryCategory && (
+                <>
+                  <span>/</span>
+                  <Link href={`/blog?category=${primaryCategory.slug}`} className="text-primary hover:underline">
+                    {primaryCategory.title}
+                  </Link>
+                </>
+              )}
             </nav>
-            
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1] mb-8 tracking-tight">
+
+            <div className="mb-5 flex flex-wrap gap-2">
+              {post.categories?.map((category) => (
+                <Link
+                  key={category._id}
+                  href={`/blog?category=${category.slug}`}
+                  className="rounded-full bg-primary/10 px-3 py-1 text-xs font-black uppercase tracking-widest text-primary"
+                >
+                  {category.title}
+                </Link>
+              ))}
+            </div>
+
+            <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
               {post.title}
             </h1>
 
-            {/* Featured Image */}
-            <div className="relative h-[300px] md:h-[450px] w-full rounded-[2rem] overflow-hidden mb-12 shadow-2xl border border-slate-100">
-               <Image 
-                src={post.image} 
-                alt={post.title} 
-                fill 
-                className="object-cover"
-                priority
-               />
-               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
-            </div>
+            {post.excerpt && (
+              <p className="mt-6 max-w-3xl text-xl font-medium leading-8 text-slate-600">
+                {post.excerpt}
+              </p>
+            )}
 
-            <div className="flex flex-wrap items-center gap-6 py-8 border-y border-slate-100">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-lg">👨‍⚕️</div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-black text-slate-900 uppercase tracking-wider">{post.author}</span>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Lead Urologist</span>
-                </div>
-              </div>
-              <div className="flex gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                <span>📅 {post.date}</span>
-                <span>⏱ {post.readTime}</span>
-              </div>
+            <div className="mt-8 flex flex-wrap items-center gap-5 border-y border-slate-200 py-6 text-sm font-bold text-slate-500">
+              <span className="inline-flex items-center gap-2">
+                <UserRound className="h-4 w-4 text-primary" />
+                {post.author?.name || "Cure Stone Editorial Team"}
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <CalendarDays className="h-4 w-4 text-primary" />
+                {formatDate(post.publishedAt)}
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Clock3 className="h-4 w-4 text-primary" />
+                {getReadTime(post)}
+              </span>
             </div>
           </header>
 
-          {/* Content Area */}
-          <div className="prose prose-slate prose-lg max-w-none mb-20 section-content">
-            <p className="text-xl font-medium text-slate-600 leading-relaxed mb-12 italic border-l-4 border-primary pl-6 bg-primary/5 py-4 rounded-r-xl">
-              {post.excerpt}
-            </p>
-            
-            <div 
-              className="blog-main-content"
-              dangerouslySetInnerHTML={{ __html: post.content }} 
-            />
-          </div>
+          {post.coverImage?.asset?.url && (
+            <div className="mx-auto mt-10 max-w-6xl px-6 lg:px-12">
+              <div className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-slate-100 bg-slate-100 shadow-2xl">
+                <SanityImage
+                  image={post.coverImage}
+                  alt={post.title}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 1100px, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 to-transparent" />
+              </div>
+            </div>
+          )}
 
-          {/* CTA Section */}
-          <div className="bg-primary/5 rounded-3xl p-8 md:p-12 text-center mb-20 border border-primary/10">
-            <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-4">Have Questions About This Topic?</h3>
-            <p className="text-slate-500 font-medium mb-8 max-w-md mx-auto">Get a personalized consultation with Dr. Deepanshu Gupta to discuss your specific urological concerns.</p>
-            <Link 
-              href="/book" 
-              className="inline-block px-10 py-5 bg-primary text-white font-black rounded-2xl shadow-xl shadow-primary/30 hover:bg-primary-dark transition-all hover:scale-105"
-            >
-              📅 BOOK FREE CONSULTATION
-            </Link>
-          </div>
+          <div className="mx-auto max-w-4xl px-6 py-14 lg:px-12">
+            <PortableTextRenderer value={post.body} />
 
-          {/* Related Posts */}
-          {relatedPosts.length > 0 && (
-            <footer className="pt-20 border-t border-slate-100">
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-10">You Might Also Find Helpful</h4>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {relatedPosts.map(rp => (
-                  <Link key={rp.id} href={`/blog/${rp.slug}`} className="group block">
-                    <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">{rp.category}</p>
-                    <h5 className="text-base font-black text-slate-900 leading-tight group-hover:text-primary transition-colors">{rp.title}</h5>
+            {post.tags?.length ? (
+              <div className="mt-12 flex flex-wrap gap-2 border-t border-slate-200 pt-8">
+                {post.tags.map((tag) => (
+                  <Link
+                    key={tag._id}
+                    href={`/blog?tag=${tag.slug}`}
+                    className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-black uppercase tracking-widest text-slate-500 hover:border-primary hover:text-primary"
+                  >
+                    {tag.title}
                   </Link>
                 ))}
               </div>
-            </footer>
-          )}
+            ) : null}
+
+            <div className="mt-14 rounded-3xl border border-primary/10 bg-primary/5 p-8 text-center md:p-10">
+              <h2 className="text-2xl font-black text-slate-900">Have Questions About This Topic?</h2>
+              <p className="mx-auto mt-3 max-w-xl text-sm font-medium leading-6 text-slate-600">
+                Get a personalized consultation at Cure Stone Hospital, Sector 52, Gurgaon.
+              </p>
+              <Link
+                href="/book"
+                className="mt-6 inline-flex items-center justify-center rounded-2xl bg-primary px-8 py-4 text-sm font-black text-white shadow-xl shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-blue-700"
+              >
+                Book Consultation
+              </Link>
+            </div>
+          </div>
         </article>
+
+        {relatedPosts.length > 0 && (
+          <section className="border-t border-slate-200 bg-slate-50 py-16">
+            <div className="mx-auto max-w-7xl px-6 lg:px-12">
+              <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.25em] text-primary">
+                    Related Articles
+                  </p>
+                  <h2 className="mt-2 text-3xl font-black text-slate-900">
+                    More From {primaryCategory?.title || "Cure Stone"}
+                  </h2>
+                </div>
+                {primaryCategory && (
+                  <Link
+                    href={`/blog?category=${primaryCategory.slug}`}
+                    className="text-sm font-black text-primary hover:underline"
+                  >
+                    View category
+                  </Link>
+                )}
+              </div>
+              <div className="grid gap-6 md:grid-cols-3">
+                {relatedPosts.map((related) => (
+                  <RelatedCard key={related._id} post={related} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
 
       <Footer />
-      <style dangerouslySetInnerHTML={{ __html: blogStyles }} />
     </div>
   );
 }
 
-// Custom CSS for article content
-const blogStyles = `
-  .blog-main-content h2 {
-    font-size: 1.875rem;
-    font-weight: 900;
-    color: #0f172a;
-    margin-top: 2.5rem;
-    margin-bottom: 1.25rem;
-    letter-spacing: -0.025em;
-    text-transform: uppercase;
-  }
-  .blog-main-content h3 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #1e293b;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-  }
-  .blog-main-content p {
-    margin-bottom: 1.5rem;
-    line-height: 1.75;
-    color: #475569;
-  }
-  .blog-main-content ul {
-    margin-bottom: 1.5rem;
-    list-style-type: disc;
-    padding-left: 1.5rem;
-    color: #475569;
-  }
-  .blog-main-content li {
-    margin-bottom: 0.5rem;
-  }
-  .blog-main-content strong {
-    color: #2b5ce6;
-    font-weight: 800;
-  }
-`;
+function RelatedCard({ post }: { post: BlogCard }) {
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
+    >
+      <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+        {post.coverImage?.asset?.url && (
+          <SanityImage
+            image={post.coverImage}
+            alt={post.title}
+            fill
+            sizes="(min-width: 768px) 30vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        )}
+      </div>
+      <div className="p-6">
+        <p className="text-xs font-bold text-slate-400">{formatDate(post.publishedAt)}</p>
+        <h3 className="mt-2 line-clamp-2 text-lg font-black leading-snug text-slate-900 group-hover:text-primary">
+          {post.title}
+        </h3>
+        <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-primary">
+          Read Article <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </span>
+      </div>
+    </Link>
+  );
+}

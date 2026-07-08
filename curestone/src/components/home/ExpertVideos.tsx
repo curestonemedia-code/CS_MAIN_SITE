@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface Video {
   id: string;
@@ -73,10 +74,12 @@ const ExpertVideos = () => {
                     className={`absolute inset-0 cursor-pointer ${video.bgColor}`}
                     onClick={() => setPlayingId(video.id)}
                   >
-                    <img
+                    <Image
                       src={`https://img.youtube.com/vi/${video.ytId}/maxresdefault.jpg`}
                       alt={video.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                     />
                     {/* Play Button Overlay */}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">

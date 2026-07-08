@@ -10,7 +10,7 @@ interface StatItem {
 const STATS: StatItem[] = [
   { value: "30,000+", label: "Patients Treated" },
   { value: "9,000+", label: "Surgeries Done" },
-  { value: "98%", label: "Success Rate" },
+  { value: "RIRS", label: "Laser Stone Care" },
   { value: "15+ yrs", label: "Experience" }
 ];
 
@@ -50,9 +50,8 @@ export default function GlobalReach() {
             </div>
 
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[0.95]">
-              Leading Kidney Stone<br />
-              <span className="text-blue-200/80">Treatment in</span><br />
-              South-East Asia
+              Advanced <br/> Kidney Stone Care,<br />
+              <span className="text-blue-200/80"> Trusted By Patient Across India.</span><br />
             </h2>
 
             <button className="group relative flex items-center gap-4 py-4 px-10 rounded-full bg-white text-blue-700 font-black hover:bg-blue-50 transition-all shadow-2xl shadow-blue-900/20">

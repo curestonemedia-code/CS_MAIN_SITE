@@ -10,7 +10,10 @@ export async function GET(request: Request) {
   }
 
   if (!API_KEY) {
-    return NextResponse.json({ error: 'API Key not configured in environment' }, { status: 500 });
+    return NextResponse.json({
+      result: null,
+      error: 'API Key not configured in environment',
+    });
   }
 
   // Define the fields you want to return to save on costs/latency
@@ -24,16 +27,19 @@ export async function GET(request: Request) {
     const data = await response.json();
     
     if (data.status !== 'OK') {
-      console.error("Google Places API Error:", data.status, data.error_message);
       return NextResponse.json({ 
+        result: null,
         error: data.status, 
         message: data.error_message || 'Fetch failed' 
-      }, { status: 500 });
+      });
     }
     
     return NextResponse.json(data);
   } catch (error) {
     console.error("Internal API Error:", error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({
+      result: null,
+      error: 'Internal server error',
+    });
   }
 }

@@ -18,19 +18,19 @@ export const SERVICES: ServiceDetail[] = [
     slug: "kidney-stone-treatment",
     icon: "🔬",
     name: "Kidney Stone Treatment",
-    shortDesc: "Fans RIRS, ESWL, URSL, PCNL — tailored to stone size & location. India's first Fans-RIRS pioneer.",
-    fullDesc: "We offer a comprehensive spectrum of kidney stone treatments, from non-invasive shockwave lithotripsy to advanced laser surgeries. As pioneers in FANS-RIRS (Fluoroscopy-free RIRS) in India, we ensure maximum stone clearance with zero radiation exposure.",
+    shortDesc: "FANS-RIRS, ESWL, URSL, PCNL — tailored to stone size, location and clinical findings.",
+    fullDesc: "We offer a comprehensive spectrum of kidney stone treatments, from non-invasive shockwave lithotripsy to advanced laser surgeries. FANS-RIRS (Fluoroscopy-free RIRS) may reduce X-ray exposure in suitable cases while supporting precise laser stone treatment.",
     treatments: ["RIRS Laser Surgery", "ESWL Lithotripsy", "URSL (Ureteroscopy)", "Mini-PCNL"],
     stats: [
-      { label: "Success Rate", value: "98%" },
+      { label: "Care Focus", value: "RIRS" },
       { label: "Procedures", value: "9,000+" },
       { label: "Recovery", value: "24 Hrs" }
     ],
     features: [
       "Zero Radiation (FANS-RIRS)",
-      "Single-session Clearance",
-      "No Incisions / No Cuts",
-      "World-class Laser Tech"
+      "Case-based Treatment Planning",
+      "Natural-pathway RIRS Option",
+      "Advanced Laser Tech"
     ],
     symptoms: [
       "Sharp pain in the side and back, below the ribs",
@@ -55,7 +55,7 @@ export const SERVICES: ServiceDetail[] = [
     ]
   },
   {
-    slug: "/",
+    slug: "urology-andrology-treatment",
     icon: "⚕️",
     name: "Urology & Andrology",
     shortDesc: "Expert diagnosis for prostate issues, UTIs, male sexual health and urological disorders.",
@@ -93,7 +93,7 @@ export const SERVICES: ServiceDetail[] = [
     ]
   },
   {
-    slug: "/",
+    slug: "gallbladder-stone-treatment",
     icon: "🫚",
     name: "Gallbladder Stone Treatment",
     shortDesc: "Laparoscopic cholecystectomy for gallbladder stones — minimally invasive, fast recovery.",

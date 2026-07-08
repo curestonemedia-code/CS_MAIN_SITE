@@ -5,8 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
+import Image from "next/image";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function SpecialtyPage() {
   const { slug } = useParams() as { slug: string };
@@ -158,7 +158,13 @@ export default function SpecialtyPage() {
                       />
                     ) : (
                       <div className="absolute inset-0 cursor-pointer" onClick={() => setPlayingVideoId(video.ytId)}>
-                        <img src={`https://img.youtube.com/vi/${video.ytId}/mqdefault.jpg`} className="w-full h-full object-cover" alt={video.title} />
+                        <Image
+                          src={`https://img.youtube.com/vi/${video.ytId}/mqdefault.jpg`}
+                          alt={video.title}
+                          fill
+                          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                          className="object-cover"
+                        />
                         <div className="absolute inset-0 flex items-center justify-center bg-black/20"><div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary">▶</div></div>
                       </div>
                     )}
@@ -166,6 +172,50 @@ export default function SpecialtyPage() {
                   <div className="p-5">
                     <h4 className="font-black text-slate-900 text-sm md:text-base">{video.title}</h4>
                   </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-16 md:py-24 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div className="text-center mb-12">
+              <span className="inline-block px-4 py-1.5 mb-4 text-[10px] font-black tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full uppercase">
+                Common Questions
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900">
+                Frequently Asked <span className="text-primary italic">Questions</span>
+              </h2>
+              <Link href="/faqs" className="inline-block mt-4 text-sm font-black text-primary hover:underline">
+                See All FAQs →
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {service.faqs.map((faq, i) => (
+                <div key={i} className="bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden">
+                  <button
+                    className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-bold text-slate-900 hover:text-primary transition-colors"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    aria-expanded={openFaq === i}
+                  >
+                    <span>{faq.q}</span>
+                    <svg
+                      className={`w-5 h-5 shrink-0 transition-transform duration-300 ${openFaq === i ? "rotate-45" : ""}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                  </button>
+                  {openFaq === i && (
+                    <div className="px-6 pb-5 text-sm md:text-base text-slate-600 font-medium leading-relaxed border-t border-slate-200 pt-4">
+                      {faq.a}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
 
 interface Review {
   id: number | string;
@@ -176,7 +177,7 @@ export default function GoogleReviews() {
             <p className="text-slate-500 font-medium">{stats.rating >= 4.5 ? 'EXCELLENT' : 'VERY GOOD'}</p>
             <p className="text-sm text-slate-400 mt-1 uppercase tracking-tighter">Based on {stats.total} reviews</p>
             <a
-              href={`https://share.google/r47bQltYFV5dnjJdk`}
+              href={`https://www.google.com/search?sxsrf=APpeQnvDnxoitucSbzmuSUz3XQvReaAJyg:1783155763047&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_wyyl4i8QScu9L0wP2dPRTi4tIzG5M_iBT18eTLFCoOr6loMudrQWsGN797js2JRJOO_stXuifi1YwUD-MSd7oXwRFwY&q=Cure+Stone+Reviews`}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 px-6 py-2.5 bg-blue-600 text-white rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
@@ -213,7 +214,7 @@ export default function GoogleReviews() {
                       <div className="flex items-center gap-4">
                         <div className={`relative w-12 h-12 rounded-full overflow-hidden ${review.color} flex items-center justify-center text-white font-bold text-lg ring-4 ring-slate-50`}>
                           {review.image ? (
-                            <img src={review.image} alt={review.name} className="w-full h-full object-cover" />
+                            <Image src={review.image} alt={review.name} fill sizes="48px" className="object-cover" />
                           ) : (
                             review.initials
                           )}

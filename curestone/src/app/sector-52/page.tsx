@@ -6,17 +6,17 @@ import GlobalReach from "@/components/home/GlobalReach";
 import LocationLeadForm from "@/components/home/LocationLeadForm";
 
 export const metadata: Metadata = {
-  title: "Best Kidney Stone Surgery in Sector 52, Gurgaon | Laser Treatment & RIRS Experts",
-  description: "Consult top urologists in Sector 52, Gurgaon for advanced laser kidney stone removal. Minimal invasive RIRS, PCNL, and ESWL procedures with 24-hour recovery and cashless insurance.",
+  title: "Kidney Stone Surgery in Sector 52, Gurgaon | RIRS & Laser Treatment",
+  description: "Consult a urologist doctor in Gurgaon for kidney stone treatment, RIRS surgery in Gurgaon, PCNL, ESWL and URSL care at Cure Stone Hospital, Sector 52.",
   alternates: {
-    canonical: "https://curestone.in/sector-52",
+    canonical: "https://thecurestone.com/sector-52",
   },
   openGraph: {
-    title: "Best Kidney Stone Surgery in Sector 52, Gurgaon | Laser Treatment & RIRS Experts",
-    description: "Consult top urologists in Sector 52, Gurgaon for advanced laser kidney stone removal. Minimal invasive RIRS, PCNL, and ESWL procedures with 24-hour recovery and cashless insurance.",
-    url: "https://curestone.in/sector-52",
-    siteName: "CureStone",
-    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Best Kidney Stone Surgery in Sector 52, Gurgaon | Laser Treatment & RIRS Experts" }],
+    title: "Kidney Stone Surgery in Sector 52, Gurgaon | RIRS & Laser Treatment",
+    description: "Kidney stone hospital in Gurgaon offering RIRS surgery, PCNL, ESWL and URSL care at Cure Stone Hospital, Sector 52.",
+    url: "https://thecurestone.com/sector-52",
+    siteName: "Cure Stone",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Kidney Stone Surgery in Sector 52, Gurgaon | RIRS & Laser Treatment" }],
     locale: "en_IN",
     type: "website",
   },
@@ -31,13 +31,13 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://curestone.in",
+      item: "https://thecurestone.com",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Kidney Stone Surgery Sector 52 Gurgaon",
-      item: "https://curestone.in/sector-52",
+      item: "https://thecurestone.com/sector-52",
     },
   ],
 };
@@ -45,9 +45,9 @@ const breadcrumbSchema = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
-  name: "CureStone – Kidney Stone Surgery Sector 52 Gurgaon",
-  description: "Advanced RIRS laser kidney stone surgery serving patients from Sector 52 Gurgaon. No cuts, 98% success rate.",
-  url: "https://curestone.in/sector-52",
+  name: "Cure Stone – Kidney Stone Surgery Sector 52 Gurgaon",
+  description: "Kidney stone surgery, RIRS laser treatment, PCNL, ESWL and URSL care at Cure Stone Hospital in Sector 52, Gurgaon.",
+  url: "https://thecurestone.com/sector-52",
   telephone: "+91-88002-63884",
   address: {
     "@type": "PostalAddress",
@@ -96,10 +96,10 @@ export default function Sector52SurgeryPage() {
                 <span className="material-symbols-outlined text-sm">workspace_premium</span> Specialized Urology Clinic in Gurgaon
               </div>
               <h1 className="font-sans text-5xl lg:text-7xl font-extrabold text-blue-900 leading-tight tracking-tighter mb-8">
-                Best <span className="text-amber-600">Laser Kidney Stone</span> Treatment in Sector 52, Gurgaon
+                Kidney Stone Surgery in <span className="text-amber-600">Sector 52, Gurgaon</span>
               </h1>
               <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mb-12">
-                Experience the next generation of minimally invasive urology. Our expert surgeons specialize in RIRS, PCNL, and Mini-PERC using high-wattage Holmium Lasers for 100% stone clearance without incisions.
+                Consult a urologist doctor in Gurgaon for RIRS surgery, PCNL, ESWL and URSL options. Treatment planning depends on stone size, location, symptoms and scan findings.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
                 <div className="flex flex-col gap-1">
@@ -134,7 +134,7 @@ export default function Sector52SurgeryPage() {
             <div className="mb-16">
               <h2 className="font-sans text-4xl lg:text-5xl font-bold text-blue-900 tracking-tight mb-6">Painless Kidney Stone Treatment Options in <span className="text-amber-600">Sector 52, Gurgaon</span></h2>
               <p className="text-lg text-slate-600 max-w-4xl">
-                Our Sector 52, Gurgaon-based urology centers offer comprehensive care for renal stones, ureteric stones, and bladder stones. By utilizing USFDA-approved Thulium Fiber Laser (TFL) and Holmium:YAG technology, we ensure patients experience minimal blood loss and the fastest recovery times in the industry.
+                Cure Stone Hospital in Sector 52, Gurgaon offers care for renal stones, ureteric stones, and bladder stones. Treatment may include RIRS, PCNL, ESWL or URSL after clinical evaluation and imaging review.
               </p>
             </div>
 
@@ -145,7 +145,7 @@ export default function Sector52SurgeryPage() {
                   <span className="material-symbols-outlined text-blue-700 text-3xl">precision_manufacturing</span>
                 </div>
                 <h4 className="font-sans text-2xl font-bold text-blue-900 mb-4">RIRS Laser Surgery</h4>
-                <p className="text-slate-600 leading-relaxed">The most advanced Retrograde Intrarenal Surgery in Sector 52, Gurgaon. No cuts, no scars—ideal for stones located deep within the kidney. Complete discharge within 24 hours.</p>
+                <p className="text-slate-600 leading-relaxed">RIRS surgery in Gurgaon uses a flexible scope and laser to treat selected kidney stones through natural urinary pathways. Recovery and discharge timing vary by case.</p>
               </div>
 
               {/* Card 2 */}
@@ -162,7 +162,7 @@ export default function Sector52SurgeryPage() {
                 <div className="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center mb-6">
                   <span className="material-symbols-outlined text-blue-700 text-3xl">verified</span>
                 </div>
-                <h4 className="font-sans text-2xl font-bold text-blue-900 mb-4">100% Cashless Support</h4>
+                <h4 className="font-sans text-2xl font-bold text-blue-900 mb-4">Cashless Support</h4>
                 <p className="text-slate-600 leading-relaxed">We are empanelled with all major Insurance TPAs and Corporates in Gurgaon. Our team handles your pre-auth and documentation for a zero-hassle experience.</p>
               </div>
             </div>
@@ -185,8 +185,8 @@ export default function Sector52SurgeryPage() {
                 <button className="bg-amber-500 text-white px-12 py-5 rounded-full font-sans font-bold text-lg hover:bg-white hover:text-blue-900 transition-all duration-300">
                   Book Free Consultation
                 </button>
-                <a className="text-white flex items-center gap-2 font-sans font-bold text-lg" href="tel:+919876543210">
-                  <span className="material-symbols-outlined">call</span> Sector 52, Gurgaon Helpline: +91 98765 43210
+                <a className="text-white flex items-center gap-2 font-sans font-bold text-lg" href="tel:+918800263884">
+                  <span className="material-symbols-outlined">call</span> Sector 52, Gurgaon Helpline: +91 88002 63884
                 </a>
               </div>
             </div>

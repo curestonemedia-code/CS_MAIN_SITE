@@ -104,7 +104,7 @@ export default function PatientMosaic() {
           </div>
 
           <p className="text-slate-500 text-sm sm:text-base lg:text-lg font-medium max-w-sm border-l-2 border-slate-200 pl-4 sm:pl-6">
-            Watch authentic recovery journeys from the India's most advanced
+            Watch authentic recovery journeys from India&apos;s most advanced
             kidney stone center.
           </p>
         </div>
@@ -217,6 +217,7 @@ function TestimonialCard({
         src={item.thumbnail}
         alt={item.title}
         fill
+        sizes="(max-width: 639px) 280px, (max-width: 1023px) 50vw, (max-width: 1279px) 25vw, 20vw"
         className="object-cover transition-transform duration-700 group-hover:scale-110"
       />
 

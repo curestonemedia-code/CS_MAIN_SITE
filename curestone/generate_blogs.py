@@ -154,7 +154,7 @@ class BlogPageParser(HTMLParser):
         if tag == 'title':
             self._in_title = False
             # Clean WP title (strip site name)
-            self.title = self.title.replace(' - The CureStone', '').replace(' | The CureStone', '').strip()
+            self.title = self.title.replace(' - The Cure Stone', '').replace(' | The Cure Stone', '').strip()
             
         if self._in_article:
             if tag == 'p' and self._in_p:
@@ -227,7 +227,7 @@ import Footer from "@/components/layout/Footer";
 import type {{ Metadata }} from "next";
 
 export const metadata: Metadata = {{
-  title: "{title} | CureStone",
+  title: "{title} | Cure Stone",
   description: "{desc}",
 }};
 
@@ -249,7 +249,7 @@ export default function BlogPage() {{
         <section className="relative overflow-hidden py-20 lg:py-28 bg-slate-50">
           <div className="max-w-4xl mx-auto px-8 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-blue-900 text-xs font-bold uppercase tracking-widest mb-6">
-              <span className="material-symbols-outlined text-sm">article</span> CureStone Blog
+              <span className="material-symbols-outlined text-sm">article</span> Cure Stone Blog
             </div>
             <h1 className="font-sans text-4xl lg:text-6xl font-extrabold text-blue-900 leading-tight tracking-tighter mb-6">
               {title}

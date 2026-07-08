@@ -3,9 +3,59 @@ import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+const TITLE = "Mini PCNL Kidney Stone Surgery | Cure Stone";
+const DESCRIPTION = "Mini PCNL is a minimally invasive kidney stone surgery option for selected large or complex stones. Consult Cure Stone Hospital in Gurgaon for case-based guidance.";
+const URL = "https://thecurestone.com/mini-pcnl";
+
 export const metadata: Metadata = {
-  title: "Mini PCNL Kidney Stone Surgery | Cure Stone",
-  description: "Mini PCNL (Percutaneous Nephrolithotomy) is an advanced, minimally invasive treatment for large kidney stones. High success rate, small keyhole incision.",
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: URL,
+  },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: URL,
+    siteName: "Cure Stone",
+    type: "website",
+    locale: "en_IN",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: TITLE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og-image.svg"],
+  },
+};
+
+const procedureSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  name: "Mini PCNL — Percutaneous Nephrolithotomy",
+  procedureType: "http://schema.org/PercutaneousProcedure",
+  description: DESCRIPTION,
+  howPerformed:
+    "A small (~1cm) keyhole incision is made on the back to create a direct tract into the kidney, through which a telescope and laser or lithotripter fragment and remove large or staghorn stones.",
+  preparation: "Suitable for large or complex kidney stones (20mm and above), confirmed by CT KUB imaging.",
+  followup: "A short hospital stay of 1 to 2 days is typically required before discharge.",
+  bodyLocation: "Kidney",
+  provider: {
+    "@type": "MedicalBusiness",
+    name: "Cure Stone",
+    "@id": "https://thecurestone.com/#organization",
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://thecurestone.com" },
+    { "@type": "ListItem", position: 2, name: "Specialties", item: "https://thecurestone.com/specialties" },
+    { "@type": "ListItem", position: 3, name: "Mini PCNL", item: URL },
+  ],
 };
 
 const steps = [
@@ -19,7 +69,7 @@ const steps = [
 
 const tableData = [
   { feature: "Stone Size", pcnl: "20mm+ (Staghorn)", rirs: "Up to 20mm", eswl: "Up to 10mm" },
-  { feature: "Stone-Free Rate", pcnl: "90–95%", rirs: "98%", eswl: "60–70%" },
+  { feature: "Outcome Factors", pcnl: "Large or complex stones", rirs: "Selected smaller stones", eswl: "Selected small stones" },
   { feature: "Incisions", pcnl: "Small keyhole (~1cm)", rirs: "None", eswl: "None" },
   { feature: "Recovery", pcnl: "3–5 days", rirs: "1–2 days", eswl: "2–3 days" },
   { feature: "Anaesthesia", pcnl: "General / Spinal", rirs: "Spinal", eswl: "None" },
@@ -28,6 +78,14 @@ const tableData = [
 export default function MiniPCNLPage() {
   return (
     <div className="flex flex-col min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(procedureSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+      />
       <Navbar />
 
       {/* Hero */}
@@ -42,7 +100,7 @@ export default function MiniPCNLPage() {
                 Mini <span className="text-primary italic">PCNL</span>
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-slate-600 font-medium leading-relaxed max-w-2xl mb-10">
-                Percutaneous Nephrolithotomy — the standard of care for large, hard kidney stones. A minimally invasive keyhole procedure designed to achieve maximum stone clearance in a single session.
+                Percutaneous Nephrolithotomy may be recommended for selected large or hard kidney stones. It is a minimally invasive keyhole procedure planned after imaging review.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/book" className="px-8 py-4 bg-primary text-white font-black rounded-2xl shadow-xl shadow-primary/30 hover:bg-primary-dark hover:scale-105 active:scale-95 transition-all text-center">
@@ -74,7 +132,7 @@ export default function MiniPCNLPage() {
       {/* Stats Bar */}
       <div className="bg-primary py-6 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
-          {[["90-95%", "Success Rate"], ["1-2 Days", "Hospital Stay"], ["~1 cm", "Keyhole Incision"], ["9000+", "Surgeries Done"]].map(([val, lab], i) => (
+          {[["PCNL", "Large Stone Option"], ["1-2 Days", "Typical Stay"], ["~1 cm", "Keyhole Incision"], ["9000+", "Surgeries Done"]].map(([val, lab], i) => (
             <div key={i}>
               <p className="text-3xl font-black">{val}</p>
               <p className="text-xs font-bold uppercase tracking-widest text-white/70 mt-1">{lab}</p>
@@ -95,10 +153,10 @@ export default function MiniPCNLPage() {
                   PCNL (Percutaneous Nephrolithotomy) is a procedure used to get rid of kidney stones that are too large to pass on their own or be treated by other methods like ESWL or RIRS.
                 </p>
                 <p className="text-base md:text-lg text-text-mid font-medium leading-relaxed mb-8">
-                  "Percutaneous" means through the skin. A small ~1 cm cut is made on the back, creating a direct path to the kidney. A telescope is used to locate the stone, break it up with a laser or lithotripter, and remove it. This replaces open stone surgery, leading to much less pain and a faster recovery.
+                  Percutaneous means through the skin. A small ~1 cm cut is made on the back, creating a direct path to the kidney. A telescope is used to locate the stone, break it up with a laser or lithotripter, and remove it. This replaces open stone surgery, with recovery depending on the case.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {["High Clearance Rate", "Minimally Invasive Keyhole", "Ideal for Staghorn Stones", "Faster Healing vs Open Surgery"].map((item, i) => (
+                  {["Case-based Stone Removal", "Minimally Invasive Keyhole", "Used for Selected Staghorn Stones", "Designed for Faster Healing vs Open Surgery"].map((item, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <svg className="w-5 h-5 text-primary shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                       <span className="text-sm font-bold text-slate-700">{item}</span>
@@ -155,7 +213,7 @@ export default function MiniPCNLPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
             <div className="text-center mb-12 md:mb-16">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-foreground">Mini PCNL vs <span className="text-primary">Alternatives</span></h2>
-              <p className="text-slate-500 font-medium mt-4 max-w-xl mx-auto text-sm sm:text-base">Compare PCNL to other treatments for understanding the best approach for large stones.</p>
+              <p className="text-slate-500 font-medium mt-4 max-w-xl mx-auto text-sm sm:text-base">Compare PCNL to other treatments for understanding suitable approaches for large stones.</p>
             </div>
             <div className="relative rounded-[2rem] border border-slate-200 bg-white shadow-2xl overflow-hidden">
               <div className="overflow-x-auto scrollbar-none sm:scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">

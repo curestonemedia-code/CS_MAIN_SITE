@@ -14,33 +14,37 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const SITE_URL = "https://curestone.in";
+const SITE_URL = "https://thecurestone.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "CureStone | Best Kidney Stone Laser Surgery in Gurgaon & Delhi NCR",
-    template: "%s | CureStone",
+    default: "Cure Stone | Kidney Stone Surgery in Gurgaon",
+    template: "%s | Cure Stone",
   },
   description:
-    "CureStone offers advanced RIRS laser kidney stone surgery in Gurgaon & Delhi NCR. No cuts, no scars, 98% success rate. Cashless insurance. Book a free consultation today.",
+    "Cure Stone offers kidney stone surgery in Gurgaon, including RIRS, PCNL, ESWL and URSL care at Sector 52. Book a consultation with a urologist doctor in Gurgaon.",
   keywords: [
     "kidney stone surgery Gurgaon",
     "RIRS laser surgery",
-    "kidney stone treatment Delhi NCR",
-    "best urologist Gurgaon",
+    "kidney stone treatment Sector 52 Gurgaon",
+    "urologist doctor Gurgaon",
+    "urologist Gurgaon near me",
+    "urologist in Gurgaon",
     "laser stone removal",
     "PCNL surgery",
     "ESWL treatment",
     "kidney stone specialist",
-    "painless kidney stone surgery",
-    "CureStone",
+    "kidney stone hospital in Gurgaon",
+    "RIRS surgery in Gurgaon",
+    "RIRS surgery cost in Gurgaon",
+    "Cure Stone",
     "thecurestone",
     "kidney stone doctor gurgaon",
   ],
-  authors: [{ name: "CureStone Medical Team", url: SITE_URL }],
-  creator: "CureStone",
-  publisher: "CureStone Private Limited",
+  authors: [{ name: "Cure Stone Medical Team", url: SITE_URL }],
+  creator: "Cure Stone",
+  publisher: "Cure Stone Private Limited",
   category: "Healthcare / Urology",
   robots: {
     index: true,
@@ -57,16 +61,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: SITE_URL,
-    siteName: "CureStone",
-    title: "CureStone | Best Kidney Stone Laser Surgery in Gurgaon & Delhi NCR",
+    siteName: "Cure Stone",
+    title: "Cure Stone | Kidney Stone Surgery in Gurgaon",
     description:
-      "Advanced RIRS laser kidney stone surgery. No cuts, no scars, 98% success rate. Serving Gurgaon, Delhi NCR & pan-India patients.",
+      "Kidney stone surgery in Gurgaon with RIRS, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
     images: [
       {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "CureStone – Advanced Kidney Stone Laser Surgery",
+        alt: "Cure Stone – Advanced Kidney Stone Laser Surgery",
       },
     ],
   },
@@ -74,9 +78,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@curestone_in",
     creator: "@curestone_in",
-    title: "CureStone | Best Kidney Stone Laser Surgery in Gurgaon",
+    title: "Cure Stone | Kidney Stone Surgery in Gurgaon",
     description:
-      "RIRS laser surgery for kidney stones. No cuts, no scars, 24hr recovery. Book a free consultation.",
+      "RIRS laser surgery and kidney stone treatment in Gurgaon. Book a consultation at Cure Stone Hospital, Sector 52.",
     images: ["/og-image.svg"],
   },
   alternates: {
@@ -107,10 +111,10 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
   "@id": `${SITE_URL}/#organization`,
-  name: "CureStone",
-  alternateName: "The CureStone",
+  name: "Cure Stone",
+  alternateName: "The Cure Stone",
   description:
-    "Advanced kidney stone treatment center offering RIRS, PCNL and ESWL laser surgery in Gurgaon and Delhi NCR.",
+    "Advanced kidney stone treatment hospital offering RIRS, PCNL and ESWL laser surgery in Sector 52, Gurgaon.",
   url: SITE_URL,
   logo: {
     "@type": "ImageObject",
@@ -126,7 +130,7 @@ const organizationSchema = {
   paymentAccepted: "Cash, Credit Card, Insurance, EMI",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Gurugram",
+    streetAddress: "Sector 52, Near Plot 3, Rd No D-13 A, Ardee City",
     addressLocality: "Gurgaon",
     addressRegion: "Haryana",
     postalCode: "122003",
@@ -189,8 +193,8 @@ const websiteSchema = {
   "@type": "WebSite",
   "@id": `${SITE_URL}/#website`,
   url: SITE_URL,
-  name: "CureStone",
-  description: "Best Kidney Stone Laser Surgery in Gurgaon & Delhi NCR",
+  name: "Cure Stone",
+  description: "Kidney Stone Surgery in Gurgaon",
   publisher: { "@id": `${SITE_URL}/#organization` },
   potentialAction: {
     "@type": "SearchAction",
