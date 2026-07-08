@@ -4,7 +4,7 @@ import { SERVICES } from "@/constants/services";
 import Link from "next/link";
 import type { Metadata } from "next";
 
-const TITLE = "Our Specialties | Kidney Stone, Urology & Gallbladder Care";
+const TITLE = "Specialties | Kidney Stone & Urology Care";
 const DESCRIPTION =
   "Explore Cure Stone's medical specialties in Sector 52, Gurgaon — kidney stone treatment (RIRS, ESWL, URSL, PCNL), urology & andrology, and gallbladder stone surgery.";
 const URL = "https://thecurestone.com/specialties";

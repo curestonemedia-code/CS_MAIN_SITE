@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ALL_FAQS } from "@/constants/faqs";
 
-const TITLE = "Kidney Stone FAQs | RIRS, PCNL, ESWL & URSL Questions Answered";
+const TITLE = "Kidney Stone Treatment FAQs, Gurgaon";
 const DESCRIPTION =
   "Answers to common questions on RIRS, Mini PCNL, ESWL, URSL, gallbladder stone surgery, cost, insurance and booking a urologist consultation at Cure Stone Hospital, Sector 52, Gurgaon.";
 const URL = "https://thecurestone.com/faqs";

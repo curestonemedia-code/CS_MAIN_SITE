@@ -8,7 +8,7 @@ const faqs = [
   { q: "What if I am outside India?", a: "We offer international video consultations. Select 'Online Video' as consultation type and mention your country in the description." },
 ];
 
-const TITLE = "Book a Kidney Stone Consultation | Cure Stone Hospital, Gurgaon";
+const TITLE = "Book a Kidney Stone Consultation, Gurgaon";
 const DESCRIPTION =
   "Book a free video or in-clinic consultation with Dr. Deepanshu Gupta for kidney stone treatment, RIRS, PCNL, ESWL or URSL at Cure Stone Hospital, Sector 52, Gurgaon.";
 const URL = "https://thecurestone.com/book";

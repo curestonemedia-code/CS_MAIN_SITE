@@ -16,7 +16,7 @@ import Footer from "@/components/layout/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Kidney Stone Surgery in Gurgaon | RIRS & Laser Stone Treatment",
+  title: "Kidney Stone Surgery in Gurgaon",
   description:
     "Cure Stone offers kidney stone treatment in Gurgaon with RIRS, PCNL, ESWL and URSL options at Sector 52. Consult a urologist doctor in Gurgaon.",
   alternates: {

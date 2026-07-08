@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     };
   }
 
-  const title = post.seo?.metaTitle || `${post.title} | Cure Stone Health Blog`;
+  const title = post.seo?.metaTitle || `${post.title} | Health Blog`;
   const description = post.seo?.metaDescription || post.excerpt || "";
   const image = post.seo?.ogImage?.asset?.url || post.coverImage?.asset?.url;
   const url = `https://thecurestone.com/blog/${post.slug}`;

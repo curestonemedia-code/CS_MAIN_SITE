@@ -2,8 +2,12 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import type { Metadata } from "next";
+import FaqAccordion from "@/components/FaqAccordion";
+import { FAQ_CATEGORIES } from "@/constants/faqs";
 
-const TITLE = "ESWL Lithotripsy | Cure Stone — Non-Invasive Kidney Stone Treatment";
+const faqCategory = FAQ_CATEGORIES.find((category) => category.slug === "eswl")!;
+
+const TITLE = "ESWL Lithotripsy — Kidney Stone Treatment";
 const DESCRIPTION = "ESWL uses shock waves to break kidney stones without surgery. Learn about candidacy, procedure and recovery at Cure Stone Hospital in Sector 52, Gurgaon.";
 const URL = "https://thecurestone.com/eswl";
 
@@ -58,6 +62,19 @@ const breadcrumbSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqCategory.items.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.a,
+    },
+  })),
+};
+
 const facts = [
   { icon: "💥", title: "Non-Invasive", desc: "No incisions, no anaesthesia required for most patients." },
   { icon: "⏱", title: "45–60 Min", desc: "Typical session lasts under an hour. Outpatient procedure." },
@@ -75,6 +92,10 @@ export default function ESWLPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
       />
       <Navbar />
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-slate-50 overflow-hidden">
@@ -165,6 +186,13 @@ export default function ESWLPage() {
                 </Link>
               </div>
             </div>
+          </div>
+
+          <div className="max-w-3xl mx-auto mb-20">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 text-center">
+              ESWL <span className="text-primary italic">FAQs</span>
+            </h2>
+            <FaqAccordion items={faqCategory.items} />
           </div>
 
           <div className="bg-slate-50 border border-slate-100 rounded-[2rem] p-8 md:p-12 text-center relative overflow-hidden shadow-lg">
