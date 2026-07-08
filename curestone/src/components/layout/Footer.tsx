@@ -66,6 +66,7 @@ export default function Footer() {
                   src="/PNG-Black-e1664728676618.png"
                   alt="Cure Stone Hospital"
                   fill
+                  sizes="176px"
                   className="object-contain object-left brightness-0 invert"
                 />
               </div>

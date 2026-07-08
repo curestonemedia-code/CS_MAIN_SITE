@@ -148,10 +148,11 @@ export default function PatientStories() {
                   className="group relative aspect-video rounded-[3rem] overflow-hidden bg-slate-900 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] cursor-pointer ring-1 ring-white/10 hover:ring-emerald-500/50 transition-all duration-700"
                   onClick={() => setActiveVideo(story.videoUrl)}
                 >
-                  <Image 
-                    src={story.videoThumbnail} 
-                    alt={story.videoTitle} 
-                    fill 
+                  <Image
+                    src={story.videoThumbnail}
+                    alt={story.videoTitle}
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
                     className="object-cover opacity-60 group-hover:opacity-30 group-hover:scale-105 transition-all duration-1000 ease-out"
                   />
                   

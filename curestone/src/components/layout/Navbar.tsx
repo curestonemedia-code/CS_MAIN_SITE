@@ -56,7 +56,7 @@ export default function Navbar() {
 
           <Link href="/" className="flex items-center shrink-0 z-[70]">
             <div className={`relative transition-all duration-300 ${scrolled ? "w-28 h-10" : "w-32 h-12"}`}>
-              <Image src="/PNG-Black-e1664728676618.png" alt="Cure Stone Logo" fill className="object-contain object-left" priority />
+              <Image src="/PNG-Black-e1664728676618.png" alt="Cure Stone Logo" fill sizes="128px" className="object-contain object-left" priority />
             </div>
           </Link>
 
@@ -108,7 +108,7 @@ export default function Navbar() {
         {/* Mobile Header with Close Button */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-slate-100">
           <div className="relative w-28 h-10">
-            <Image src="/PNG-Black-e1664728676618.png" alt="Logo" fill className="object-contain" />
+            <Image src="/PNG-Black-e1664728676618.png" alt="Logo" fill sizes="112px" className="object-contain" />
           </div>
           <button onClick={() => setIsOpen(false)} className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></svg>
