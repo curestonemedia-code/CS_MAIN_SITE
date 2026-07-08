@@ -89,7 +89,7 @@ export default function AboutPage() {
               </h1>
               <p className="mt-6 max-w-2xl text-lg font-medium leading-8 text-blue-100">
                 Cure Stone Hospital provides focused urology consultations and kidney stone
-                treatment planning with RIRS, PCNL, URSL, and ESWL options selected by clinical evaluation.
+                treatment planning with FANS-RIRS, PCNL, URSL, and ESWL options selected by clinical evaluation.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/book" className="rounded-2xl bg-white px-6 py-4 text-sm font-black text-slate-950">

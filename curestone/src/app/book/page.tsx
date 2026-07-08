@@ -4,6 +4,15 @@ import React, { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
+import {
+  cleanText,
+  normalizeIndianPhone,
+  validateIndianPhone,
+  validateName,
+  validateOptionalDescription,
+  validateOptionalSelect,
+  validateSelect,
+} from "@/utils/formValidation";
 
 const INDIAN_STATES = [
   "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
@@ -14,7 +23,29 @@ const INDIAN_STATES = [
   "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
 
-const SCRIPT_URL = process.env.NEXT_PUBLIC_APPOINTMENT_FORM_SHEET_URL || "https://script.google.com/macros/s/AKfycbznh1P-N_hf16qop9l3squGsuPrf4nj03pVuWeYawZsdB8DBC1Oct-1SNX6KAZBHyVy8w/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMzUdglP89pw8ZCzSt65DIg3bgn43krFUSeGTQ4A8B7AFnSL053agigLcoC78foHgU/exec";
+
+const STONE_SIZES = ["Less than 5mm", "5mm - 10mm", "10mm - 15mm", "15mm - 20mm", "20mm - 30mm", "Greater than 30mm", "Unknown"];
+const CONSULTATION_TYPES = ["Kidney Stone Treatment", "Gall Bladder Stone Treatment", "Urology Treatment", "Andrology Treatment", "Second Opinion", "Online Video Consult"];
+
+type FormField = "fullName" | "phone" | "state" | "stoneSize" | "consultationType" | "description";
+type FormErrors = Partial<Record<FormField, string>>;
+
+const baseFieldClass = "w-full px-5 py-3.5 bg-white border rounded-xl outline-none focus:border-primary transition-all text-slate-900 font-medium";
+
+function getFieldClass(field: FormField, errors: FormErrors, extra = "") {
+  return `${baseFieldClass} ${errors[field] ? "border-red-300 bg-red-50 focus:border-red-500" : "border-slate-100"} ${extra}`;
+}
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null;
+
+  return (
+    <p className="ml-1 text-xs font-bold text-red-600" role="alert">
+      {message}
+    </p>
+  );
+}
 
 const faqs = [
   { q: "How soon will I get a confirmation?", a: "Our coordinator calls within 15 minutes of form submission during clinic hours (10 AM – 7 PM On Appoinment)." },
@@ -27,19 +58,50 @@ const faqs = [
 export default function BookPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     const fd = new FormData(e.currentTarget);
+    const phone = normalizeIndianPhone(fd.get("phone"));
     const data = {
-      name: fd.get("fullName"), phone: fd.get("phone"), state: fd.get("state"),
-      stoneSize: fd.get("stoneSize"), consultationType: fd.get("consultationType"),
-      email: fd.get("email") || "Not Provided", description: fd.get("description") || "No description",
+      name: cleanText(fd.get("fullName")),
+      phone: `${phone}`,
+      state: cleanText(fd.get("state")),
+      stoneSize: cleanText(fd.get("stoneSize")),
+      consultationType: cleanText(fd.get("consultationType")),
+      email: "Not Provided",
+      description: cleanText(fd.get("description")),
     };
+
+    const nextErrors: FormErrors = {
+      fullName: validateName(data.name),
+      phone: validateIndianPhone(phone),
+      state: validateSelect(data.state, INDIAN_STATES, "State"),
+      stoneSize: validateOptionalSelect(data.stoneSize, STONE_SIZES, "Stone size"),
+      consultationType: validateSelect(data.consultationType, CONSULTATION_TYPES, "Consultation type"),
+      description: validateOptionalDescription(data.description),
+    };
+    const activeErrors = Object.fromEntries(Object.entries(nextErrors).filter(([, message]) => message));
+
+    if (Object.keys(activeErrors).length > 0) {
+      setErrors(activeErrors);
+      const firstField = Object.keys(activeErrors)[0];
+      e.currentTarget.querySelector<HTMLElement>(`[name="${firstField}"]`)?.focus();
+      return;
+    }
+
+    setErrors({});
+    setLoading(true);
+
+    const payload = {
+      ...data,
+      description: data.description || "No description",
+    };
+
     try {
-      await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       setSubmitted(true);
     } catch { alert("Connection issue. Please try again or call us directly."); }
     finally { setLoading(false); }
@@ -92,38 +154,47 @@ export default function BookPage() {
                     <div className="grid md:grid-cols-2 gap-5">
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Full Name *</label>
-                        <input name="fullName" required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-primary transition-all text-slate-900 font-medium" />
+                        <input name="fullName" required type="text" minLength={2} maxLength={80} placeholder="Your Name" aria-invalid={Boolean(errors.fullName)} className={getFieldClass("fullName", errors)} />
+                        <FieldError message={errors.fullName} />
                       </div>
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Phone Number *</label>
-                        <input name="phone" required type="tel" placeholder="+91 XXXXX XXXXX" className="w-full px-5 py-3.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-primary transition-all text-slate-900 font-medium" />
+                        <div className="flex">
+                          <span className="bg-slate-50 border-r border-slate-200 py-4 px-4 rounded-l-xl text-slate-600 font-medium">+91</span>
+                          <input name="phone" required type="tel" inputMode="numeric" autoComplete="tel" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" maxLength={10} aria-invalid={Boolean(errors.phone)} className={getFieldClass("phone", errors)} />
+                        </div>
+                        <FieldError message={errors.phone} />
                       </div>
                     </div>
                     <div className="grid md:grid-cols-2 gap-5">
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">State *</label>
-                        <select name="state" required className="w-full px-5 py-3.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-primary transition-all text-slate-900 font-medium appearance-none">
+                        <select name="state" required aria-invalid={Boolean(errors.state)} className={getFieldClass("state", errors, "appearance-none")}>
                           <option value="">Select State</option>
                           {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
+                        <FieldError message={errors.state} />
                       </div>
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Stone Size</label>
-                        <select name="stoneSize" className="w-full px-5 py-3.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-primary transition-all text-slate-900 font-medium appearance-none">
+                        <select name="stoneSize" aria-invalid={Boolean(errors.stoneSize)} className={getFieldClass("stoneSize", errors, "appearance-none")}>
                           <option value="">Select Range</option>
-                          {["Less than 5mm", "5mm – 10mm", "10mm – 15mm", "15mm – 20mm", "20mm – 30mm", "Greater than 30mm", "Unknown"].map(s => <option key={s}>{s}</option>)}
+                          {STONE_SIZES.map(s => <option key={s}>{s}</option>)}
                         </select>
+                        <FieldError message={errors.stoneSize} />
                       </div>
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Consultation Type</label>
-                      <select name="consultationType" className="w-full px-5 py-3.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-primary transition-all text-slate-900 font-medium appearance-none">
-                        {["Kidney Stone Treatment", "Gall Bladder Stone Treatment", "Urology Treatment", "Andrology Treatment", "Second Opinion", "Online Video Consult"].map(s => <option key={s}>{s}</option>)}
+                      <select name="consultationType" required aria-invalid={Boolean(errors.consultationType)} className={getFieldClass("consultationType", errors, "appearance-none")}>
+                        {CONSULTATION_TYPES.map(s => <option key={s}>{s}</option>)}
                       </select>
+                      <FieldError message={errors.consultationType} />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Brief Description</label>
-                      <textarea name="description" rows={3} placeholder="Describe symptoms or previous treatments..." className="w-full px-5 py-3.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-primary transition-all text-slate-900 font-medium resize-none" />
+                      <textarea name="description" rows={3} maxLength={500} placeholder="Describe symptoms or previous treatments..." aria-invalid={Boolean(errors.description)} className={getFieldClass("description", errors, "resize-none")} />
+                      <FieldError message={errors.description} />
                     </div>
                     <button disabled={loading} type="submit" className="w-full py-4 bg-primary text-white font-black rounded-xl shadow-xl shadow-primary/20 hover:scale-[1.01] active:scale-95 disabled:opacity-70 transition-all text-base tracking-wide uppercase">
                       {loading ? "Sending..." : "Schedule Free Consultation"}

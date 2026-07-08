@@ -29,11 +29,11 @@ const WhyRIRS = () => {
               Advanced Kidney Stone Treatment
             </span>
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-900 leading-[1.1]">
-              RIRS Surgery <span className="text-blue-600 italic">in Gurgaon</span> <br className="hidden sm:block" />
-              for Kidney Stones
+              The <span className="text-blue-600 italic">Smart Choice</span> <br className="hidden sm:block" />
+              for a Stone-Free Life
             </h2>
             <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl mx-auto">
-              RIRS is a laser procedure that treats kidney stones through natural urinary pathways. Suitability and recovery timelines depend on stone size, anatomy, and clinical evaluation.
+              RIRS is a revolutionary laser procedure that removes kidney stones through natural pathways. No incisions, no stitches, and a significantly faster return to your daily routine.
             </p>
           </div>
 

@@ -69,7 +69,7 @@ const contactCards = [
 const visitDetails = [
   { label: "Hospital", value: "Cure Stone Hospital" },
   { label: "Location", value: "Sector 52, Near Plot 3, Road No D-13 A, Ardee City, Gurugram, Haryana 122003" },
-  { label: "Consultation Hours", value: "10:00 AM - 7:00 PM by appointment" },
+  { label: "Consultation Hours", value: "10:00 AM - 7:00 PM On Appointment" },
   { label: "Emergency Support", value: "Available 24/7" },
 ];
 

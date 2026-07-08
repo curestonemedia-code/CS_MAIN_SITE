@@ -58,7 +58,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-white/5 bg-[#08090A] pt-20 pb-10 text-white">
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="mb-14 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_0.9fr_0.9fr_0.9fr_1.15fr]">
+        <div className="mb-14 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_0.9fr_0.9fr_0.9fr]">
           <div className="space-y-6">
             <Link href="/" className="inline-block w-fit no-underline">
               <div className="relative h-12 w-44">
@@ -71,9 +71,8 @@ export default function Footer() {
                 />
               </div>
             </Link>
-            <p className="max-w-sm text-[13px] leading-relaxed text-white/55">
-              Cure Stone Hospital in Sector 52, Gurgaon provides focused kidney stone care,
-              urology consultations, RIRS, PCNL, URSL, and ESWL treatment planning.
+            <p className="max-w-sm text-[13px] leading-relaxed text-white/55 text-justify">
+              Cure Stone Hospital is a premier urology destination in Gurgaon, delivering precision-driven laser kidney stone surgeries and comprehensive urinary care.
             </p>
             <div className="space-y-3 text-[13px]">
               {contactLinks.map((link) => (
@@ -120,31 +119,6 @@ export default function Footer() {
               </ul>
             </div>
           ))}
-
-          <div className="space-y-5">
-            <h2 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/35">
-              Hospital Location
-            </h2>
-            <p className="text-sm font-semibold leading-6 text-white/80">
-              Cure Stone Hospital, Sector 52, Near Plot 3, Road No D-13 A,
-              Ardee City, Gurugram, Haryana 122003
-            </p>
-            <div className="space-y-3">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-white/35">
-                Consultation Hours
-              </p>
-              <p className="text-sm text-white/70">10:00 AM - 7:00 PM by appointment</p>
-              <p className="text-sm text-white/70">Emergency support available 24/7</p>
-            </div>
-            <a
-              href="https://maps.app.goo.gl/6HjEJfWJu2MwhYiT9"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary no-underline"
-            >
-              Get Directions <span>→</span>
-            </a>
-          </div>
         </div>
 
         {/* Map Section */}

@@ -185,8 +185,8 @@ export default function Sector52SurgeryPage() {
                 <button className="bg-amber-500 text-white px-12 py-5 rounded-full font-sans font-bold text-lg hover:bg-white hover:text-blue-900 transition-all duration-300">
                   Book Free Consultation
                 </button>
-                <a className="text-white flex items-center gap-2 font-sans font-bold text-lg" href="tel:+919876543210">
-                  <span className="material-symbols-outlined">call</span> Sector 52, Gurgaon Helpline: +91 98765 43210
+                <a className="text-white flex items-center gap-2 font-sans font-bold text-lg" href="tel:+918800263884">
+                  <span className="material-symbols-outlined">call</span> Sector 52, Gurgaon Helpline: +91 88002 63884
                 </a>
               </div>
             </div>

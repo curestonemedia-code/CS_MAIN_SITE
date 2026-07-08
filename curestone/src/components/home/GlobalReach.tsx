@@ -46,13 +46,12 @@ export default function GlobalReach() {
           {/* Left Content */}
           <div className="text-white space-y-8">
             <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
-              <span className="text-xs font-black uppercase tracking-[0.2em]">Sector 52, Gurgaon</span>
+              <span className="text-xs font-black uppercase tracking-[0.2em]">Beyond Boundaries</span>
             </div>
 
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[0.95]">
-              Kidney Stone Surgery<br />
-              <span className="text-blue-200/80">and RIRS Care in</span><br />
-              Gurgaon
+              Advanced <br/> Kidney Stone Care,<br />
+              <span className="text-blue-200/80"> Trusted By Patient Across India.</span><br />
             </h2>
 
             <button className="group relative flex items-center gap-4 py-4 px-10 rounded-full bg-white text-blue-700 font-black hover:bg-blue-50 transition-all shadow-2xl shadow-blue-900/20">
