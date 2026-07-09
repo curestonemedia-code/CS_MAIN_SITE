@@ -125,7 +125,7 @@ export default function GurgaonPage() {
               <div className="bg-white p-8 lg:p-10 rounded-[2rem] ambient-shadow border border-slate-200">
                 <h3 className="font-sans text-2xl font-bold text-blue-900 mb-2">Get Free Estimate</h3>
                 <p className="text-slate-600 text-sm mb-8">Personalized cost breakdown for Gurgaon residents</p>
-                <LocationLeadForm locationName="Gurgaon" />
+                <LocationLeadForm />
               </div>
             </div>
           </div>

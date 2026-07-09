@@ -122,7 +122,7 @@ export default function Sector52SurgeryPage() {
               <div className="bg-white p-8 lg:p-10 rounded-[2rem] ambient-shadow border border-slate-200">
                 <h3 className="font-sans text-2xl font-bold text-blue-900 mb-2">Expert Consultation</h3>
                 <p className="text-slate-600 text-sm mb-8">Book an appointment with Sector 52, Gurgaon&apos;s senior urology consultants.</p>
-                <LocationLeadForm locationName="Sector 52" />
+                <LocationLeadForm />
               </div>
             </div>
           </div>

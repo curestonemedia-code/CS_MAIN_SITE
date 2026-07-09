@@ -13,6 +13,7 @@ import {
   validateOptionalSelect,
   validateSelect,
 } from "@/utils/formValidation";
+import { sendCrmLead } from "@/utils/crmWebhook";
 
 const INDIAN_STATES = [
   "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
@@ -22,8 +23,6 @@ const INDIAN_STATES = [
   "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
   "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
-
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMzUdglP89pw8ZCzSt65DIg3bgn43krFUSeGTQ4A8B7AFnSL053agigLcoC78foHgU/exec";
 
 const STONE_SIZES = ["Less than 5mm", "5mm - 10mm", "10mm - 15mm", "15mm - 20mm", "20mm - 30mm", "Greater than 30mm", "Unknown"];
 const CONSULTATION_TYPES = ["Kidney Stone Treatment", "Gall Bladder Stone Treatment", "Urology Treatment", "Andrology Treatment", "Second Opinion", "Online Video Consult"];
@@ -101,7 +100,15 @@ export default function BookPage() {
     };
 
     try {
-      await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      await sendCrmLead({
+        form_type: "book_appointment",
+        name: data.name,
+        phone: data.phone,
+        state: data.state,
+        stoneSize: data.stoneSize,
+        consultationType: data.consultationType,
+        description: payload.description,
+      });
       setSubmitted(true);
     } catch { alert("Connection issue. Please try again or call us directly."); }
     finally { setLoading(false); }

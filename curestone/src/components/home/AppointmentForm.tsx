@@ -10,6 +10,7 @@ import {
   validateOptionalEmail,
   validateSelect,
 } from "@/utils/formValidation";
+import { sendCrmLead } from "@/utils/crmWebhook";
 
 const INDIAN_STATES = [
   "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", 
@@ -36,8 +37,6 @@ const CONSULTATION_TYPES = [
   "UTI Consultation",
   "General Urology",
 ];
-
-const SCRIPT_URL = process.env.NEXT_PUBLIC_APPOINTMENT_FORM_SHEET_URL || "https://script.google.com/macros/s/AKfycbznh1P-N_hf16qop9l3squGsuPrf4nj03pVuWeYawZsdB8DBC1Oct-1SNX6KAZBHyVy8w/exec";
 
 type FormField = "fullName" | "phone" | "state" | "stoneSize" | "consultationType" | "email" | "description";
 type FormErrors = Partial<Record<FormField, string>>;
@@ -70,9 +69,8 @@ export default function AppointmentForm() {
     const formData = new FormData(e.currentTarget);
     const phone = normalizeIndianPhone(formData.get("phone"));
     const data = {
-      source: "Main Website Form",
       name: cleanText(formData.get("fullName")),
-      phone: `+91 ${phone}`,
+      phone,
       state: cleanText(formData.get("state")),
       stoneSize: cleanText(formData.get("stoneSize")),
       consultationType: cleanText(formData.get("consultationType")),
@@ -100,24 +98,18 @@ export default function AppointmentForm() {
 
     setErrors({});
     setLoading(true);
-    
-    const payload = {
-      ...data,
-      email: data.email || "Not Provided",
-      description: data.description || "No description",
-    };
 
     try {
-      // Using 'no-cors' mode as standard for Google Apps Script Web App redirects
-      await fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+      await sendCrmLead({
+        form_type: "book_appointment",
+        name: data.name,
+        phone: data.phone,
+        state: data.state,
+        stoneSize: data.stoneSize,
+        consultationType: data.consultationType,
+        email: data.email || undefined,
+        description: data.description || "No description",
       });
-      
-      // Since 'no-cors' doesn't return a readable response, we assume success 
-      // if the fetch doesn't throw.
       setIsSubmitted(true);
     } catch (error) {
       console.error("Submission Error:", error);

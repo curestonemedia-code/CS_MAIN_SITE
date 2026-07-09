@@ -8,8 +8,8 @@ import {
   validateName,
   validateSelect,
 } from "@/utils/formValidation";
+import { sendCrmLead } from "@/utils/crmWebhook";
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7PzS4zQuLEOyTVe9U0VpcWT3ZR3m9gRMDU6NrVUOQ99D8svQCIZzCCNNv5Y8hki_R/exec";
 const CONSULTATION_TYPES = [
   "Laser Stone Removal (RIRS)",
   "PCNL (Large/Staghorn Stones)",
@@ -31,7 +31,7 @@ function FieldError({ message }: { message?: string }) {
   );
 }
 
-export default function LocationLeadForm({ locationName = "your area" }: { locationName?: string }) {
+export default function LocationLeadForm() {
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -60,25 +60,13 @@ export default function LocationLeadForm({ locationName = "your area" }: { locat
 
     setErrors({});
     setLoading(true);
-    
-    // Create the payload for Google Sheets matching the App Script expectations
-    const data = {
-      source: `Lead from ${locationName}`,
-      name,
-      phone: `${phone}`,
-      state: locationName,
-      stoneSize: "Not Provided",
-      consultationType,
-      email: "Not Provided",
-      description: `Patient requested callback from the ${locationName} landing page.`,
-    };
 
     try {
-      await fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      await sendCrmLead({
+        form_type: "get_estimate",
+        name,
+        phone: `${phone}`,
+        consultationType,
       });
       setIsSubmitted(true);
     } catch (error) {
