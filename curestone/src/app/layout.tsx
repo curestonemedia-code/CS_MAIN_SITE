@@ -229,6 +229,10 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        {/* Warms the DNS/TLS connection to the CRM ahead of form submission,
+            since it's a separate origin from this site's own hosting. */}
+        <link rel="preconnect" href="https://crm.thecurestone.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://crm.thecurestone.com" />
         <meta name="geo.region" content="IN-HR" />
         <meta name="geo.placename" content="Gurgaon, Haryana, India" />
         <meta name="geo.position" content="28.4595;77.0266" />
