@@ -255,3 +255,10 @@ export function formatDate(value?: string) {
 export function getReadTime(post: Pick<BlogCard, "readingTime">) {
   return post.readingTime ? `${post.readingTime} min read` : "Quick read";
 }
+
+export const UNCATEGORIZED_SLUG = "general";
+
+/** The category a post's URL lives under: its first assigned category, or a fallback for uncategorized posts. */
+export function getPostCategorySlug(post: Pick<BlogCard, "categories">) {
+  return post.categories?.[0]?.slug || UNCATEGORIZED_SLUG;
+}
