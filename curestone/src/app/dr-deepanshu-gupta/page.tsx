@@ -102,6 +102,7 @@ const physicianSchema = {
     name: "Cure Stone",
     "@id": "https://thecurestone.com/#organization",
   },
+  sameAs: ["https://drdeepanshugupta.com"],
   knowsAbout: expertises,
 };
 
@@ -174,6 +175,15 @@ export default function DrDeepanshuGuptaPage() {
                   WhatsApp Report
                 </a>
               </div>
+
+              <a
+                href="https://drdeepanshugupta.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-black text-blue-600 hover:underline"
+              >
+                Visit Dr. Gupta&apos;s Personal Website →
+              </a>
             </div>
 
             <div className="order-1 lg:order-2">
