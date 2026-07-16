@@ -19,7 +19,14 @@ type GetEstimateLead = {
   consultationType: string;
 };
 
-export type CrmLeadPayload = BookAppointmentLead | GetEstimateLead;
+type CureStoneAiLead = {
+  form_type: "cure_stone_ai";
+  name: string;
+  phone: string;
+  questions: string[];
+};
+
+export type CrmLeadPayload = BookAppointmentLead | GetEstimateLead | CureStoneAiLead;
 
 export type CrmLeadResponse = {
   status: string;

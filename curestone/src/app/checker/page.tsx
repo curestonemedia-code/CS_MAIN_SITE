@@ -137,6 +137,7 @@ export default function KidneyChatBot() {
   const [isOnboarding, setIsOnboarding] = useState<boolean>(true);
   const [userMsgCount, setUserMsgCount] = useState<number>(0);
   const [isAskingPhone, setIsAskingPhone] = useState<boolean>(false);
+  const [userQuestions, setUserQuestions] = useState<string[]>([]);
 
   const chatRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -153,6 +154,7 @@ export default function KidneyChatBot() {
     setIsOnboarding(true);
     setUserMsgCount(0);
     setIsAskingPhone(false);
+    setUserQuestions([]);
     setInput("");
   }, [language]);
 
@@ -173,12 +175,12 @@ export default function KidneyChatBot() {
     }).catch(console.error);
 
     sendCrmLead({
-      form_type: "get_estimate",
+      form_type: "cure_stone_ai",
       name: userName,
       phone: phoneNumber,
-      consultationType: "Not Sure - Need Diagnosis",
+      questions: userQuestions,
     }).catch((error) => console.error("Checker CRM lead submission failed:", error));
-  }, [phoneNumber, userName]);
+  }, [phoneNumber, userName, userQuestions]);
 
   const addBotMsg = (content: string) => {
     setMessages((prev) => {
@@ -194,6 +196,7 @@ export default function KidneyChatBot() {
     setIsOnboarding(true);
     setUserMsgCount(0);
     setIsAskingPhone(false);
+    setUserQuestions([]);
     setInput("");
     setIsTyping(false);
   };
@@ -255,6 +258,8 @@ export default function KidneyChatBot() {
         return;
       }
 
+      setUserQuestions((prev) => [...prev, text]);
+
       try {
         const res = await fetch("/api/chat", {
           method: "POST",
@@ -281,8 +286,8 @@ export default function KidneyChatBot() {
         setIsTyping(false);
       }
 
-      if (userMsgCount === 0 && !phoneNumber) {
-        setUserMsgCount(1);
+      if (userMsgCount === 1 && !phoneNumber) {
+        setUserMsgCount(2);
         await new Promise((r) => setTimeout(r, 600));
         addBotMsg(ONBOARDING[language].phone);
         setIsAskingPhone(true);
