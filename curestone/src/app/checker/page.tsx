@@ -5,6 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import Image from "next/image";
+import { sendCrmLead } from "@/utils/crmWebhook";
+import { normalizeIndianPhone, validateIndianPhone } from "@/utils/formValidation";
 
 type Message = {
   role: "bot" | "user";
@@ -16,12 +18,12 @@ const ONBOARDING = {
   en: {
     name: "Welcome to **Cure Stone Hospital**. To better assist you with our surgical and consultation services, may I know your name?",
     greeting: (name: string) => `Nice to meet you, **${name}**! 😊\n\nHow can I help you today?\n\nFeel free to ask me anything about kidney stones, RIRS surgery, treatments, or symptoms! 👇`,
-    phone: "To ensure your inquiry is prioritized by **Dr. Deepanshu Gupta**'s surgical team, please share your contact number. This allows us to coordinate your hospital visit efficiently.",
+    phone: "Before we continue, please share your 10-digit mobile number — this ensures your inquiry is prioritized by **Dr. Deepanshu Gupta**'s surgical team and helps us coordinate your hospital visit efficiently.",
   },
   hi: {
     name: "**Cure Stone Hospital** में आपका स्वागत है। हमारी सर्जिकल और परामर्श सेवाओं को बेहतर ढंग से प्रदान करने के लिए, क्या मैं आपका नाम जान सकता हूँ?",
     greeting: (name: string) => `आपसे मिलकर खुशी हुई, **${name}**! 😊\n\nमैं आज आपकी कैसे मदद कर सकता हूँ?\n\nकिडनी स्टोन, RIRS सर्जरी, उपचार या लक्षणों के बारे में कुछ भी पूछें! 👇`,
-    phone: "**डॉ. दीपांशु गुप्ता** की सर्जिकल टीम द्वारा आपकी पूछताछ को प्राथमिकता दी जाए, यह सुनिश्चित करने के लिए कृपया अपना संपर्क नंबर साझा करें। इससे हमें आपके अस्पताल के दौरे का कुशलतापूर्वक समन्वय करने में मदद मिलेगी।",
+    phone: "आगे बढ़ने से पहले, कृपया अपना 10 अंकों का मोबाइल नंबर साझा करें — इससे **डॉ. दीपांशु गुप्ता** की सर्जिकल टीम द्वारा आपकी पूछताछ को प्राथमिकता मिलेगी और हमें आपके अस्पताल के दौरे का समन्वय करने में मदद मिलेगी।",
   },
 };
 
@@ -43,7 +45,7 @@ const QUICK_PROMPTS = {
 const PLACEHOLDERS = {
   name: { en: "Type your full name...", hi: "अपना पूरा नाम लिखें..." },
   chat: { en: "Ask about symptoms, RIRS, or surgery...", hi: "लक्षण, RIRS या सर्जरी के बारे में पूछें..." },
-  phone: { en: "Enter your phone number...", hi: "अपना फ़ोन नंबर दर्ज करें..." },
+  phone: { en: "10-digit mobile number", hi: "10 अंकों का मोबाइल नंबर" },
 };
 
 function renderMarkdown(text: string) {
@@ -134,7 +136,6 @@ export default function KidneyChatBot() {
   const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
   const [isOnboarding, setIsOnboarding] = useState<boolean>(true);
   const [userMsgCount, setUserMsgCount] = useState<number>(0);
-  const [nextPhoneAskCount, setNextPhoneAskCount] = useState<number>(5);
   const [isAskingPhone, setIsAskingPhone] = useState<boolean>(false);
 
   const chatRef = useRef<HTMLDivElement>(null);
@@ -151,7 +152,6 @@ export default function KidneyChatBot() {
     setPhoneNumber(null);
     setIsOnboarding(true);
     setUserMsgCount(0);
-    setNextPhoneAskCount(5);
     setIsAskingPhone(false);
     setInput("");
   }, [language]);
@@ -160,17 +160,24 @@ export default function KidneyChatBot() {
   useEffect(() => { inputRef.current?.focus(); }, [isOnboarding, isAskingPhone, isTyping]);
 
   useEffect(() => {
-    if (phoneNumber && userName) {
-      fetch("/api/capture-data", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userName,
-          phoneNumber,
-          messages: messages.filter(m => m.role === "user").map(m => ({ role: m.role, content: m.content }))
-        })
-      }).catch(console.error);
-    }
+    if (!phoneNumber || !userName) return;
+
+    fetch("/api/capture-data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userName,
+        phoneNumber,
+        messages: messages.filter(m => m.role === "user").map(m => ({ role: m.role, content: m.content }))
+      })
+    }).catch(console.error);
+
+    sendCrmLead({
+      form_type: "get_estimate",
+      name: userName,
+      phone: phoneNumber,
+      consultationType: "Not Sure - Need Diagnosis",
+    }).catch((error) => console.error("Checker CRM lead submission failed:", error));
   }, [phoneNumber, userName]);
 
   const addBotMsg = (content: string) => {
@@ -186,7 +193,6 @@ export default function KidneyChatBot() {
     setPhoneNumber(null);
     setIsOnboarding(true);
     setUserMsgCount(0);
-    setNextPhoneAskCount(5);
     setIsAskingPhone(false);
     setInput("");
     setIsTyping(false);
@@ -220,56 +226,71 @@ export default function KidneyChatBot() {
       setInput("");
       setIsTyping(true);
 
-      let sendToAI = true;
-
       if (isAskingPhone) {
-        const hasPhone = /^\+?\d{10,14}$/.test(text.replace(/\s+/g, ''));
-        setIsAskingPhone(false);
-        if (hasPhone) {
-          setPhoneNumber(text.trim());
-        } else {
-          setNextPhoneAskCount(userMsgCount + 10);
+        let phone = normalizeIndianPhone(text);
+        if (phone.length === 12 && phone.startsWith("91")) {
+          phone = phone.slice(2);
+        } else if (phone.length === 11 && phone.startsWith("0")) {
+          phone = phone.slice(1);
         }
+
+        await new Promise((r) => setTimeout(r, 500));
+
+        if (!validateIndianPhone(phone)) {
+          setPhoneNumber(phone);
+          setIsAskingPhone(false);
+          addBotMsg(
+            language === "en"
+              ? "Thank you! You're all set — go ahead and ask your question. 👇"
+              : "धन्यवाद! अब आप अपना प्रश्न पूछ सकते हैं। 👇"
+          );
+        } else {
+          addBotMsg(
+            language === "en"
+              ? "That doesn't look like a valid mobile number. Please enter a 10-digit Indian mobile number to continue chatting."
+              : "यह मान्य मोबाइल नंबर नहीं लग रहा। कृपया चैट जारी रखने के लिए 10 अंकों का भारतीय मोबाइल नंबर दर्ज करें।"
+          );
+        }
+        setIsTyping(false);
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            language,
+            userName,
+            messages: [...messages, userMsg].slice(-10).map((m) => ({
+              role: m.role === "user" ? "user" : "assistant",
+              content: m.content,
+            })),
+          }),
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        addBotMsg(data.reply);
+      } catch {
+        const err =
+          language === "en"
+            ? "I'm having trouble connecting. Please call **+91 88002 63884** for help."
+            : "मुझसे संपर्क करने में समस्या हो रही है। सहायता के लिए कृपया **+91 88002 63884** पर कॉल करें।";
+        addBotMsg(err);
+      } finally {
+        setIsTyping(false);
+      }
+
+      if (userMsgCount === 0 && !phoneNumber) {
+        setUserMsgCount(1);
+        await new Promise((r) => setTimeout(r, 600));
+        addBotMsg(ONBOARDING[language].phone);
+        setIsAskingPhone(true);
       } else {
         setUserMsgCount((prev) => prev + 1);
-        if (userMsgCount + 1 === nextPhoneAskCount && !phoneNumber) {
-          await new Promise((r) => setTimeout(r, 700));
-          addBotMsg(ONBOARDING[language].phone);
-          setIsAskingPhone(true);
-          setIsTyping(false);
-          sendToAI = false;
-        }
-      }
-
-      if (sendToAI) {
-        try {
-          const res = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              language,
-              userName,
-              messages: [...messages, userMsg].slice(-10).map((m) => ({
-                role: m.role === "user" ? "user" : "assistant",
-                content: m.content,
-              })),
-            }),
-          });
-          const data = await res.json();
-          if (data.error) throw new Error(data.error);
-          addBotMsg(data.reply);
-        } catch {
-          const err =
-            language === "en"
-              ? "I'm having trouble connecting. Please call **+91 88002 63884** for help."
-              : "मुझसे संपर्क करने में समस्या हो रही है। सहायता के लिए कृपया **+91 88002 63884** पर कॉल करें।";
-          addBotMsg(err);
-        } finally {
-          setIsTyping(false);
-        }
       }
     },
-    [isTyping, messages, language, userName, isAskingPhone, phoneNumber, userMsgCount, nextPhoneAskCount]
+    [isTyping, messages, language, userName, isAskingPhone, phoneNumber, userMsgCount]
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -402,20 +423,38 @@ export default function KidneyChatBot() {
                 onSubmit={handleSubmit}
                 className="relative flex items-center bg-slate-100 rounded-2xl md:rounded-full p-1.5 focus-within:ring-2 focus-within:ring-primary/20 transition-all"
               >
+                {isAskingPhone && (
+                  <span className="flex items-center pl-4 pr-3 py-3 text-sm font-bold text-slate-500 border-r border-slate-300/70 shrink-0">
+                    +91
+                  </span>
+                )}
                 <input
                   ref={inputRef}
                   type={isAskingPhone ? "tel" : "text"}
+                  inputMode={isAskingPhone ? "numeric" : "text"}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => {
+                    if (!isAskingPhone) {
+                      setInput(e.target.value);
+                      return;
+                    }
+                    let digits = e.target.value.replace(/\D/g, "");
+                    if (digits.length > 10 && digits.startsWith("91")) {
+                      digits = digits.slice(2);
+                    }
+                    setInput(digits.slice(0, 10));
+                  }}
                   placeholder={PLACEHOLDERS[isOnboarding ? "name" : (isAskingPhone ? "phone" : "chat") as keyof typeof PLACEHOLDERS][language]}
-                  className="flex-grow bg-transparent px-5 py-3 outline-none text-sm font-semibold text-slate-700 placeholder:text-slate-400"
+                  className="grow min-w-0 bg-transparent px-5 py-3 outline-none text-sm font-semibold text-slate-700 placeholder:text-slate-400"
                   disabled={isTyping}
+                  maxLength={isAskingPhone ? 10 : undefined}
+                  pattern={isAskingPhone ? "[6-9][0-9]{9}" : undefined}
                   autoFocus
                 />
                 <button
                   type="submit"
-                  disabled={!input.trim() || isTyping}
-                  className="bg-primary text-white w-12 h-12 md:w-14 md:h-11 rounded-xl md:rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all disabled:opacity-50 shadow-lg shadow-primary/25"
+                  disabled={!input.trim() || isTyping || (isAskingPhone && input.length !== 10)}
+                  className="bg-primary text-white w-12 h-12 md:w-14 md:h-11 rounded-xl md:rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all disabled:opacity-50 shadow-lg shadow-primary/25 shrink-0"
                 >
                   <svg className="w-5 h-5 rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
