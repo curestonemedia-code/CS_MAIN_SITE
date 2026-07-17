@@ -68,7 +68,7 @@ export default function GlobalReach() {
           <div className="relative group overflow-visible">
             <div className="relative z-10 transition-transform duration-1000">
               <Image 
-                src="/Website World Map Cropped.png" 
+                src="/Website World Map Cropped New.png" 
                 alt="Global Reach Patient Stories Collage Map" 
                 width={1000} 
                 height={800} 
