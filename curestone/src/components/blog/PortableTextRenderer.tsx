@@ -87,6 +87,48 @@ function renderBlock(block: PortableTextBlock) {
     );
   }
 
+  if (block._type === "table") {
+    const rows = block.rows || [];
+    if (!rows.length) return null;
+    const [headerRow, ...bodyRows] = rows;
+
+    return (
+      <div
+        key={block._key}
+        className="my-10 overflow-x-auto rounded-3xl border border-slate-100 shadow-xl"
+      >
+        <table className="w-full border-collapse text-left text-base">
+          <thead>
+            <tr className="bg-slate-50">
+              {headerRow.cells.map((cell, i) => (
+                <th
+                  key={i}
+                  className="border-b border-slate-200 px-5 py-3 font-bold text-slate-900"
+                >
+                  {cell}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {bodyRows.map((row) => (
+              <tr key={row._key} className="odd:bg-white even:bg-slate-50/60">
+                {row.cells.map((cell, i) => (
+                  <td
+                    key={i}
+                    className="border-b border-slate-100 px-5 py-3 align-top text-slate-600"
+                  >
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   if (block._type === "youtube") {
     const videoId = getYouTubeId(block.url);
     if (!videoId) return null;

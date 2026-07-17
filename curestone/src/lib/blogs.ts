@@ -74,6 +74,11 @@ export type PortableTextBlock = {
   language?: string;
   code?: string;
   url?: string;
+  rows?: Array<{
+    _key: string;
+    _type: string;
+    cells: string[];
+  }>;
 };
 
 export type BlogPost = BlogCard & {
