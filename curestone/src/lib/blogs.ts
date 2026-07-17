@@ -73,6 +73,7 @@ export type PortableTextBlock = {
   caption?: string;
   language?: string;
   code?: string;
+  url?: string;
 };
 
 export type BlogPost = BlogCard & {

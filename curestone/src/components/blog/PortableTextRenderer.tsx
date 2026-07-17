@@ -87,6 +87,30 @@ function renderBlock(block: PortableTextBlock) {
     );
   }
 
+  if (block._type === "youtube") {
+    const videoId = getYouTubeId(block.url);
+    if (!videoId) return null;
+
+    return (
+      <figure key={block._key} className="my-10">
+        <div className="relative aspect-video overflow-hidden rounded-3xl border border-slate-100 shadow-xl">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}`}
+            title={block.caption || "YouTube video"}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full"
+          />
+        </div>
+        {block.caption && (
+          <figcaption className="mt-3 text-center text-sm font-medium text-slate-500">
+            {block.caption}
+          </figcaption>
+        )}
+      </figure>
+    );
+  }
+
   switch (block.style) {
     case "h2":
       return (
@@ -116,6 +140,21 @@ function renderBlock(block: PortableTextBlock) {
         </p>
       );
   }
+}
+
+// Accepts a plain YouTube link, a bare video ID, or a full <iframe> embed
+// snippet pasted from YouTube's Share → Embed option — only the video ID
+// is ever extracted, the pasted markup itself is never rendered.
+function getYouTubeId(input?: string) {
+  if (!input) return null;
+  const srcMatch = input.match(/src=["']([^"']+)["']/);
+  const source = srcMatch ? srcMatch[1] : input;
+  const idMatch = source.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/
+  );
+  if (idMatch) return idMatch[1];
+  const trimmed = input.trim();
+  return /^[\w-]{11}$/.test(trimmed) ? trimmed : null;
 }
 
 function renderSpans(block: PortableTextBlock) {
