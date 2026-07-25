@@ -192,14 +192,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {post.coverImage?.asset?.url && (
             <div className="mx-auto mt-10 max-w-6xl px-6 lg:px-12">
-              <div className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-slate-100 bg-slate-100 shadow-2xl">
+              <div className="relative overflow-hidden rounded-3xl border border-slate-100 bg-slate-100 shadow-2xl">
                 <SanityImage
                   image={post.coverImage}
                   alt={post.title}
-                  fill
+                  width={post.coverImage.asset?.metadata?.dimensions?.width || 1600}
+                  height={post.coverImage.asset?.metadata?.dimensions?.height || 900}
                   priority
                   sizes="(min-width: 1024px) 1100px, 100vw"
-                  className="object-cover"
+                  className="w-full h-auto"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 to-transparent" />
               </div>
