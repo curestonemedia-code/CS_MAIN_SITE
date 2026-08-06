@@ -353,6 +353,7 @@ export default function DrDeepanshuGuptaPage() {
                     src={exp.src}
                     alt={exp.alt}
                     fill
+                    unoptimized
                     sizes="96px"
                     className="object-contain mix-blend-multiply"
                   />
@@ -375,7 +376,7 @@ export default function DrDeepanshuGuptaPage() {
                   key={member.alt}
                   className="relative h-16 w-16 opacity-60 mix-blend-multiply transition-opacity duration-300 hover:opacity-100 md:h-20 md:w-20 lg:h-24 lg:w-24"
                 >
-                  <Image src={member.src} alt={member.alt} fill sizes="96px" className="object-contain" />
+                  <Image src={member.src} alt={member.alt} fill unoptimized sizes="96px" className="object-contain" />
                 </div>
               ))}
             </div>
