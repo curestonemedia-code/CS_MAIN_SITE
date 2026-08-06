@@ -86,6 +86,65 @@ const expertises = [
   "TURP/HoLEP",
 ];
 
+const workExperience = [
+  {
+    src: "/PNG-Black-e1664728676618.png",
+    alt: "Cure Stone Hospital",
+    title: "Chief Urologist & Founder",
+    location: "Cure Stone Hospital, Gurugram",
+  },
+  {
+    src: "/dr-gupta/apollo.png",
+    alt: "Apollo Hospitals",
+    title: "Visiting Consultant: Urology",
+    location: "Apollo Hospital, Delhi",
+  },
+  {
+    src: "https://i.pinimg.com/474x/88/5d/8a/885d8ac1a17ac7f1f1c9759c573bc8f4.jpg",
+    alt: "RML Hospital",
+    title: "Consultant: Urology & Renal Transplant",
+    location: "Dr RML Hospital and PGIMER",
+  },
+  {
+    src: "https://i.pinimg.com/474x/88/5d/8a/885d8ac1a17ac7f1f1c9759c573bc8f4.jpg",
+    alt: "RML Hospital",
+    title: "Senior Resident: MCh Urology Residency",
+    location: "Dr RML Hospital and PGIMER",
+  },
+  {
+    src: "/dr-gupta/fortis.png",
+    alt: "Fortis Hospital",
+    title: "Senior Resident: Urology & Transplant",
+    location: "Fortis Hospital, Shalimar Bagh, New Delhi",
+  },
+  {
+    src: "/dr-gupta/max.jpg",
+    alt: "Max Healthcare",
+    title: "Senior Resident: Urology & Transplant",
+    location: "Max Hospital, Shalimar Bagh, New Delhi",
+  },
+  {
+    src: "https://upload.wikimedia.org/wikipedia/en/e/e9/Pandit_Bhagwat_Dayal_Sharma_Post_Graduate_Institute_of_Medical_Sciences_logo.png",
+    alt: "PGIMS Rohtak",
+    title: "Senior Resident: General Surgery",
+    location: "Pt. B.D. Sharma, PGIMS, Rohtak",
+  },
+  {
+    src: "https://upload.wikimedia.org/wikipedia/en/e/e9/Pandit_Bhagwat_Dayal_Sharma_Post_Graduate_Institute_of_Medical_Sciences_logo.png",
+    alt: "PGIMS Rohtak",
+    title: "Resident (PG) in General Surgery",
+    location: "Pt. B.D. Sharma, PGIMS, Rohtak",
+  },
+];
+
+const memberships = [
+  { src: "/dr-gupta/member1.png", alt: "Delhi Urological Society" },
+  { src: "/dr-gupta/member2.png", alt: "Urological Society of India" },
+  { src: "/dr-gupta/member3.png", alt: "Urological Association of Asia" },
+  { src: "/dr-gupta/member4.png", alt: "Delhi Medical Association" },
+  { src: "/dr-gupta/member5.png", alt: "European Association of Urology" },
+];
+
 const physicianSchema = {
   "@context": "https://schema.org",
   "@type": "Physician",
@@ -104,6 +163,7 @@ const physicianSchema = {
   },
   sameAs: ["https://drdeepanshugupta.com"],
   knowsAbout: expertises,
+  memberOf: memberships.map((m) => ({ "@type": "Organization", name: m.alt })),
 };
 
 const breadcrumbSchema = {
@@ -269,6 +329,55 @@ export default function DrDeepanshuGuptaPage() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-6 py-16 lg:px-12">
+          <div className="mb-10">
+            <p className="text-xs font-black uppercase tracking-[0.25em] text-primary">
+              Career Timeline
+            </p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+              Work Experience
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {workExperience.map((exp) => (
+              <div
+                key={`${exp.title}-${exp.location}`}
+                className="rounded-3xl border border-blue-50 bg-white p-6 text-center shadow-sm"
+              >
+                <div className="relative mx-auto mb-4 h-24 w-24 rounded-2xl bg-blue-50/50 p-2">
+                  <Image
+                    src={exp.src}
+                    alt={exp.alt}
+                    fill
+                    sizes="96px"
+                    className="object-contain mix-blend-multiply"
+                  />
+                </div>
+                <p className="text-[15px] font-black leading-tight text-slate-900">{exp.title}</p>
+                <p className="mt-2 text-xs font-semibold leading-relaxed text-slate-500">
+                  {exp.location}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-14 text-center">
+            <p className="text-xs font-black uppercase tracking-[0.25em] text-slate-400">
+              Proud Alumni &amp; Member
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-10 md:gap-16 lg:gap-20">
+              {memberships.map((member) => (
+                <div
+                  key={member.alt}
+                  className="relative h-16 w-16 opacity-60 mix-blend-multiply transition-opacity duration-300 hover:opacity-100 md:h-20 md:w-20 lg:h-24 lg:w-24"
+                >
+                  <Image src={member.src} alt={member.alt} fill sizes="96px" className="object-contain" />
+                </div>
+              ))}
             </div>
           </div>
         </section>
