@@ -187,7 +187,7 @@ function renderBlock(block: PortableTextBlock) {
 // Accepts a plain YouTube link, a bare video ID, or a full <iframe> embed
 // snippet pasted from YouTube's Share → Embed option — only the video ID
 // is ever extracted, the pasted markup itself is never rendered.
-function getYouTubeId(input?: string) {
+export function getYouTubeId(input?: string) {
   if (!input) return null;
   const srcMatch = input.match(/src=["']([^"']+)["']/);
   const source = srcMatch ? srcMatch[1] : input;

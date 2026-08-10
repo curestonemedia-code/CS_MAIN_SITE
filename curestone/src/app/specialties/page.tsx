@@ -103,9 +103,9 @@ export default function SpecialtiesPage() {
         <section className="py-16 md:py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {SERVICES.map((service) => (
+              {SERVICES.map((service, i) => (
                 <Link
-                  key={service.slug}
+                  key={i}
                   href={`/specialties/${service.slug}`}
                   className="group flex flex-col p-6 sm:p-10 bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-2xl hover:border-primary/20 transition-all duration-500 no-underline"
                 >

@@ -82,6 +82,25 @@ const facts = [
   { icon: "🔄", title: "Repeat Sessions", desc: "Multiple sessions may be needed for larger stones." },
 ];
 
+// Real video from the Cure Stone YouTube channel embedded on this page.
+// uploadDate/duration pulled from the video's own YouTube watch page metadata.
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "ESWL Procedure Video",
+  description: "Dr. Deepanshu Gupta explains the benefits and drawbacks of ESWL (shock wave lithotripsy) for kidney stone treatment at Cure Stone Hospital, Gurgaon.",
+  thumbnailUrl: ["https://img.youtube.com/vi/tNx0HcofMgc/maxresdefault.jpg"],
+  uploadDate: "2024-05-04T07:00:07-07:00",
+  duration: "PT6M6S",
+  embedUrl: "https://www.youtube.com/embed/tNx0HcofMgc",
+  contentUrl: "https://www.youtube.com/watch?v=tNx0HcofMgc",
+  publisher: {
+    "@type": "Organization",
+    name: "Cure Stone",
+    "@id": "https://thecurestone.com/#organization",
+  },
+};
+
 export default function ESWLPage() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -96,6 +115,10 @@ export default function ESWLPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema).replace(/</g, "\\u003c") }}
       />
       <Navbar />
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-slate-50 overflow-hidden">

@@ -92,6 +92,25 @@ const tableData = [
   { feature: "Anaesthesia", pcnl: "General / Spinal", rirs: "Spinal", eswl: "None" },
 ];
 
+// Real video from the Cure Stone YouTube channel embedded on this page.
+// uploadDate/duration pulled from the video's own YouTube watch page metadata.
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Mini PCNL Procedure Video",
+  description: "Dr. Deepanshu Gupta explains what PCNL (Percutaneous Nephrolithotomy) is and how it's used to treat larger kidney stones at Cure Stone Hospital, Gurgaon.",
+  thumbnailUrl: ["https://img.youtube.com/vi/UL6rs2nAXsU/maxresdefault.jpg"],
+  uploadDate: "2022-10-29T04:30:06-07:00",
+  duration: "PT3M41S",
+  embedUrl: "https://www.youtube.com/embed/UL6rs2nAXsU",
+  contentUrl: "https://www.youtube.com/watch?v=UL6rs2nAXsU",
+  publisher: {
+    "@type": "Organization",
+    name: "Cure Stone",
+    "@id": "https://thecurestone.com/#organization",
+  },
+};
+
 export default function MiniPCNLPage() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -106,6 +125,10 @@ export default function MiniPCNLPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema).replace(/</g, "\\u003c") }}
       />
       <Navbar />
 

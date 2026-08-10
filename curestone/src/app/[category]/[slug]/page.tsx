@@ -1,6 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import PortableTextRenderer from "@/components/blog/PortableTextRenderer";
+import PortableTextRenderer, { getYouTubeId } from "@/components/blog/PortableTextRenderer";
 import SanityImage from "@/components/blog/SanityImage";
 import {
   formatDate,
@@ -10,6 +10,7 @@ import {
   getRelatedBlogs,
   type BlogCard,
 } from "@/lib/blogs";
+import { getYouTubeMeta } from "@/lib/youtube";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
@@ -123,6 +124,35 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     ],
   };
 
+  // Any YouTube videos embedded in this post's body get their own VideoObject
+  // schema so Google can index them as video content, not just page content.
+  const embeddedVideoIds = (post.body || [])
+    .filter((block) => block._type === "youtube")
+    .map((block) => ({ ytId: getYouTubeId(block.url), caption: block.caption }))
+    .filter((v): v is { ytId: string; caption: string | undefined } => v.ytId !== null);
+
+  const videoSchemas = await Promise.all(
+    embeddedVideoIds.map(async ({ ytId, caption }) => {
+      const meta = await getYouTubeMeta(ytId);
+      return {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        name: caption || post.title,
+        description: post.seo?.metaDescription || post.excerpt || post.title,
+        thumbnailUrl: [`https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`],
+        ...(meta.uploadDate ? { uploadDate: meta.uploadDate } : {}),
+        ...(meta.duration ? { duration: meta.duration } : {}),
+        embedUrl: `https://www.youtube.com/embed/${ytId}`,
+        contentUrl: `https://www.youtube.com/watch?v=${ytId}`,
+        publisher: {
+          "@type": "Organization",
+          name: "Cure Stone",
+          "@id": "https://thecurestone.com/#organization",
+        },
+      };
+    })
+  );
+
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <script
@@ -133,6 +163,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
       />
+      {videoSchemas.map((schema) => (
+        <script
+          key={schema.embedUrl}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
+        />
+      ))}
       <Navbar />
 
       <main className="flex-grow pt-28">

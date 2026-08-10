@@ -75,6 +75,25 @@ const faqSchema = {
   })),
 };
 
+// Real video from the Cure Stone YouTube channel embedded on this page.
+// uploadDate/duration pulled from the video's own YouTube watch page metadata.
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "URSL Procedure Video",
+  description: "Live-OT footage of a URSL (ureteroscopic lithotripsy) procedure, performed by Dr. Deepanshu Gupta at Cure Stone Hospital, Gurgaon.",
+  thumbnailUrl: ["https://img.youtube.com/vi/w-0pRk1MyUM/maxresdefault.jpg"],
+  uploadDate: "2022-04-08T20:49:49-07:00",
+  duration: "PT5M31S",
+  embedUrl: "https://www.youtube.com/embed/w-0pRk1MyUM",
+  contentUrl: "https://www.youtube.com/watch?v=w-0pRk1MyUM",
+  publisher: {
+    "@type": "Organization",
+    name: "Cure Stone",
+    "@id": "https://thecurestone.com/#organization",
+  },
+};
+
 const steps = [
   { num: "01", title: "Diagnostic Prep", desc: "A precise CT KUB scan is performed to map the stone's exact size and location." },
   { num: "02", title: "Anaesthesia", desc: "Patient is given spinal or general anaesthesia for comfort during the procedure." },
@@ -107,6 +126,10 @@ export default function URSLPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema).replace(/</g, "\\u003c") }}
+      />
       <Navbar />
 
       {/* Hero */}
@@ -137,7 +160,7 @@ export default function URSLPage() {
               <iframe
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/cQMDYm__gHM?si=-L4YukvgqyoQ6foJ"
+                src="https://www.youtube.com/embed/w-0pRk1MyUM"
                 title="URSL Procedure Video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

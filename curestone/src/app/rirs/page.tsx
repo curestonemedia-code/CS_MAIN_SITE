@@ -75,6 +75,25 @@ const faqSchema = {
   })),
 };
 
+// Real video from the Cure Stone YouTube channel embedded on this page.
+// uploadDate/duration pulled from the video's own YouTube watch page metadata.
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "RIRS Procedure Video",
+  description: "Live-OT footage of a laser RIRS procedure for a 10mm kidney stone, performed by Dr. Deepanshu Gupta at Cure Stone Hospital, Gurgaon.",
+  thumbnailUrl: ["https://img.youtube.com/vi/cQMDYm__gHM/maxresdefault.jpg"],
+  uploadDate: "2026-03-17T07:30:39-07:00",
+  duration: "PT6M29S",
+  embedUrl: "https://www.youtube.com/embed/cQMDYm__gHM",
+  contentUrl: "https://www.youtube.com/watch?v=cQMDYm__gHM",
+  publisher: {
+    "@type": "Organization",
+    name: "Cure Stone",
+    "@id": "https://thecurestone.com/#organization",
+  },
+};
+
 const steps = [
   { num: "01", title: "Anaesthesia", desc: "Spinal or general anaesthesia is administered. The patient is comfortable throughout." },
   { num: "02", title: "Scope Insertion", desc: "A thin, flexible ureteroscope is guided through the urethra — no incisions required." },
@@ -108,6 +127,10 @@ export default function RIRSPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema).replace(/</g, "\\u003c") }}
       />
       <Navbar />
 
