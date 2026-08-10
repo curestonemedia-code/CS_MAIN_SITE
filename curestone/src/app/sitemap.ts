@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { escapeXml } from "@/lib/xml";
 
 const SITE_URL = "https://thecurestone.com";
 
@@ -100,11 +101,22 @@ const VIDEOS_BY_PATH: Record<string, MetadataRoute.Sitemap[number]["videos"]> = 
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return STATIC_ROUTES.map((route) => ({
-    url: `${SITE_URL}${route.path}`,
-    lastModified: new Date(),
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
-    ...(VIDEOS_BY_PATH[route.path] ? { videos: VIDEOS_BY_PATH[route.path] } : {}),
-  }));
+  return STATIC_ROUTES.map((route) => {
+    const videos = VIDEOS_BY_PATH[route.path];
+    return {
+      url: `${SITE_URL}${route.path}`,
+      lastModified: new Date(),
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+      ...(videos
+        ? {
+            videos: videos.map((video) => ({
+              ...video,
+              title: escapeXml(video.title),
+              description: escapeXml(video.description),
+            })),
+          }
+        : {}),
+    };
+  });
 }

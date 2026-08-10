@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SERVICES } from "@/constants/services";
+import { escapeXml } from "@/lib/xml";
 
 const SITE_URL = "https://thecurestone.com";
 
@@ -21,9 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...(service.slug
         ? {
             videos: service.videoGallery.map((video) => ({
-              title: video.title,
+              title: escapeXml(video.title),
               thumbnail_loc: `https://img.youtube.com/vi/${video.ytId}/maxresdefault.jpg`,
-              description: `${video.title} — ${service.name} at Cure Stone Hospital, Gurgaon.`,
+              description: escapeXml(`${video.title} — ${service.name} at Cure Stone Hospital, Gurgaon.`),
               player_loc: `https://www.youtube.com/embed/${video.ytId}`,
               family_friendly: "yes" as const,
             })),
