@@ -126,22 +126,33 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   // Any YouTube videos embedded in this post's body get their own VideoObject
   // schema so Google can index them as video content, not just page content.
+  // uploadDate/duration come from the editor-filled Sanity fields first (see
+  // schemaTypes/youtube.ts) — only unpublished-vintage posts without those
+  // filled in fall back to getYouTubeMeta()'s known-video table / live fetch.
   const embeddedVideoIds = (post.body || [])
     .filter((block) => block._type === "youtube")
-    .map((block) => ({ ytId: getYouTubeId(block.url), caption: block.caption }))
-    .filter((v): v is { ytId: string; caption: string | undefined } => v.ytId !== null);
+    .map((block) => ({
+      ytId: getYouTubeId(block.url),
+      caption: block.caption,
+      uploadDate: block.uploadDate,
+      duration: block.duration,
+    }))
+    .filter(
+      (v): v is { ytId: string; caption: string | undefined; uploadDate: string | undefined; duration: string | undefined } =>
+        v.ytId !== null
+    );
 
   const videoSchemas = await Promise.all(
-    embeddedVideoIds.map(async ({ ytId, caption }) => {
-      const meta = await getYouTubeMeta(ytId);
+    embeddedVideoIds.map(async ({ ytId, caption, uploadDate, duration }) => {
+      const meta = uploadDate && duration ? {} : await getYouTubeMeta(ytId);
       return {
         "@context": "https://schema.org",
         "@type": "VideoObject",
         name: caption || post.title,
         description: post.seo?.metaDescription || post.excerpt || post.title,
         thumbnailUrl: [`https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`],
-        ...(meta.uploadDate ? { uploadDate: meta.uploadDate } : {}),
-        ...(meta.duration ? { duration: meta.duration } : {}),
+        ...(uploadDate || meta.uploadDate ? { uploadDate: uploadDate || meta.uploadDate } : {}),
+        ...(duration || meta.duration ? { duration: duration || meta.duration } : {}),
         embedUrl: `https://www.youtube.com/embed/${ytId}`,
         contentUrl: `https://www.youtube.com/watch?v=${ytId}`,
         publisher: {

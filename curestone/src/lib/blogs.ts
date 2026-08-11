@@ -74,6 +74,8 @@ export type PortableTextBlock = {
   language?: string;
   code?: string;
   url?: string;
+  uploadDate?: string;
+  duration?: string;
   rows?: Array<{
     _key: string;
     _type: string;
