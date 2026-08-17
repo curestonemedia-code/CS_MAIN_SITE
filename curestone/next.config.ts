@@ -52,11 +52,11 @@ const MIGRATION_REDIRECTS: Array<{ source: string; destination: string }> = [
     destination: "/kidney/post-surgical-care-after-urological-procedures-essential-tips-for-recovery",
   },
   {
-    source: "/dj-stent/dj-stent-double‑j-explained-uses-benefits-faqs",
+    source: "/dj-stent/dj-stent-double%E2%80%91j-explained-uses-benefits-faqs",
     destination: "/dj-stent/dj-stent-doublej-explained-uses-benefits-faqs",
   },
   {
-    source: "/kidney/post‑surgical-care-after-urological-procedures-essential-tips-for-recovery",
+    source: "/kidney/post%E2%80%91surgical-care-after-urological-procedures-essential-tips-for-recovery",
     destination: "/kidney/post-surgical-care-after-urological-procedures-essential-tips-for-recovery",
   },
 
@@ -69,23 +69,23 @@ const MIGRATION_REDIRECTS: Array<{ source: string; destination: string }> = [
 
   // --- Real, published Hindi posts (truncated old slugs).
   {
-    source: "/kidney/एक-किडनी-वाले-मरीज-के-लिए-क",
+    source: "/kidney/%E0%A4%8F%E0%A4%95-%E0%A4%95%E0%A4%BF%E0%A4%A1%E0%A4%A8%E0%A5%80-%E0%A4%B5%E0%A4%BE%E0%A4%B2%E0%A5%87-%E0%A4%AE%E0%A4%B0%E0%A5%80%E0%A4%9C-%E0%A4%95%E0%A5%87-%E0%A4%B2%E0%A4%BF%E0%A4%8F-%E0%A4%95",
     destination: "/kidney/एक-किडनी-वाले-मरीज-के-लिए-कौन-सी-सर्जरी-सुरक्षित-है",
   },
   {
-    source: "/kidney-stones/किडनी-स्टोन-बार-बार-क्यों",
+    source: "/kidney-stones/%E0%A4%95%E0%A4%BF%E0%A4%A1%E0%A4%A8%E0%A5%80-%E0%A4%B8%E0%A5%8D%E0%A4%9F%E0%A5%8B%E0%A4%A8-%E0%A4%AC%E0%A4%BE%E0%A4%B0-%E0%A4%AC%E0%A4%BE%E0%A4%B0-%E0%A4%95%E0%A5%8D%E0%A4%AF%E0%A5%8B%E0%A4%82",
     destination: "/kidney-stones/किडनी-स्टोन-बार-बार-क्यों-बनते-हैं",
   },
   {
-    source: "/kidney-stones/किडनी-स्टोन-के-लिए-लेज़र-स",
+    source: "/kidney-stones/%E0%A4%95%E0%A4%BF%E0%A4%A1%E0%A4%A8%E0%A5%80-%E0%A4%B8%E0%A5%8D%E0%A4%9F%E0%A5%8B%E0%A4%A8-%E0%A4%95%E0%A5%87-%E0%A4%B2%E0%A4%BF%E0%A4%8F-%E0%A4%B2%E0%A5%87%E0%A4%9C%E0%A4%BC%E0%A4%B0-%E0%A4%B8",
     destination: "/kidney-stones/किडनी-स्टोन-लेज़र-सर्जरी-कितनी-सुरक्षित-है",
   },
   {
-    source: "/treatment-option/प्रोस्टेट-बढ़ने-पर-हमेशा",
+    source: "/treatment-option/%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A5%8B%E0%A4%B8%E0%A5%8D%E0%A4%9F%E0%A5%87%E0%A4%9F-%E0%A4%AC%E0%A4%A2%E0%A4%BC%E0%A4%A8%E0%A5%87-%E0%A4%AA%E0%A4%B0-%E0%A4%B9%E0%A4%AE%E0%A5%87%E0%A4%B6%E0%A4%BE",
     destination: "/treatment-option/प्रोस्टेट-बढ़ने-पर-हमेशा-सर्जरी-ज़रूरी-है-क्या",
   },
   {
-    source: "/kidney/किडनी-और-ब्लैडर-हेल्थ-के-ल",
+    source: "/kidney/%E0%A4%95%E0%A4%BF%E0%A4%A1%E0%A4%A8%E0%A5%80-%E0%A4%94%E0%A4%B0-%E0%A4%AC%E0%A5%8D%E0%A4%B2%E0%A5%88%E0%A4%A1%E0%A4%B0-%E0%A4%B9%E0%A5%87%E0%A4%B2%E0%A5%8D%E0%A4%A5-%E0%A4%95%E0%A5%87-%E0%A4%B2",
     destination: "/kidney/किडनी-और-ब्लैडर-हेल्थ-के-लिए-बेस्ट-डाइट",
   },
 

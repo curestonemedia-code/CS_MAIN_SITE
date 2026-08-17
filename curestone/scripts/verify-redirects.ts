@@ -117,11 +117,7 @@ async function verifyBatch(rows: CsvRow[], label: string) {
       continue;
     }
 
-    // Next's own trailing-slash normalization runs before proxy.ts sees the
-    // request, so a URL that had a trailing slash always arrives there
-    // stripped — normalize the same way before checking the exact-path set.
-    const strippedPath = pathOnly.length > 1 && pathOnly.endsWith("/") ? pathOnly.slice(0, -1) : pathOnly;
-    const expectGone = GONE_EXACT_PATHS.has(strippedPath) || GONE_PATTERNS.some((re) => re.test(pathOnly));
+    const expectGone = GONE_EXACT_PATHS.has(pathOnly) || GONE_PATTERNS.some((re) => re.test(pathOnly));
 
     if (error) {
       failures.push({ source: url, reason: error, chain });
