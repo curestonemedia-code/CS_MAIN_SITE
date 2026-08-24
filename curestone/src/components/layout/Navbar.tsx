@@ -43,9 +43,9 @@ export default function Navbar() {
   }, [pathname]);
 
   const navLinks = [
-    { name: "Home", href: "/" },
     { name: "Cure Stone AI", href: "/checker", highlight: true },
     { name: "Specialties", href: "/specialties" },
+    { name: "Blog", href: "/blog" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];

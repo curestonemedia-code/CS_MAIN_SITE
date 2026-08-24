@@ -1,5 +1,16 @@
 import { cleanText, sanityFetch } from "./sanity";
 
+// This dataset is now shared with drdeepanshugupta.com — one Studio, one
+// taxonomy. Categories, tags and authors are common to both; only blogPost
+// documents are site-specific, via `siteId`. Every query below scopes to it
+// so the two sites' posts never leak into each other's blog index, category
+// counts, or related-posts lists.
+//
+// coalesce() here (unlike the Dr. Deepanshu Gupta side): every post written
+// before this field existed has no siteId at all, and those are all Cure
+// Stone's own posts, so a missing value must still resolve here.
+const SITE_MATCH = `coalesce(siteId, "cure-stone") == "cure-stone"`;
+
 export const BLOGS_PER_PAGE = 12;
 
 export type BlogTaxonomy = {
@@ -124,6 +135,7 @@ const cardFields = `
 
 const baseFilter = `
   _type == "blogPost" &&
+  ${SITE_MATCH} &&
   defined(slug.current) &&
   isPublished != false &&
   ($category == null || references(*[_type == "category" && slug.current == $category][0]._id)) &&
@@ -156,7 +168,7 @@ export async function getBlogIndex(filters: BlogFilters) {
         title,
         "slug": slug.current,
         description,
-        "count": count(*[_type == "blogPost" && isPublished != false && references(^._id)])
+        "count": count(*[_type == "blogPost" && ${SITE_MATCH} && isPublished != false && references(^._id)])
       }`,
     }),
   ]);
@@ -173,7 +185,7 @@ export async function getBlogIndex(filters: BlogFilters) {
 export async function getBlogPost(slug: string) {
   const slugCandidates = getSlugCandidates(slug);
   const post = await sanityFetch<BlogPost | null>({
-    query: `*[_type == "blogPost" && slug.current in $slugs && isPublished != false][0]{
+    query: `*[_type == "blogPost" && ${SITE_MATCH} && slug.current in $slugs && isPublished != false][0]{
       ${cardFields},
       body[]{
         ...,
@@ -200,6 +212,7 @@ export async function getRelatedBlogs(post: BlogPost, limit = 3) {
   const related = await sanityFetch<BlogCard[]>({
     query: `*[
       _type == "blogPost" &&
+      ${SITE_MATCH} &&
       _id != $id &&
       isPublished != false &&
       count((categories[]._ref)[@ in $categoryIds]) > 0
