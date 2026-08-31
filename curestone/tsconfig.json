@@ -9,6 +9,12 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    // Lets scripts/sync-video-meta.ts import "../src/lib/youtube.ts" with an
+    // explicit extension — required for it to run standalone via plain
+    // `node`, which needs a real resolvable specifier for relative ESM
+    // imports. Doesn't affect the Next.js app itself: noEmit is already
+    // true, and Next's own bundler resolves extensionless imports as before.
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",

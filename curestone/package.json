@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "verify-redirects": "node scripts/verify-redirects.ts"
+    "verify-redirects": "node scripts/verify-redirects.ts",
+    "sync-video-meta": "node scripts/sync-video-meta.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
