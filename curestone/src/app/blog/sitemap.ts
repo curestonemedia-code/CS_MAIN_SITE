@@ -16,7 +16,7 @@ async function getAllBlogSlugs(): Promise<SlugEntry[]> {
     // The dataset is shared with drdeepanshugupta.com — without this scope
     // their posts would show up in Cure Stone's own sitemap.
     return await sanityFetch<SlugEntry[]>({
-      query: `*[_type == "blogPost" && coalesce(siteId, "cure-stone") == "cure-stone" && defined(slug.current) && isPublished != false]{
+      query: `*[_type == "blogPost" && coalesce(siteId, "cure-stone") == "cure-stone" && defined(slug.current) && isPublished != false && coalesce(publishStatus, "published") == "published"]{
         "slug": slug.current,
         publishedAt,
         updatedAt,

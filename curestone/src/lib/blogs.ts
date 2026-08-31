@@ -11,6 +11,14 @@ import { cleanText, sanityFetch } from "./sanity";
 // Stone's own posts, so a missing value must still resolve here.
 const SITE_MATCH = `coalesce(siteId, "cure-stone") == "cure-stone"`;
 
+// Draft and Scheduled posts are real, queryable documents (not Sanity
+// drafts) so editors can preview them — this is what actually keeps them
+// off the live site. A missing publishStatus (every post written before
+// this field existed) resolves to Published, so nothing already live
+// needs migrating. A daily Scheduled Function flips Scheduled -> Published
+// once scheduledAt has passed (see /blueprint).
+const PUBLISH_STATUS_MATCH = `coalesce(publishStatus, "published") == "published"`;
+
 export const BLOGS_PER_PAGE = 12;
 
 export type BlogTaxonomy = {
@@ -137,7 +145,7 @@ const baseFilter = `
   _type == "blogPost" &&
   ${SITE_MATCH} &&
   defined(slug.current) &&
-  isPublished != false &&
+  isPublished != false && ${PUBLISH_STATUS_MATCH} &&
   ($category == null || references(*[_type == "category" && slug.current == $category][0]._id)) &&
   ($search == null || title match $search || excerpt match $search)
 `;
@@ -168,7 +176,7 @@ export async function getBlogIndex(filters: BlogFilters) {
         title,
         "slug": slug.current,
         description,
-        "count": count(*[_type == "blogPost" && ${SITE_MATCH} && isPublished != false && references(^._id)])
+        "count": count(*[_type == "blogPost" && ${SITE_MATCH} && isPublished != false && ${PUBLISH_STATUS_MATCH} && references(^._id)])
       }`,
     }),
   ]);
@@ -185,7 +193,7 @@ export async function getBlogIndex(filters: BlogFilters) {
 export async function getBlogPost(slug: string) {
   const slugCandidates = getSlugCandidates(slug);
   const post = await sanityFetch<BlogPost | null>({
-    query: `*[_type == "blogPost" && ${SITE_MATCH} && slug.current in $slugs && isPublished != false][0]{
+    query: `*[_type == "blogPost" && ${SITE_MATCH} && slug.current in $slugs && isPublished != false && ${PUBLISH_STATUS_MATCH}][0]{
       ${cardFields},
       body[]{
         ...,
@@ -214,7 +222,7 @@ export async function getRelatedBlogs(post: BlogPost, limit = 3) {
       _type == "blogPost" &&
       ${SITE_MATCH} &&
       _id != $id &&
-      isPublished != false &&
+      isPublished != false && ${PUBLISH_STATUS_MATCH} &&
       count((categories[]._ref)[@ in $categoryIds]) > 0
     ] | order(publishedAt desc)[0...${limit}]{${cardFields}}`,
     params: { id: post._id, categoryIds, limit },
