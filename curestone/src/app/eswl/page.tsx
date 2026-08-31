@@ -226,6 +226,11 @@ export default function ESWLPage() {
               <Link href="/book" className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 bg-primary text-white font-black rounded-2xl shadow-xl shadow-primary/30 hover:bg-primary-dark hover:scale-105 transition-all text-center">
                 Get Expert Opinion →
               </Link>
+              <p className="mt-4">
+                <Link href="/eswl-in-gurgaon" className="text-slate-500 text-sm font-bold underline underline-offset-4 hover:text-primary">
+                  Ready to book in Gurgaon? See Cure Stone Hospital, Sector 52 →
+                </Link>
+              </p>
             </div>
           </div>
         </div>

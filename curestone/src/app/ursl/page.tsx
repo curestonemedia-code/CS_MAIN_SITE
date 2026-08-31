@@ -335,6 +335,11 @@ export default function URSLPage() {
                   <a href="tel:+918800263884" className="px-10 py-5 bg-green-600 text-white font-black rounded-2xl shadow-xl hover:bg-green-700 hover:scale-105 transition-all text-lg">📞 Call +91 88002 63884</a>
                   <Link href="/book" className="px-10 py-5 bg-white border-2 border-green-200 text-green-700 font-black rounded-2xl hover:bg-green-50 transition-all shadow-sm text-lg underline decoration-green-200 decoration-4 underline-offset-8">Book Priority Consult</Link>
                 </div>
+                <p className="mt-8">
+                  <Link href="/ursl-in-gurgaon" className="text-green-700/70 text-sm font-bold underline underline-offset-4 hover:text-green-900">
+                    Ready to book in Gurgaon? See Cure Stone Hospital, Sector 52 →
+                  </Link>
+                </p>
               </div>
             </div>
           </div>

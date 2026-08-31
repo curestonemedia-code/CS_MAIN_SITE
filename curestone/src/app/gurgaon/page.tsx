@@ -175,6 +175,29 @@ export default function GurgaonPage() {
         {/* Global Reach Component */}
         <GlobalReach />
 
+        {/* Explore by Procedure */}
+        <section className="py-20 bg-slate-50">
+          <div className="max-w-7xl mx-auto px-8">
+            <h2 className="font-sans text-3xl lg:text-4xl font-bold text-blue-900 tracking-tight mb-10 text-center">Explore Treatment Options in Gurgaon</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { label: "RIRS in Gurgaon", href: "/rirs-in-gurgaon" },
+                { label: "Mini-PCNL in Gurgaon", href: "/mini-pcnl-in-gurgaon" },
+                { label: "ESWL in Gurgaon", href: "/eswl-in-gurgaon" },
+                { label: "URSL in Gurgaon", href: "/ursl-in-gurgaon" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="bg-white border border-slate-200 rounded-2xl p-6 text-center font-sans font-bold text-blue-900 hover:border-amber-400 hover:shadow-md transition-all"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-20 max-w-7xl mx-auto px-8">
           <div className="editorial-gradient rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden">
@@ -185,8 +208,8 @@ export default function GurgaonPage() {
                 <Link href="/book" className="bg-amber-500 text-white px-12 py-5 rounded-full font-sans font-bold text-lg hover:bg-white hover:text-blue-900 transition-all duration-300">
                   Book Free Appointment
                 </Link>
-                <a className="text-white flex items-center gap-2 font-sans font-bold text-lg" href="tel:+919876543210">
-                  <span className="material-symbols-outlined">call</span> Call +91 98765 43210
+                <a className="text-white flex items-center gap-2 font-sans font-bold text-lg" href="tel:+918800263884">
+                  <span className="material-symbols-outlined">call</span> Call +91 88002 63884
                 </a>
               </div>
             </div>

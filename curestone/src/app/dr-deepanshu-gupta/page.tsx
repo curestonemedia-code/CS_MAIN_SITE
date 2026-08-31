@@ -148,6 +148,7 @@ const memberships = [
 const physicianSchema = {
   "@context": "https://schema.org",
   "@type": "Physician",
+  "@id": `${URL}#physician`,
   name: "Dr. Deepanshu Gupta",
   image: "https://thecurestone.com/og-image.svg",
   url: URL,

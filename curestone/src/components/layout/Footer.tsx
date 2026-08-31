@@ -26,13 +26,22 @@ const footerSections = [
     ],
   },
   {
+    title: "Book in Gurgaon",
+    links: [
+      { label: "RIRS in Gurgaon", href: "/rirs-in-gurgaon" },
+      { label: "Mini-PCNL in Gurgaon", href: "/mini-pcnl-in-gurgaon" },
+      { label: "ESWL in Gurgaon", href: "/eswl-in-gurgaon" },
+      { label: "URSL in Gurgaon", href: "/ursl-in-gurgaon" },
+    ],
+  },
+  {
     title: "Patient Resources",
     links: [
       { label: "Health Blog", href: "/blog" },
       { label: "FAQs", href: "/faqs" },
       { label: "Cure Stone AI", href: "/checker" },
       { label: "Book Consultation", href: "/book" },
-      { label: "RIRS Surgery Cost in Gurgaon", href: "/gurgaon" },
+      { label: "RIRS in Gurgaon", href: "/rirs-in-gurgaon" },
       { label: "Urologist Doctor Gurgaon", href: "/sector-52" },
     ],
   },
@@ -58,7 +67,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-white/5 bg-[#08090A] pt-20 pb-10 text-white">
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="mb-14 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_0.9fr_0.9fr_0.9fr]">
+        <div className="mb-14 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_0.8fr]">
           <div className="space-y-6">
             <Link href="/" className="inline-block w-fit no-underline">
               <div className="relative h-12 w-44">

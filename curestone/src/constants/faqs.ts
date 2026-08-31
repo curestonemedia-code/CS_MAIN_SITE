@@ -165,6 +165,86 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     ],
   },
   {
+    slug: "rirs-gurgaon",
+    title: "RIRS in Gurgaon — Hospital & Booking",
+    relatedHref: "/rirs-in-gurgaon",
+    relatedLabel: "RIRS in Gurgaon",
+    items: [
+      {
+        q: "Where is Cure Stone Hospital located for RIRS surgery in Gurgaon?",
+        a: "Cure Stone Hospital is located in Sector 52, Ardee City, Gurgaon, Haryana 122003. Full directions and a map are available on the RIRS in Gurgaon page.",
+      },
+      {
+        q: "How do I book RIRS surgery at Cure Stone, Gurgaon?",
+        a: "You can book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884. Your CT KUB scan is reviewed before confirming RIRS as the right procedure.",
+      },
+      {
+        q: "Is parking available at Cure Stone Hospital, Sector 52?",
+        a: "Yes, on-site parking is available for patients and attendants visiting for RIRS consultations or surgery.",
+      },
+    ],
+  },
+  {
+    slug: "mini-pcnl-gurgaon",
+    title: "Mini-PCNL in Gurgaon — Hospital & Booking",
+    relatedHref: "/mini-pcnl-in-gurgaon",
+    relatedLabel: "Mini-PCNL in Gurgaon",
+    items: [
+      {
+        q: "Where is Mini-PCNL surgery performed in Gurgaon?",
+        a: "Mini-PCNL procedures at Cure Stone are performed at the hospital's Sector 52, Ardee City facility in Gurgaon, Haryana 122003.",
+      },
+      {
+        q: "How do I book a Mini-PCNL consultation at Cure Stone, Gurgaon?",
+        a: "Book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884, with your CT KUB scan ready for review.",
+      },
+      {
+        q: "Does Cure Stone Hospital in Gurgaon assist with cashless insurance for Mini-PCNL?",
+        a: "Yes, most Mini-PCNL procedures are covered under cashless health insurance when medically indicated, and Cure Stone's team assists with documentation and approvals.",
+      },
+    ],
+  },
+  {
+    slug: "eswl-gurgaon",
+    title: "ESWL in Gurgaon — Hospital & Booking",
+    relatedHref: "/eswl-in-gurgaon",
+    relatedLabel: "ESWL in Gurgaon",
+    items: [
+      {
+        q: "Where can I get ESWL treatment in Gurgaon?",
+        a: "ESWL sessions at Cure Stone are performed at the hospital's Sector 52, Ardee City facility in Gurgaon, Haryana 122003.",
+      },
+      {
+        q: "How do I book an ESWL session at Cure Stone, Gurgaon?",
+        a: "Book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884. ESWL sessions are scheduled after your CT KUB scan is reviewed.",
+      },
+      {
+        q: "Is ESWL available as a same-day outpatient procedure at Cure Stone, Gurgaon?",
+        a: "Yes, ESWL is typically an outpatient procedure at Cure Stone's Gurgaon facility, with most patients going home the same day.",
+      },
+    ],
+  },
+  {
+    slug: "ursl-gurgaon",
+    title: "URSL in Gurgaon — Hospital & Booking",
+    relatedHref: "/ursl-in-gurgaon",
+    relatedLabel: "URSL in Gurgaon",
+    items: [
+      {
+        q: "Where is URSL surgery performed in Gurgaon?",
+        a: "URSL procedures at Cure Stone are performed at the hospital's Sector 52, Ardee City facility in Gurgaon, Haryana 122003.",
+      },
+      {
+        q: "Can I book an urgent URSL consultation at Cure Stone, Gurgaon?",
+        a: "Yes — ureteric stones causing severe pain or blockage can be urgent. Call +91 88002 63884 directly for priority scheduling, or use the online booking form for a standard consultation.",
+      },
+      {
+        q: "How do I book a URSL consultation at Cure Stone, Gurgaon?",
+        a: "Book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884, with your CT KUB scan ready for review.",
+      },
+    ],
+  },
+  {
     slug: "cost-appointments",
     title: "Cost, Insurance & Appointments",
     relatedHref: "/book",

@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import type { Metadata } from "next";
+import Link from "next/link";
 import DoctorProfile from "@/components/home/DoctorProfile";
 import GlobalReach from "@/components/home/GlobalReach";
 import LocationLeadForm from "@/components/home/LocationLeadForm";
@@ -172,6 +173,29 @@ export default function Sector52SurgeryPage() {
         <DoctorProfile />
 
         <GlobalReach />
+
+        {/* Explore by Procedure */}
+        <section className="py-20 bg-slate-50">
+          <div className="max-w-7xl mx-auto px-8">
+            <h2 className="font-sans text-3xl lg:text-4xl font-bold text-blue-900 tracking-tight mb-10 text-center">Explore Treatment Options in Sector 52</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { label: "RIRS in Gurgaon", href: "/rirs-in-gurgaon" },
+                { label: "Mini-PCNL in Gurgaon", href: "/mini-pcnl-in-gurgaon" },
+                { label: "ESWL in Gurgaon", href: "/eswl-in-gurgaon" },
+                { label: "URSL in Gurgaon", href: "/ursl-in-gurgaon" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="bg-white border border-slate-200 rounded-2xl p-6 text-center font-sans font-bold text-blue-900 hover:border-amber-400 hover:shadow-md transition-all"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* Localized CTA Section */}
         <section className="py-20 max-w-7xl mx-auto px-8">

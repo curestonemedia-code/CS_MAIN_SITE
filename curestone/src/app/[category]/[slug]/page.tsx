@@ -9,6 +9,7 @@ import {
   getReadTime,
   getRelatedBlogs,
   type BlogCard,
+  type PortableTextBlock,
 } from "@/lib/blogs";
 import { getYouTubeMeta } from "@/lib/youtube";
 import type { Metadata } from "next";
@@ -104,6 +105,27 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     },
   };
 
+  // FAQPage schema, extracted from the post's own visible content rather than
+  // invented: some articles are written with question-style H2/H3 headings
+  // ("What is the best treatment for...?") followed by their answer
+  // paragraph(s). Google requires FAQPage markup to mirror on-page content,
+  // so posts without this pattern simply get no FAQPage block — nothing is
+  // fabricated to force one.
+  const faqPairs = extractFaqPairs(post.body || []);
+
+  const faqSchema =
+    faqPairs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqPairs.map(({ question, answer }) => ({
+            "@type": "Question",
+            name: question,
+            acceptedAnswer: { "@type": "Answer", text: answer },
+          })),
+        }
+      : null;
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -174,6 +196,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
+        />
+      )}
       {videoSchemas.map((schema) => (
         <script
           key={schema.embedUrl}
@@ -351,4 +379,89 @@ function RelatedCard({ post }: { post: BlogCard }) {
       </div>
     </Link>
   );
+}
+
+function blockText(block: PortableTextBlock): string {
+  return (block.children || [])
+    .map((child) => child.text || "")
+    .join("")
+    .trim();
+}
+
+const FAQ_HEADING_RE = /frequently asked questions|^faqs?\b/i;
+
+function isFaqSectionHeading(block: PortableTextBlock): boolean {
+  if (block.style !== "h2" && block.style !== "h3") return false;
+  return FAQ_HEADING_RE.test(blockText(block));
+}
+
+// Two house styles are used for an individual FAQ entry, inconsistently
+// across two-plus years of content:
+//   A (newer posts)  — the question is a fully-bold "normal" paragraph
+//                       ending in "?", immediately followed by a plain
+//                       answer paragraph.
+//   B (legacy posts) — the question is its own H3 heading ending in "?",
+//                       immediately followed by a plain answer paragraph.
+// Both are only recognised once already inside an FAQ section (see
+// extractFaqPairs) — outside that section an H3 or bold sentence ending in
+// "?" is just article prose, not an FAQ item.
+function isQuestionBlock(block: PortableTextBlock): boolean {
+  const text = blockText(block);
+  if (!text.endsWith("?")) return false;
+
+  if (block.style === "h3") return true; // pattern B
+
+  if (block._type === "block" && block.style === "normal" && !block.listItem) {
+    const visibleSpans = (block.children || []).filter((child) => (child.text || "").trim().length > 0);
+    if (visibleSpans.length === 0) return false;
+    return visibleSpans.every((child) => (child.marks || []).includes("strong")); // pattern A
+  }
+
+  return false;
+}
+
+/**
+ * Pulls real Q&A pairs out of a post's own body — never invented. Google
+ * requires FAQPage markup to mirror on-page content exactly, so this only
+ * extracts from an explicit "Frequently Asked Questions" (or "FAQ(s)")
+ * heading: everything after it, up to the next H2 that isn't itself another
+ * FAQ label (an H3 doesn't end the section — it may itself be a pattern-B
+ * question), is scanned for question/answer pairs. Posts without that
+ * labelled section yield an empty array and get no FAQPage schema —
+ * deliberately not falling back to guessing at question-shaped headings
+ * elsewhere in the article, which produced false positives (a rhetorical
+ * section heading like "Should You Stop Your Vitamin D?" is not an FAQ item).
+ */
+function extractFaqPairs(body: PortableTextBlock[]): Array<{ question: string; answer: string }> {
+  const startIndex = body.findIndex(isFaqSectionHeading);
+  if (startIndex === -1) return [];
+
+  const pairs: Array<{ question: string; answer: string }> = [];
+  let i = startIndex + 1;
+
+  while (i < body.length) {
+    const block = body[i];
+    if (block.style === "h2" && !isFaqSectionHeading(block)) break;
+
+    if (!isQuestionBlock(block)) {
+      i++;
+      continue;
+    }
+
+    const question = blockText(block);
+    const answerParts: string[] = [];
+    let j = i + 1;
+    while (j < body.length && !isQuestionBlock(body[j]) && !(body[j].style === "h2" && !isFaqSectionHeading(body[j]))) {
+      const text = blockText(body[j]);
+      if (text) answerParts.push(text);
+      j++;
+    }
+
+    if (answerParts.length > 0) {
+      pairs.push({ question, answer: answerParts.join(" ") });
+    }
+    i = j;
+  }
+
+  return pairs;
 }
