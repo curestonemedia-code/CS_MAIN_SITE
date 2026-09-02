@@ -274,11 +274,14 @@ function safeDecodeURIComponent(value: string) {
 export function formatDate(value?: string) {
   if (!value) return "Recently updated";
 
+  // en-IN's "short" month renders September as "Sept" (a 4-letter outlier
+  // among otherwise-3-letter abbreviations) — normalize it so every month
+  // is a consistent 3 letters.
   return new Intl.DateTimeFormat("en-IN", {
     day: "numeric",
     month: "short",
     year: "numeric",
-  }).format(new Date(value));
+  }).format(new Date(value)).replace("Sept", "Sep");
 }
 
 export function getReadTime(post: Pick<BlogCard, "readingTime">) {

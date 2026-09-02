@@ -81,6 +81,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const postUrl = `https://thecurestone.com/${canonicalCategory}/${post.slug}`;
   const postImage = post.seo?.ogImage?.asset?.url || post.coverImage?.asset?.url;
 
+  // Dr. Deepanshu Gupta is the only author every post's authorRef currently
+  // resolves to, but this stays name-gated rather than unconditional so a
+  // future different author doesn't silently get credited as him.
+  const isDrDeepanshu = post.author?.name === "Dr. Deepanshu Gupta";
+
+  // "Updated" only shows when it's a real, later date — not the same
+  // calendar day as publishedAt, which is what every WordPress-migrated
+  // post's updatedAt is (set within seconds of the original publish date by
+  // the migration, not a genuine edit).
+  const hasRealUpdate = post.updatedAt && formatDate(post.updatedAt) !== formatDate(post.publishedAt);
+  const dateLine = hasRealUpdate ? (
+    <>Updated {formatDate(post.updatedAt)} · Originally published {formatDate(post.publishedAt)}</>
+  ) : (
+    formatDate(post.publishedAt)
+  );
+
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
@@ -90,10 +106,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     image: postImage,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt || post.publishedAt,
-    author: {
-      "@type": "Person",
-      name: post.author?.name || "Cure Stone Editorial Team",
-    },
+    author: isDrDeepanshu
+      ? { "@id": "https://thecurestone.com/dr-deepanshu-gupta#physician" }
+      : {
+          "@type": "Person",
+          name: post.author?.name || "Cure Stone Editorial Team",
+        },
     publisher: {
       "@type": "MedicalBusiness",
       name: "Cure Stone",
@@ -253,11 +271,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="mt-8 flex flex-wrap items-center gap-5 border-y border-slate-200 py-6 text-sm font-bold text-slate-500">
               <span className="inline-flex items-center gap-2">
                 <UserRound className="h-4 w-4 text-primary" />
-                {post.author?.name || "Cure Stone Editorial Team"}
+                {post.author?.name === "Dr. Deepanshu Gupta" ? (
+                  <Link href="/dr-deepanshu-gupta" className="hover:text-primary hover:underline">
+                    {post.author.name}
+                  </Link>
+                ) : (
+                  post.author?.name || "Cure Stone Editorial Team"
+                )}
               </span>
               <span className="inline-flex items-center gap-2">
                 <CalendarDays className="h-4 w-4 text-primary" />
-                {formatDate(post.publishedAt)}
+                {dateLine}
               </span>
               <span className="inline-flex items-center gap-2">
                 <Clock3 className="h-4 w-4 text-primary" />
