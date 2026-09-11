@@ -127,7 +127,14 @@ export async function POST(req: NextRequest) {
         { role: "system", content: finalSystemPrompt },
         ...groqHistory
       ],
-      model: "llama-3.3-70b-versatile",
+      // llama-3.3-70b-versatile was retired by Groq (returns 404 model_not_found).
+      // openai/gpt-oss-20b replaces it — a lighter model is enough for this scoped
+      // hospital-FAQ assistant; verified it still reliably follows the system
+      // prompt's literal [MAP_EMBED]/[YOUTUBE_EMBED:...] tokens and Hindi output.
+      // reasoning_effort: "low" keeps its hidden reasoning trace small so it
+      // doesn't eat into the visible reply's token budget.
+      model: "openai/gpt-oss-20b",
+      reasoning_effort: "low",
       temperature: 0.4,
       max_tokens: 600,
       top_p: 1,
