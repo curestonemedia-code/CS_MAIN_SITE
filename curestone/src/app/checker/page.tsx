@@ -27,20 +27,36 @@ const ONBOARDING = {
   },
 };
 
+// Each quick prompt is guaranteed to show its matching video — the LLM's
+// judgement on whether a video is relevant is only used for free-typed
+// questions (see ensureVideo / sendChatMessage below). IDs match the mapping
+// in the /api/chat system prompt and the real videos in sitemap.ts.
 const QUICK_PROMPTS = {
   en: [
-    { label: "Stone Types", prompt: "What are the different types of kidney stones?" },
-    { label: "Symptoms", prompt: "What are the common symptoms of kidney stones?" },
-    { label: "Prevention", prompt: "How can I prevent kidney stones?" },
-    { label: "RIRS Surgery", prompt: "What is RIRS laser surgery?" },
+    { label: "Stone Types", prompt: "What are the different types of kidney stones?", videoId: "K5va1bE282M" },
+    { label: "Symptoms", prompt: "What are the common symptoms of kidney stones?", videoId: "K5va1bE282M" },
+    { label: "Prevention", prompt: "How can I prevent kidney stones?", videoId: "aHsGua3WaVM" },
+    { label: "RIRS Surgery", prompt: "What is RIRS laser surgery?", videoId: "cQMDYm__gHM" },
   ],
   hi: [
-    { label: "पथरी के प्रकार", prompt: "किडनी की पथरी कितने प्रकार की होती है?" },
-    { label: "लक्षण", prompt: "किडनी की पथरी के सामान्य लक्षण क्या हैं?" },
-    { label: "बचाव", prompt: "मैं किडनी की पथरी से कैसे बच सकता हूँ?" },
-    { label: "RIRS सर्जरी", prompt: "RIRS लेजर सर्जरी क्या है?" },
+    { label: "पथरी के प्रकार", prompt: "किडनी की पथरी कितने प्रकार की होती है?", videoId: "K5va1bE282M" },
+    { label: "लक्षण", prompt: "किडनी की पथरी के सामान्य लक्षण क्या हैं?", videoId: "K5va1bE282M" },
+    { label: "बचाव", prompt: "मैं किडनी की पथरी से कैसे बच सकता हूँ?", videoId: "aHsGua3WaVM" },
+    { label: "RIRS सर्जरी", prompt: "RIRS लेजर सर्जरी क्या है?", videoId: "cQMDYm__gHM" },
   ],
 };
+
+// Guarantees a video for the fixed quick-prompt questions (a "must"), while
+// leaving free-typed questions entirely to the model's own judgement of
+// whether a video is relevant — see the /api/chat system prompt.
+function ensureVideo(content: string, requiredVideoId?: string): string {
+  if (!requiredVideoId) return content;
+  const videoTag = /\[YOUTUBE_EMBED:[^\]]+\]/;
+  if (videoTag.test(content)) {
+    return content.replace(videoTag, `[YOUTUBE_EMBED:${requiredVideoId}]`);
+  }
+  return `${content}\n\n[YOUTUBE_EMBED:${requiredVideoId}]`;
+}
 
 const PLACEHOLDERS = {
   name: { en: "Type your full name...", hi: "अपना पूरा नाम लिखें..." },
@@ -218,7 +234,7 @@ export default function KidneyChatBot() {
   }, [language]);
 
   const sendChatMessage = useCallback(
-    async (text: string) => {
+    async (text: string, requiredVideoId?: string) => {
       if (!text.trim() || isTyping) return;
       const userMsg: Message = { role: "user", content: text, timestamp: new Date() };
 
@@ -275,7 +291,7 @@ export default function KidneyChatBot() {
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
-        addBotMsg(data.reply);
+        addBotMsg(ensureVideo(data.reply, requiredVideoId));
       } catch {
         const err =
           language === "en"
@@ -409,7 +425,7 @@ export default function KidneyChatBot() {
                   {QUICK_PROMPTS[language].map((qp, i) => (
                     <button
                       key={i}
-                      onClick={() => sendChatMessage(qp.prompt)}
+                      onClick={() => sendChatMessage(qp.prompt, qp.videoId)}
                       className="text-left px-4 py-3 rounded-2xl border border-slate-200 hover:border-primary hover:bg-primary/5 transition-all group"
                     >
                       <p className="text-[10px] font-black text-primary uppercase mb-0.5 tracking-widest">
