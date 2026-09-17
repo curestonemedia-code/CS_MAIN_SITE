@@ -416,6 +416,13 @@ export default function Hero() {
             />
           </div>
 
+          {/* Real page H1 for SEO/crawlers - the animated headline below cycles
+              through 4 stages, each visually its own heading, so none of them
+              can safely be the single page H1. This one carries the primary
+              keyword and is visually hidden (sr-only), not display:none, so
+              it's still announced to screen readers and isn't cloaked text. */}
+          <h1 className="sr-only">Kidney Stone Surgery in Gurgaon</h1>
+
           {/* ── Text stages ──────────────────────────────────────── */}
           <div
             style={{
@@ -470,7 +477,7 @@ export default function Hero() {
                     {s.tag}
                   </span>
 
-                  <h1
+                  <h2
                     style={{
                       margin: 0,
                       padding: 0,
@@ -515,7 +522,7 @@ export default function Hero() {
                     >
                       {s.line2}
                     </span>
-                  </h1>
+                  </h2>
 
                   {s.desc ? (
                     <p
