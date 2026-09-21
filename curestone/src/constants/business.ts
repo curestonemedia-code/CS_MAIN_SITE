@@ -28,13 +28,13 @@ export const ADDRESS = {
 export const ADDRESS_DISPLAY = "Sector 52, Near Plot 3, Rd No D-13 A, Ardee City, Gurugram, Haryana 122003";
 
 export const GEO = {
-  latitude: "28.4595",
-  longitude: "77.0266",
+  latitude: "28.485092",
+  longitude: "77.045641",
 };
 
 export const MAPS_DIRECTIONS_URL = "https://share.google/VjnKWDjoss7qaD1mi";
 export const MAPS_EMBED_SRC =
-  "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14033.273570394473!2d77.070288!3d28.439817!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1782981388299!5m2!1sen!2sin";
+  "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14033.273570394473!2d77.045641!3d28.485092!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1782981388299!5m2!1sen!2sin";
 
 export const CONSULTATION_HOURS = "10:00 AM – 7:00 PM, Monday to Saturday (by appointment)";
 

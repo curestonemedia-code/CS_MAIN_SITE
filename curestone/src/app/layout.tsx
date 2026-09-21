@@ -137,8 +137,8 @@ const organizationSchema = {
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: "28.4595",
-    longitude: "77.0266",
+    latitude: "28.485092",
+    longitude: "77.045641",
   },
   openingHoursSpecification: [
     {
@@ -236,8 +236,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://crm.thecurestone.com" />
         <meta name="geo.region" content="IN-HR" />
         <meta name="geo.placename" content="Gurgaon, Haryana, India" />
-        <meta name="geo.position" content="28.4595;77.0266" />
-        <meta name="ICBM" content="28.4595, 77.0266" />
+        <meta name="geo.position" content="28.485092;77.045641" />
+        <meta name="ICBM" content="28.485092, 77.045641" />
       </head>
       <body className="font-sans min-h-full flex flex-col">{children}</body>
       <GoogleAnalytics gaId="G-DH8MHSNF6C" />
