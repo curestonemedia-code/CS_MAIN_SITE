@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description:
       "RIRS surgery in Gurgaon and laser stone treatment options at Cure Stone Hospital, Sector 52.",
     url: "https://thecurestone.com",
-    images: [{ url: "/og-image.svg", width: 1200, height: 630 }],
+    images: [{ url: "/assets/doctor.png", width: 753, height: 807 }],
   },
 };
 

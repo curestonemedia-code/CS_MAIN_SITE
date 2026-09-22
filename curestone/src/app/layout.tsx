@@ -69,9 +69,9 @@ export const metadata: Metadata = {
       "Kidney stone surgery in Gurgaon with RIRS, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
     images: [
       {
-        url: "/og-image.svg",
-        width: 1200,
-        height: 630,
+        url: "/assets/doctor.png",
+        width: 753,
+        height: 807,
         alt: "Cure Stone – Advanced Kidney Stone Laser Surgery",
       },
     ],
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     title: "Cure Stone | Kidney Stone Surgery in Gurgaon",
     description:
       "RIRS laser surgery and kidney stone treatment in Gurgaon. Book a consultation at Cure Stone Hospital, Sector 52.",
-    images: ["/og-image.svg"],
+    images: ["/assets/doctor.png"],
   },
   alternates: {
     canonical: SITE_URL,
@@ -121,7 +121,7 @@ const organizationSchema = {
     width: 400,
     height: 100,
   },
-  image: `${SITE_URL}/og-image.svg`,
+  image: `${SITE_URL}/assets/doctor.png`,
   telephone: "+91-88002-63884",
   email: "care@thecurestone.com",
   priceRange: "₹₹",
@@ -181,7 +181,7 @@ const organizationSchema = {
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "4.9",
-    reviewCount: "500",
+    reviewCount: "700",
     bestRating: "5",
     worstRating: "1",
   },

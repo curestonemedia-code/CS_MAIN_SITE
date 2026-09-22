@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     description: "Kidney stone treatment in Gurgaon with RIRS, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
     url: "https://thecurestone.com/gurgaon",
     siteName: "Cure Stone",
-    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Kidney Stone Surgery in Gurgaon | Cure Stone" }],
+    images: [{ url: "/assets/doctor.png", width: 753, height: 807, alt: "Kidney Stone Surgery in Gurgaon | Cure Stone" }],
     locale: "en_IN",
     type: "website",
   },

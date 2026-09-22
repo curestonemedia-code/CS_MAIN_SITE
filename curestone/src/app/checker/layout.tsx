@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     siteName: "Cure Stone",
     type: "website",
     locale: "en_IN",
-    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Cure Stone AI Symptom Checker" }],
+    images: [{ url: "/assets/doctor.png", width: 753, height: 807, alt: "Cure Stone AI Symptom Checker" }],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/og-image.svg"],
+    images: ["/assets/doctor.png"],
   },
 };
 

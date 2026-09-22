@@ -4,47 +4,7 @@ import React, { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
-import {
-  cleanText,
-  normalizeIndianPhone,
-  validateIndianPhone,
-  validateName,
-  validateOptionalDescription,
-  validateOptionalSelect,
-  validateSelect,
-} from "@/utils/formValidation";
-import { sendCrmLead } from "@/utils/crmWebhook";
-
-const INDIAN_STATES = [
-  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
-  "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
-  "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
-  "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
-  "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-];
-
-const STONE_SIZES = ["Less than 5mm", "5mm - 10mm", "10mm - 15mm", "15mm - 20mm", "20mm - 30mm", "Greater than 30mm", "Unknown"];
-const CONSULTATION_TYPES = ["Kidney Stone Treatment", "Gall Bladder Stone Treatment", "Urology Treatment", "Andrology Treatment", "Second Opinion", "Online Video Consult"];
-
-type FormField = "fullName" | "phone" | "state" | "stoneSize" | "consultationType" | "description";
-type FormErrors = Partial<Record<FormField, string>>;
-
-const baseFieldClass = "w-full px-5 py-3.5 bg-white border rounded-xl outline-none focus:border-primary transition-all text-slate-900 font-medium";
-
-function getFieldClass(field: FormField, errors: FormErrors, extra = "") {
-  return `${baseFieldClass} ${errors[field] ? "border-red-300 bg-red-50 focus:border-red-500" : "border-slate-100"} ${extra}`;
-}
-
-function FieldError({ message }: { message?: string }) {
-  if (!message) return null;
-
-  return (
-    <p className="ml-1 text-xs font-bold text-red-600" role="alert">
-      {message}
-    </p>
-  );
-}
+import LocationLeadForm from "@/components/home/LocationLeadForm";
 
 const faqs = [
   { q: "How soon will I get a confirmation?", a: "Our coordinator calls within 15 minutes of form submission during clinic hours (10 AM – 7 PM On Appoinment)." },
@@ -56,63 +16,7 @@ const faqs = [
 
 export default function BookPage() {
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<FormErrors>({});
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const phone = normalizeIndianPhone(fd.get("phone"));
-    const data = {
-      name: cleanText(fd.get("fullName")),
-      phone: `${phone}`,
-      state: cleanText(fd.get("state")),
-      stoneSize: cleanText(fd.get("stoneSize")),
-      consultationType: cleanText(fd.get("consultationType")),
-      email: "Not Provided",
-      description: cleanText(fd.get("description")),
-    };
-
-    const nextErrors: FormErrors = {
-      fullName: validateName(data.name),
-      phone: validateIndianPhone(phone),
-      state: validateSelect(data.state, INDIAN_STATES, "State"),
-      stoneSize: validateOptionalSelect(data.stoneSize, STONE_SIZES, "Stone size"),
-      consultationType: validateSelect(data.consultationType, CONSULTATION_TYPES, "Consultation type"),
-      description: validateOptionalDescription(data.description),
-    };
-    const activeErrors = Object.fromEntries(Object.entries(nextErrors).filter(([, message]) => message));
-
-    if (Object.keys(activeErrors).length > 0) {
-      setErrors(activeErrors);
-      const firstField = Object.keys(activeErrors)[0];
-      e.currentTarget.querySelector<HTMLElement>(`[name="${firstField}"]`)?.focus();
-      return;
-    }
-
-    setErrors({});
-    setLoading(true);
-
-    const payload = {
-      ...data,
-      description: data.description || "No description",
-    };
-
-    try {
-      await sendCrmLead({
-        form_type: "book_appointment",
-        name: data.name,
-        phone: data.phone,
-        state: data.state,
-        stoneSize: data.stoneSize,
-        consultationType: data.consultationType,
-        description: payload.description,
-      });
-      setSubmitted(true);
-    } catch { alert("Connection issue. Please try again or call us directly."); }
-    finally { setLoading(false); }
-  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -157,60 +61,11 @@ export default function BookPage() {
                 <div className="bg-white/70 backdrop-blur-2xl p-8 md:p-10 rounded-[2.5rem] border border-white shadow-2xl shadow-primary/5">
                   <h2 className="text-2xl font-black text-slate-900 mb-1">Schedule Free Consultation</h2>
                   <p className="text-sm text-slate-500 font-medium mb-8">Fill in the details and we&apos;ll reach out within 15 minutes.</p>
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid md:grid-cols-2 gap-5">
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Full Name *</label>
-                        <input name="fullName" required type="text" minLength={2} maxLength={80} placeholder="Your Name" aria-invalid={Boolean(errors.fullName)} className={getFieldClass("fullName", errors)} />
-                        <FieldError message={errors.fullName} />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Phone Number *</label>
-                        <div className="flex">
-                          <span className="bg-slate-50 border-r border-slate-200 py-4 px-4 rounded-l-xl text-slate-600 font-medium">+91</span>
-                          <input name="phone" required type="tel" inputMode="numeric" autoComplete="tel" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" maxLength={10} aria-invalid={Boolean(errors.phone)} className={getFieldClass("phone", errors)} />
-                        </div>
-                        <FieldError message={errors.phone} />
-                      </div>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-5">
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">State *</label>
-                        <select name="state" required aria-invalid={Boolean(errors.state)} className={getFieldClass("state", errors, "appearance-none")}>
-                          <option value="">Select State</option>
-                          {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                        <FieldError message={errors.state} />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Stone Size</label>
-                        <select name="stoneSize" aria-invalid={Boolean(errors.stoneSize)} className={getFieldClass("stoneSize", errors, "appearance-none")}>
-                          <option value="">Select Range</option>
-                          {STONE_SIZES.map(s => <option key={s}>{s}</option>)}
-                        </select>
-                        <FieldError message={errors.stoneSize} />
-                      </div>
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Consultation Type</label>
-                      <select name="consultationType" required aria-invalid={Boolean(errors.consultationType)} className={getFieldClass("consultationType", errors, "appearance-none")}>
-                        {CONSULTATION_TYPES.map(s => <option key={s}>{s}</option>)}
-                      </select>
-                      <FieldError message={errors.consultationType} />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Brief Description</label>
-                      <textarea name="description" rows={3} maxLength={500} placeholder="Describe symptoms or previous treatments..." aria-invalid={Boolean(errors.description)} className={getFieldClass("description", errors, "resize-none")} />
-                      <FieldError message={errors.description} />
-                    </div>
-                    <button disabled={loading} type="submit" className="w-full py-4 bg-primary text-white font-black rounded-xl shadow-xl shadow-primary/20 hover:scale-[1.01] active:scale-95 disabled:opacity-70 transition-all text-base tracking-wide uppercase">
-                      {loading ? "Sending..." : "Schedule Free Consultation"}
-                    </button>
-                    <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm0 17.91c-3.71-.94-6-4.79-6-8.91V6.3l6-2.25 6 2.25V11c0 4.12-2.29 7.97-6 8.91z" /></svg>
-                      Secure & Confidential
-                    </p>
-                  </form>
+                  <LocationLeadForm
+                    formType="book_appointment"
+                    submitLabel="Schedule Free Consultation"
+                    onSuccess={() => setSubmitted(true)}
+                  />
                 </div>
               )}
 

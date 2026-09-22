@@ -78,7 +78,7 @@ const DoctorProfile = () => {
     {
       icon: Star,
       text: "4.9/5 Patient Satisfaction",
-      subtext: "Based on 1,000+ verified patient reviews on Google & Practo",
+      subtext: "Based on 1,400+ verified patient reviews on Google & Practo",
     },
   ];
 

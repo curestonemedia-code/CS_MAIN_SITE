@@ -5,11 +5,11 @@ type BookAppointmentLead = {
   form_type: "book_appointment";
   name: string;
   phone: string;
-  state: string;
-  stoneSize: string;
   consultationType: string;
-  email?: string;
-  description: string;
+  category: string;
+  stoneSize?: string;
+  subTreatment?: string;
+  description?: string;
 };
 
 type GetEstimateLead = {

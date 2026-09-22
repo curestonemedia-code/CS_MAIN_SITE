@@ -1,5 +1,4 @@
 export const INDIAN_PHONE_PATTERN = /^[6-9]\d{9}$/;
-export const BASIC_EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function cleanText(value: FormDataEntryValue | null) {
   return String(value || "").trim().replace(/\s+/g, " ");
@@ -28,21 +27,8 @@ export function validateIndianPhone(value: string) {
   return "";
 }
 
-export function validateOptionalEmail(value: string) {
-  if (!value) return "";
-  if (value.length > 120) return "Email must be under 120 characters.";
-  if (!BASIC_EMAIL_PATTERN.test(value)) return "Enter a valid email address.";
-  return "";
-}
-
 export function validateSelect(value: string, allowedValues: string[], label: string) {
   if (!value) return `${label} is required.`;
-  if (!allowedValues.includes(value)) return `Select a valid ${label.toLowerCase()}.`;
-  return "";
-}
-
-export function validateOptionalSelect(value: string, allowedValues: string[], label: string) {
-  if (!value) return "";
   if (!allowedValues.includes(value)) return `Select a valid ${label.toLowerCase()}.`;
   return "";
 }

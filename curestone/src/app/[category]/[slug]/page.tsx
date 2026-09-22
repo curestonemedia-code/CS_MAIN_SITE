@@ -54,13 +54,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
       authors: post.author?.name ? [post.author.name] : undefined,
-      images: [{ url: image || "/og-image.svg", width: 1200, height: 630 }],
+      images: [{ url: image || "/assets/doctor.png", width: 753, height: 807 }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [image || "/og-image.svg"],
+      images: [image || "/assets/doctor.png"],
     },
   };
 }
