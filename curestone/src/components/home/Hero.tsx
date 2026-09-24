@@ -1,10 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const STAGES = [
   {
@@ -33,27 +29,13 @@ const STAGES = [
   },
 ];
 
-const CENTERS = [0.08, 0.36, 0.64, 0.92];
-const HOLD = 0.055;
-const FADE = 0.07;
-
-function calcOpacity(p: number, center: number): number {
-  const dist = Math.abs(p - center);
-  if (dist <= HOLD) return 1;
-  if (dist <= HOLD + FADE) {
-    const t = (dist - HOLD) / FADE;
-    return 1 - t * t;
-  }
-  return 0;
-}
-
-function calcY(p: number, center: number): number {
-  const dist = Math.abs(p - center);
-  const dir = p < center ? 1 : -1;
-  if (dist <= HOLD) return 0;
-  const t = Math.min((dist - HOLD) / FADE, 1);
-  return dir * 36 * (t * t);
-}
+const LAST_STAGE = STAGES.length - 1;
+const STEP_SECONDS = 0.7;
+// Ignore further input for this long after a step so one gesture = one step.
+const STEP_LOCK_MS = 700;
+// A wheel gesture (incl. trackpad inertia) ends once events pause this long.
+const WHEEL_QUIET_MS = 160;
+const SWIPE_PX = 40;
 
 const VIDEO_SRC = "/Stone_fragments_floating_in_dark…_202605131342.mp4";
 
@@ -182,114 +164,161 @@ export default function Hero() {
   const line2Refs = useRef<(HTMLSpanElement | null)[]>([null, null, null, null]);
   const descRefs = useRef<(HTMLParagraphElement | null)[]>([null, null, null, null]);
 
-  const qOpacity = useRef<(((v: number) => void) | null)[][]>([[], [], [], []]);
-  const qY = useRef<(((v: number) => void) | null)[][]>([[], [], [], []]);
-
+  // Snap-stepping hero: while the page is at the very top, each scroll /
+  // swipe / arrow-key moves the headline one stage. Past the last stage (or
+  // above the first) input is released to normal native scrolling, so the
+  // rest of the page scrolls exactly as the browser normally would.
   useEffect(() => {
-    window.history.scrollRestoration = "manual";
-    window.scrollTo(0, 0);
+    const section = sectionRef.current;
+    if (!section) return;
 
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const lenis = new Lenis({
-      duration: isIOS ? 1.2 : 1.6,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
-      wheelMultiplier: 0.65,
-      touchMultiplier: isIOS ? 1.2 : 1.8,
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const stageEls = (i: number) =>
+      [tagRefs.current[i], line1Refs.current[i], line2Refs.current[i], descRefs.current[i]].filter(
+        (el): el is HTMLElement => Boolean(el),
+      );
+
+    STAGES.forEach((_, i) => {
+      gsap.set(stageEls(i), {
+        opacity: i === 0 ? 1 : 0,
+        y: i === 0 ? 0 : 40,
+        filter: i === 0 ? "blur(0px)" : "blur(12px)",
+      });
     });
+    const videoWrap = videoWrapRef.current;
+    const vignette = vignetteRef.current;
+    gsap.set(videoWrap, { scale: 1 });
+    gsap.set(vignette, { opacity: 0.48 });
 
-    lenis.on("scroll", ScrollTrigger.update);
-    const ticker = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(ticker);
-    gsap.ticker.lagSmoothing(0);
+    let current = 0;
+    let lockedUntil = 0;
 
-    const ctx = gsap.context(() => {
-      STAGES.forEach((_, i) => {
-        const els = [
-          tagRefs.current[i],
-          line1Refs.current[i],
-          line2Refs.current[i],
-          descRefs.current[i],
-        ];
-        gsap.set(els, {
-          opacity: i === 0 ? 1 : 0,
-          y: i === 0 ? 0 : 40,
-          filter: i === 0 ? "blur(0px)" : "blur(12px)",
-        });
+    const atTop = () => window.scrollY <= 2;
+    const isEdge = (dir: number) => (dir > 0 && current === LAST_STAGE) || (dir < 0 && current === 0);
+
+    // While a swipe would step the hero, the browser must not also scroll the
+    // page. Toggled (rather than always on) so a partly-scrolled hero, or one
+    // at its last stage, never traps touch scrolling.
+    const syncTouchAction = () => {
+      section.style.touchAction = atTop() && current < LAST_STAGE ? "none" : "pan-y";
+    };
+
+    const step = (next: number) => {
+      if (next === current || next < 0 || next > LAST_STAGE) return;
+      const prev = current;
+      const dir = next > prev ? 1 : -1;
+      current = next;
+      lockedUntil = performance.now() + STEP_LOCK_MS;
+      syncTouchAction();
+
+      const dur = reduceMotion ? 0.01 : STEP_SECONDS;
+      const outgoing = stageEls(prev);
+      const incoming = stageEls(next);
+      gsap.killTweensOf([...outgoing, ...incoming]);
+      gsap.to(outgoing, {
+        opacity: 0,
+        y: -40 * dir,
+        filter: "blur(12px)",
+        duration: dur * 0.55,
+        ease: "power2.in",
+        stagger: 0.03,
       });
-
-      const durations = [0.12, 0.18, 0.24, 0.30];
-      STAGES.forEach((_, i) => {
-        const els = [
-          tagRefs.current[i],
-          line1Refs.current[i],
-          line2Refs.current[i],
-          descRefs.current[i],
-        ];
-        qOpacity.current[i] = els.map((el, j) =>
-          el
-            ? gsap.quickTo(el, "opacity", { duration: durations[j], ease: "power2.out" })
-            : null
-        );
-        qY.current[i] = els.map((el, j) =>
-          el
-            ? gsap.quickTo(el, "y", { duration: durations[j] + 0.08, ease: "power2.out" })
-            : null
-        );
-      });
-
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=700%",
-        scrub: 1.2,
-        pin: true,
-        anticipatePin: 1,
-        pinSpacing: true,
-        snap: {
-          snapTo: CENTERS,
-          duration: { min: 0.25, max: 0.8 },
-          delay: 0.0,
-          ease: "power2.inOut",
+      gsap.fromTo(
+        incoming,
+        { opacity: 0, y: 40 * dir, filter: "blur(12px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: dur,
+          ease: "power3.out",
+          stagger: 0.07,
+          delay: dur * 0.4,
         },
-        onUpdate(self) {
-          const p = self.progress;
+      );
+      gsap.to(videoWrap, { scale: 1 + 0.03 * next, duration: dur * 1.6, ease: "power2.out", overwrite: true });
+      gsap.to(vignette, { opacity: 0.48 + 0.12 * next, duration: dur * 1.6, ease: "power2.out", overwrite: true });
+    };
 
-          if (videoWrapRef.current) {
-            gsap.set(videoWrapRef.current, { scale: 1 + 0.06 * p });
-          }
-          if (vignetteRef.current) {
-            gsap.set(vignetteRef.current, { opacity: 0.48 + 0.38 * p });
-          }
+    // ── Wheel / trackpad ────────────────────────────────────────────────
+    let lastWheel = 0;
+    let swallowing = false; // rest of a gesture that already caused a step
+    let released = false; // gesture handed over to native scroll
+    const onWheel = (e: WheelEvent) => {
+      if (!atTop() || !section.contains(e.target as Node)) return;
+      const dir = Math.sign(e.deltaY);
+      if (!dir) return;
 
-          STAGES.forEach((_, i) => {
-            const op = calcOpacity(p, CENTERS[i]);
-            const y = calcY(p, CENTERS[i]);
-            const blurVal = op >= 0.99 ? 0 : 12 * (1 - op);
-            const blurStr = `blur(${blurVal.toFixed(1)}px)`;
+      const now = performance.now();
+      if (now - lastWheel > WHEEL_QUIET_MS) {
+        swallowing = false;
+        released = false;
+      }
+      lastWheel = now;
 
-            qOpacity.current[i].forEach((fn) => fn?.(op));
-            qY.current[i].forEach((fn) => fn?.(y));
+      if (swallowing || now < lockedUntil) {
+        if (e.cancelable) e.preventDefault();
+        return;
+      }
+      if (released) return;
 
-            [
-              tagRefs.current[i],
-              line1Refs.current[i],
-              line2Refs.current[i],
-              descRefs.current[i],
-            ].forEach((el) => {
-              if (el) el.style.filter = blurStr;
-            });
-          });
-        },
-      });
-    }, containerRef);
+      if (isEdge(dir)) {
+        released = true;
+        return;
+      }
+      if (e.cancelable) e.preventDefault();
+      if (Math.abs(e.deltaY) < 4) return;
+      swallowing = true;
+      step(current + dir);
+    };
+
+    // ── Touch ───────────────────────────────────────────────────────────
+    let touchStartY = 0;
+    let touchTracking = false;
+    const onTouchStart = (e: TouchEvent) => {
+      touchTracking = atTop() && section.contains(e.target as Node);
+      touchStartY = e.touches[0]?.clientY ?? 0;
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!touchTracking) return;
+      touchTracking = false;
+      const dy = touchStartY - (e.changedTouches[0]?.clientY ?? touchStartY);
+      if (Math.abs(dy) < SWIPE_PX || performance.now() < lockedUntil) return;
+      const dir = Math.sign(dy);
+      // Swiping up past the last stage is a native scroll that already ran.
+      if (dir > 0 && current === LAST_STAGE) return;
+      if (atTop()) step(current + dir);
+    };
+
+    // ── Keyboard ────────────────────────────────────────────────────────
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!atTop() || e.altKey || e.ctrlKey || e.metaKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT|BUTTON|A)$/.test(t.tagName))) return;
+      let dir = 0;
+      if (e.key === "ArrowDown" || e.key === "PageDown" || (e.key === " " && !e.shiftKey)) dir = 1;
+      else if (e.key === "ArrowUp" || e.key === "PageUp" || (e.key === " " && e.shiftKey)) dir = -1;
+      if (!dir || isEdge(dir)) return;
+      e.preventDefault();
+      if (performance.now() >= lockedUntil) step(current + dir);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("scroll", syncTouchAction, { passive: true });
+    syncTouchAction();
 
     return () => {
-      ctx.revert();
-      lenis.destroy();
-      gsap.ticker.remove(ticker);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("scroll", syncTouchAction);
+      section.style.touchAction = "";
+      gsap.killTweensOf([videoWrap, vignette]);
+      STAGES.forEach((_, i) => gsap.killTweensOf(stageEls(i)));
     };
   }, []);
 
@@ -421,7 +450,7 @@ export default function Hero() {
               can safely be the single page H1. This one carries the primary
               keyword and is visually hidden (sr-only), not display:none, so
               it's still announced to screen readers and isn't cloaked text. */}
-          <h1 className="sr-only">Kidney Stone Surgery in Gurgaon</h1>
+          <h1 className="sr-only">Best Kidney Stone Treatment in India</h1>
 
           {/* ── Text stages ──────────────────────────────────────── */}
           <div
