@@ -2,6 +2,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PortableTextRenderer, { getYouTubeId } from "@/components/blog/PortableTextRenderer";
 import SanityImage from "@/components/blog/SanityImage";
+import BlogPostAside from "@/components/blog/BlogPostAside";
+import BlogEngagement from "@/components/blog/BlogEngagement";
 import {
   formatDate,
   getBlogPost,
@@ -230,8 +232,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <Navbar />
 
       <main className="flex-grow pt-28">
-        <article>
-          <header className="mx-auto max-w-5xl px-6 lg:px-12">
+        <div className="mx-auto max-w-7xl px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12 lg:px-12 xl:grid-cols-[minmax(0,1fr)_24rem]">
+        <article className="min-w-0">
+          <header>
             <nav className="mb-8 flex flex-wrap items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
               <Link href="/blog" className="hover:text-primary">
                 Blog
@@ -288,10 +291,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {getReadTime(post)}
               </span>
             </div>
+
+            <div className="mt-5 grid grid-cols-2 gap-3 lg:hidden">
+              <a
+                href="tel:+918800263884"
+                className="flex items-center justify-center gap-2 rounded-xl border-2 border-primary py-3.5 text-sm font-black text-primary"
+              >
+                Call Us
+              </a>
+              <a
+                href="#blog-enquiry"
+                className="flex items-center justify-center rounded-xl bg-primary py-3.5 text-sm font-black text-white shadow-lg shadow-primary/20"
+              >
+                Book Free Consult
+              </a>
+            </div>
           </header>
 
           {post.coverImage?.asset?.url && (
-            <div className="mx-auto mt-10 max-w-6xl px-6 lg:px-12">
+            <div className="mt-10">
               <div className="relative overflow-hidden rounded-3xl border border-slate-100 bg-slate-100 shadow-2xl">
                 <SanityImage
                   image={post.coverImage}
@@ -299,7 +317,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   width={post.coverImage.asset?.metadata?.dimensions?.width || 1600}
                   height={post.coverImage.asset?.metadata?.dimensions?.height || 900}
                   priority
-                  sizes="(min-width: 1024px) 1100px, 100vw"
+                  sizes="(min-width: 1280px) 800px, 100vw"
                   className="w-full h-auto"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 to-transparent" />
@@ -307,7 +325,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           )}
 
-          <div className="mx-auto max-w-4xl px-6 py-14 lg:px-12">
+          <div className="py-10 lg:py-12">
             <PortableTextRenderer value={post.body} />
 
             {post.tags?.length ? (
@@ -338,6 +356,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </div>
         </article>
+        <BlogPostAside postTitle={post.title} />
+        </div>
 
         {relatedPosts.length > 0 && (
           <section className="border-t border-slate-200 bg-slate-50 py-16">
@@ -371,6 +391,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </main>
 
       <Footer />
+      <BlogEngagement postTitle={post.title} />
     </div>
   );
 }

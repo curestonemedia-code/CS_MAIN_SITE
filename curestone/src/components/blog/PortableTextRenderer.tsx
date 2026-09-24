@@ -215,7 +215,7 @@ function renderChild(child: PortableTextChild, block: PortableTextBlock) {
         <a
           key={`${child._key}-${mark}`}
           href={annotation.href}
-          className="font-bold text-primary underline decoration-primary/30 underline-offset-4"
+          className="font-bold text-primary underline decoration-primary/30 underline-offset-4 [overflow-wrap:anywhere]"
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
         >
