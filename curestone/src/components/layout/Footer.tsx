@@ -52,6 +52,7 @@ const footerSections = [
       { label: "Dr. Deepanshu Gupta", href: "/dr-deepanshu-gupta" },
       { label: "Contact Us", href: "/contact" },
       { label: "Blogs", href: "/blog" },
+      { label: "Careers", href: "https://career.thecurestone.com" },
       { label: "Location", href: "/sector-52" },
     ],
   },
