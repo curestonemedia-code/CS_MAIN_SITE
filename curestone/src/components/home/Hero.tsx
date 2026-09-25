@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
 
 const STAGES = [
   {
@@ -30,12 +29,19 @@ const STAGES = [
 ];
 
 const LAST_STAGE = STAGES.length - 1;
-const STEP_SECONDS = 0.7;
-// Ignore further input for this long after a step so one gesture = one step.
-const STEP_LOCK_MS = 700;
+// Scroll input needed to travel from one headline to the next.
+const WHEEL_PX_PER_STEP = 360;
 // A wheel gesture (incl. trackpad inertia) ends once events pause this long.
-const WHEEL_QUIET_MS = 160;
-const SWIPE_PX = 40;
+const WHEEL_QUIET_MS = 140;
+// Past this fraction of a step (one mouse-wheel notch is ~0.28), letting go
+// finishes the step; short of it, the headline eases back.
+const COMMIT_AT = 0.22;
+// Stiffness of the critically-damped spring that eases the on-screen position
+// toward the target (~4.7 / omega seconds to settle; lower = slower). Stiff
+// while a finger / wheel is actively driving it, so the headline tracks input
+// closely; soft while settling onto a headline, for a slow, smooth glide.
+const OMEGA_LIVE = 16;
+const OMEGA_SETTLE = 5;
 
 const VIDEO_SRC = "/Stone_fragments_floating_in_dark…_202605131342.mp4";
 
@@ -164,130 +170,198 @@ export default function Hero() {
   const line2Refs = useRef<(HTMLSpanElement | null)[]>([null, null, null, null]);
   const descRefs = useRef<(HTMLParagraphElement | null)[]>([null, null, null, null]);
 
-  // Snap-stepping hero: while the page is at the very top, each scroll /
-  // swipe / arrow-key moves the headline one stage. Past the last stage (or
-  // above the first) input is released to normal native scrolling, so the
-  // rest of the page scrolls exactly as the browser normally would.
+  // Scroll-linked stepping hero. While the page is at the very top, wheel /
+  // trackpad / touch / key input moves a *target* position along the four
+  // headlines; the on-screen position chases it with a critically-damped
+  // spring every frame. That gives one continuous, decelerating motion (no
+  // jump-pause-animate), and any small scroll visibly moves the headline.
+  // When input stops the target snaps to the nearest headline (biased by
+  // COMMIT_AT). Past the last headline / above the first, input is released
+  // to native scrolling.
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const stageEls = (i: number) =>
-      [tagRefs.current[i], line1Refs.current[i], line2Refs.current[i], descRefs.current[i]].filter(
-        (el): el is HTMLElement => Boolean(el),
-      );
-
-    STAGES.forEach((_, i) => {
-      gsap.set(stageEls(i), {
-        opacity: i === 0 ? 1 : 0,
-        y: i === 0 ? 0 : 40,
-        filter: i === 0 ? "blur(0px)" : "blur(12px)",
-      });
-    });
     const videoWrap = videoWrapRef.current;
     const vignette = vignetteRef.current;
-    gsap.set(videoWrap, { scale: 1 });
-    gsap.set(vignette, { opacity: 0.48 });
+    const stageEls = (i: number) =>
+      [tagRefs.current[i], line1Refs.current[i], line2Refs.current[i], descRefs.current[i]];
 
-    let current = 0;
-    let lockedUntil = 0;
+    const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
+    const clamp01 = (n: number) => clamp(n, 0, 1);
+
+    // Positions are in "headline units": 0 = first headline, LAST_STAGE = last.
+    let pos = 0; // what's on screen
+    let vel = 0;
+    let target = 0; // where input wants it
+    let running = false;
+    let engaged = false; // input is actively driving the target
+    let rafId = 0;
+    let lastFrame = 0;
+
+    const setEl = (el: HTMLElement | null, op: number, y: number) => {
+      if (!el) return;
+      const blur = 12 * (1 - op);
+      el.style.opacity = op.toFixed(3);
+      el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+      el.style.filter = blur < 0.2 ? "none" : `blur(${blur.toFixed(1)}px)`;
+    };
+
+    const render = () => {
+      const a = Math.min(Math.floor(pos), LAST_STAGE - 1);
+      const t = pos - a;
+      STAGES.forEach((_, i) => {
+        stageEls(i).forEach((el, j) => {
+          if (i === a) {
+            const op = clamp01(1 - t / 0.6);
+            setEl(el, op, -40 * (1 - op));
+          } else if (i === a + 1) {
+            // Mirror of the outgoing fade (reaches 1 only at t = 1, so there is no
+            // dead zone where scrolling changes nothing), staggered per element.
+            const start = 0.4 + j * 0.04;
+            const op = clamp01((t - start) / (1 - start));
+            setEl(el, op, 40 * (1 - op));
+          } else {
+            setEl(el, 0, i < a ? -40 : 40);
+          }
+        });
+      });
+      if (videoWrap) videoWrap.style.transform = `scale(${(1 + 0.03 * pos).toFixed(4)})`;
+      if (vignette) vignette.style.opacity = (0.48 + 0.12 * pos).toFixed(3);
+    };
 
     const atTop = () => window.scrollY <= 2;
-    const isEdge = (dir: number) => (dir > 0 && current === LAST_STAGE) || (dir < 0 && current === 0);
 
-    // While a swipe would step the hero, the browser must not also scroll the
+    // While a swipe would move the hero, the browser must not also scroll the
     // page. Toggled (rather than always on) so a partly-scrolled hero, or one
     // at its last stage, never traps touch scrolling.
     const syncTouchAction = () => {
-      section.style.touchAction = atTop() && current < LAST_STAGE ? "none" : "pan-y";
+      section.style.touchAction = atTop() && target < LAST_STAGE ? "none" : "pan-y";
     };
 
-    const step = (next: number) => {
-      if (next === current || next < 0 || next > LAST_STAGE) return;
-      const prev = current;
-      const dir = next > prev ? 1 : -1;
-      current = next;
-      lockedUntil = performance.now() + STEP_LOCK_MS;
+    const tick = (now: number) => {
+      const dt = Math.min(0.033, (now - lastFrame) / 1000);
+      lastFrame = now;
+      const omega = engaged ? OMEGA_LIVE : OMEGA_SETTLE;
+      const accel = -omega * omega * (pos - target) - 2 * omega * vel;
+      vel += accel * dt;
+      pos = clamp(pos + vel * dt, 0, LAST_STAGE);
+      if (Math.abs(pos - target) < 0.003 && Math.abs(vel) < 0.02) {
+        pos = target;
+        vel = 0;
+        running = false;
+        render();
+        syncTouchAction();
+        return;
+      }
+      render();
+      rafId = requestAnimationFrame(tick);
+    };
+    const moveTo = (next: number) => {
+      target = clamp(next, 0, LAST_STAGE);
+      // Decided by where we're headed, not where the spring has got to, so a
+      // swipe to leave the hero works the moment the last headline is chosen.
       syncTouchAction();
-
-      const dur = reduceMotion ? 0.01 : STEP_SECONDS;
-      const outgoing = stageEls(prev);
-      const incoming = stageEls(next);
-      gsap.killTweensOf([...outgoing, ...incoming]);
-      gsap.to(outgoing, {
-        opacity: 0,
-        y: -40 * dir,
-        filter: "blur(12px)",
-        duration: dur * 0.55,
-        ease: "power2.in",
-        stagger: 0.03,
-      });
-      gsap.fromTo(
-        incoming,
-        { opacity: 0, y: 40 * dir, filter: "blur(12px)" },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: dur,
-          ease: "power3.out",
-          stagger: 0.07,
-          delay: dur * 0.4,
-        },
-      );
-      gsap.to(videoWrap, { scale: 1 + 0.03 * next, duration: dur * 1.6, ease: "power2.out", overwrite: true });
-      gsap.to(vignette, { opacity: 0.48 + 0.12 * next, duration: dur * 1.6, ease: "power2.out", overwrite: true });
+      if (reduceMotion) {
+        pos = target;
+        vel = 0;
+        render();
+        syncTouchAction();
+        return;
+      }
+      if (!running) {
+        running = true;
+        lastFrame = performance.now();
+        rafId = requestAnimationFrame(tick);
+      }
     };
+
+    // Snap the target to a whole headline once input stops. `dir` is the way
+    // the gesture was travelling; a flick commits with even a short move.
+    const snap = (dir: number, flick = false) => {
+      engaged = false;
+      const a = Math.floor(target);
+      const f = target - a;
+      if (f < 0.0005) {
+        moveTo(a);
+        return;
+      }
+      const progressed = dir > 0 ? f : 1 - f;
+      const commit = progressed >= COMMIT_AT || (flick && progressed > 0.08);
+      moveTo(dir > 0 ? (commit ? a + 1 : a) : commit ? a : a + 1);
+    };
+
+    render();
+    syncTouchAction();
+
+    // Gesture bookkeeping shared by wheel and touch: input can only carry the
+    // target one headline away from where the gesture began.
+    let gestureFrom = 0;
+    const gestureBounds = () => [Math.max(0, gestureFrom - 1), Math.min(LAST_STAGE, gestureFrom + 1)] as const;
 
     // ── Wheel / trackpad ────────────────────────────────────────────────
     let lastWheel = 0;
-    let swallowing = false; // rest of a gesture that already caused a step
+    let lastDir = 1;
     let released = false; // gesture handed over to native scroll
+    let snapTimer: ReturnType<typeof setTimeout> | undefined;
     const onWheel = (e: WheelEvent) => {
       if (!atTop() || !section.contains(e.target as Node)) return;
-      const dir = Math.sign(e.deltaY);
+      const dy = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+      const dir = Math.sign(dy);
       if (!dir) return;
 
       const now = performance.now();
       if (now - lastWheel > WHEEL_QUIET_MS) {
-        swallowing = false;
-        released = false;
+        // New gesture: start from whichever headline we're resting on.
+        gestureFrom = Math.round(target);
+        released = (dir > 0 && gestureFrom === LAST_STAGE) || (dir < 0 && gestureFrom === 0);
       }
       lastWheel = now;
-
-      if (swallowing || now < lockedUntil) {
-        if (e.cancelable) e.preventDefault();
-        return;
-      }
       if (released) return;
 
-      if (isEdge(dir)) {
-        released = true;
-        return;
-      }
       if (e.cancelable) e.preventDefault();
-      if (Math.abs(e.deltaY) < 4) return;
-      swallowing = true;
-      step(current + dir);
+      lastDir = dir;
+      engaged = true;
+      const [lo, hi] = gestureBounds();
+      moveTo(clamp(target + dy / WHEEL_PX_PER_STEP, lo, hi));
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(() => snap(lastDir), WHEEL_QUIET_MS);
     };
 
-    // ── Touch ───────────────────────────────────────────────────────────
-    let touchStartY = 0;
-    let touchTracking = false;
+    // ── Touch: the headline follows the finger, then settles ────────────
+    let tracking = false;
+    let startY = 0;
+    let startTarget = 0;
+    let lastY = 0;
+    let lastT = 0;
+    let velocity = 0; // px/ms, + = finger moving up (scrolling down)
+    const range = () => Math.min(380, Math.max(220, window.innerHeight * 0.4));
     const onTouchStart = (e: TouchEvent) => {
-      touchTracking = atTop() && section.contains(e.target as Node);
-      touchStartY = e.touches[0]?.clientY ?? 0;
+      tracking = atTop() && section.contains(e.target as Node);
+      if (!tracking) return;
+      gestureFrom = Math.round(target);
+      startTarget = target;
+      startY = lastY = e.touches[0]?.clientY ?? 0;
+      lastT = performance.now();
+      velocity = 0;
+      engaged = true;
     };
-    const onTouchEnd = (e: TouchEvent) => {
-      if (!touchTracking) return;
-      touchTracking = false;
-      const dy = touchStartY - (e.changedTouches[0]?.clientY ?? touchStartY);
-      if (Math.abs(dy) < SWIPE_PX || performance.now() < lockedUntil) return;
-      const dir = Math.sign(dy);
-      // Swiping up past the last stage is a native scroll that already ran.
-      if (dir > 0 && current === LAST_STAGE) return;
-      if (atTop()) step(current + dir);
+    const onTouchMove = (e: TouchEvent) => {
+      if (!tracking) return;
+      const y = e.touches[0]?.clientY ?? lastY;
+      const now = performance.now();
+      if (now > lastT) velocity = (lastY - y) / (now - lastT);
+      lastY = y;
+      lastT = now;
+      const [lo, hi] = gestureBounds();
+      moveTo(clamp(startTarget + (startY - y) / range(), lo, hi));
+    };
+    const onTouchEnd = () => {
+      if (!tracking) return;
+      tracking = false;
+      const flick = Math.abs(velocity) > 0.5;
+      snap(flick ? Math.sign(velocity) : Math.sign(target - startTarget) || 1, flick);
     };
 
     // ── Keyboard ────────────────────────────────────────────────────────
@@ -298,27 +372,31 @@ export default function Hero() {
       let dir = 0;
       if (e.key === "ArrowDown" || e.key === "PageDown" || (e.key === " " && !e.shiftKey)) dir = 1;
       else if (e.key === "ArrowUp" || e.key === "PageUp" || (e.key === " " && e.shiftKey)) dir = -1;
-      if (!dir || isEdge(dir)) return;
+      const rest = Math.round(target);
+      if (!dir || (dir > 0 && rest === LAST_STAGE) || (dir < 0 && rest === 0)) return;
       e.preventDefault();
-      if (performance.now() >= lockedUntil) step(current + dir);
+      if (Math.abs(pos - target) < 0.05) moveTo(rest + dir);
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchEnd, { passive: true });
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("scroll", syncTouchAction, { passive: true });
-    syncTouchAction();
 
     return () => {
+      clearTimeout(snapTimer);
+      cancelAnimationFrame(rafId);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("scroll", syncTouchAction);
       section.style.touchAction = "";
-      gsap.killTweensOf([videoWrap, vignette]);
-      STAGES.forEach((_, i) => gsap.killTweensOf(stageEls(i)));
     };
   }, []);
 
@@ -450,7 +528,7 @@ export default function Hero() {
               can safely be the single page H1. This one carries the primary
               keyword and is visually hidden (sr-only), not display:none, so
               it's still announced to screen readers and isn't cloaked text. */}
-          <h1 className="sr-only">Best Kidney Stone Treatment in India</h1>
+          <h1 className="sr-only">Kidney Stone Treatment in Gurgaon, India</h1>
 
           {/* ── Text stages ──────────────────────────────────────── */}
           <div
