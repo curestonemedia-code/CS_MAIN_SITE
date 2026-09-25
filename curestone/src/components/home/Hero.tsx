@@ -36,6 +36,8 @@ const WHEEL_QUIET_MS = 140;
 // Past this fraction of a step (one mouse-wheel notch is ~0.28), letting go
 // finishes the step; short of it, the headline eases back.
 const COMMIT_AT = 0.22;
+// A wheel gesture that has travelled this far settles immediately.
+const WHEEL_COMMIT_NOW = 0.6;
 // Stiffness of the critically-damped spring that eases the on-screen position
 // toward the target (~4.7 / omega seconds to settle; lower = slower). Stiff
 // while a finger / wheel is actively driving it, so the headline tracks input
@@ -303,6 +305,8 @@ export default function Hero() {
     // ── Wheel / trackpad ────────────────────────────────────────────────
     let lastWheel = 0;
     let lastDir = 1;
+    let lastAbs = 0;
+    let spent = false; // this gesture already committed; ignore its momentum tail
     let released = false; // gesture handed over to native scroll
     let snapTimer: ReturnType<typeof setTimeout> | undefined;
     const onWheel = (e: WheelEvent) => {
@@ -310,23 +314,40 @@ export default function Hero() {
       const dy = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
       const dir = Math.sign(dy);
       if (!dir) return;
+      const abs = Math.abs(dy);
 
       const now = performance.now();
-      if (now - lastWheel > WHEEL_QUIET_MS) {
-        // New gesture: start from whichever headline we're resting on.
+      // A Mac trackpad keeps emitting decaying wheel events for a second or
+      // more after the fingers lift, so a pause is not the only sign of a new
+      // gesture: a reversal, or deltas growing again, is one too.
+      const fresh =
+        now - lastWheel > WHEEL_QUIET_MS || dir !== lastDir || (abs > lastAbs * 1.3 && abs - lastAbs >= 4);
+      lastWheel = now;
+      lastAbs = abs;
+      if (fresh) {
+        clearTimeout(snapTimer);
+        if (engaged || Math.abs(target - Math.round(target)) > 0.0005) snap(lastDir);
         gestureFrom = Math.round(target);
+        spent = false;
         released = (dir > 0 && gestureFrom === LAST_STAGE) || (dir < 0 && gestureFrom === 0);
       }
-      lastWheel = now;
+      lastDir = dir;
       if (released) return;
 
       if (e.cancelable) e.preventDefault();
-      lastDir = dir;
+      if (spent) return;
       engaged = true;
       const [lo, hi] = gestureBounds();
-      moveTo(clamp(target + dy / WHEEL_PX_PER_STEP, lo, hi));
+      const next = clamp(target + dy / WHEEL_PX_PER_STEP, lo, hi);
+      moveTo(next);
       clearTimeout(snapTimer);
-      snapTimer = setTimeout(() => snap(lastDir), WHEEL_QUIET_MS);
+      if (Math.abs(next - gestureFrom) >= WHEEL_COMMIT_NOW) {
+        // Clearly a full step: settle now instead of waiting out the tail.
+        spent = true;
+        snap(dir);
+      } else {
+        snapTimer = setTimeout(() => snap(lastDir), WHEEL_QUIET_MS);
+      }
     };
 
     // ── Touch: the headline follows the finger, then settles ────────────
