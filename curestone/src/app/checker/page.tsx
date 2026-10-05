@@ -7,12 +7,39 @@ import Link from "next/link";
 import Image from "next/image";
 import { sendCrmLead } from "@/utils/crmWebhook";
 import { normalizeIndianPhone, validateIndianPhone } from "@/utils/formValidation";
+import { parseBotText, splitInline, stripEmbedTags } from "@/utils/chatMarkdown";
 
 type Message = {
   role: "bot" | "user";
   content: string;
   timestamp: Date;
+  // Embeds are attached by the app, never parsed out of the model's text, so
+  // each reply shows at most one map and one video, always after the text.
+  videoId?: string;
+  showMap?: boolean;
 };
+
+const MAP_SRC =
+  "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14033.273570394473!2d77.045641!3d28.485092!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1782981388299!5m2!1sen!2sin";
+
+// Topic keywords -> the matching real video. Checked in order, first hit wins.
+const VIDEO_TOPICS: Array<{ pattern: RegExp; videoId: string }> = [
+  { pattern: /rirs|retrograde|laser (surgery|treatment)|लेजर|आरआईआरएस|RIRS/i, videoId: "cQMDYm__gHM" },
+  { pattern: /eswl|shock ?wave|lithotripsy|शॉकवेव/i, videoId: "tNx0HcofMgc" },
+  { pattern: /pcnl/i, videoId: "UL6rs2nAXsU" },
+  { pattern: /ursl|ureter|ureteroscop|यूरेटर/i, videoId: "w-0pRk1MyUM" },
+  { pattern: /dj stent|stent|स्टेंट/i, videoId: "qobqvzQ6za4" },
+  { pattern: /prevent|diet|drink|water intake|बचाव|आहार|रोकथाम/i, videoId: "aHsGua3WaVM" },
+  { pattern: /trust|reliab|experience|hospital|doctor|भरोसा|अस्पताल|डॉक्टर/i, videoId: "K5va1bE282M" },
+];
+
+// Shows the map when the question or answer is about where the hospital is.
+const LOCATION_PATTERN = /sector ?52|ardee|gurugram|gurgaon|गुरुग्राम|गुड़गांव|address|location|direction|where (is|are|can)|located|पता|कहाँ|कहां/i;
+
+function pickVideoId(text: string): string | undefined {
+  return VIDEO_TOPICS.find((topic) => topic.pattern.test(text))?.videoId;
+}
+
 
 const ONBOARDING = {
   en: {
@@ -46,99 +73,105 @@ const QUICK_PROMPTS = {
   ],
 };
 
-// Guarantees a video for the fixed quick-prompt questions (a "must"), while
-// leaving free-typed questions entirely to the model's own judgement of
-// whether a video is relevant — see the /api/chat system prompt.
-function ensureVideo(content: string, requiredVideoId?: string): string {
-  if (!requiredVideoId) return content;
-  const videoTag = /\[YOUTUBE_EMBED:[^\]]+\]/;
-  if (videoTag.test(content)) {
-    return content.replace(videoTag, `[YOUTUBE_EMBED:${requiredVideoId}]`);
-  }
-  return `${content}\n\n[YOUTUBE_EMBED:${requiredVideoId}]`;
-}
-
 const PLACEHOLDERS = {
   name: { en: "Type your full name...", hi: "अपना पूरा नाम लिखें..." },
   chat: { en: "Ask about symptoms, RIRS, or surgery...", hi: "लक्षण, RIRS या सर्जरी के बारे में पूछें..." },
   phone: { en: "10-digit mobile number", hi: "10 अंकों का मोबाइल नंबर" },
 };
 
-function renderMarkdown(text: string) {
-  const lines = text.split("\n");
-  const elements: React.ReactNode[] = [];
-  lines.forEach((line, idx) => {
-    const bullet = line.match(/^[\s]*[-*•]\s+(.*)/);
-    if (bullet) {
-      elements.push(
-        <div key={idx} className="flex items-start gap-2 ml-1 my-1.5 group">
-          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary/40 shrink-0 group-hover:bg-primary transition-colors" />
-          <span className="text-slate-700 leading-snug">{renderInline(bullet[1])}</span>
-        </div>
-      );
-    } else if (line.trim() === "") {
-      elements.push(<div key={idx} className="h-2" />);
-    } else if (line.trim() === "[MAP_EMBED]") {
-      elements.push(
-        <div key={idx} className="my-3 w-full rounded-2xl overflow-hidden shadow-sm border border-slate-200">
-          <iframe
-            width="100%"
-            height="250"
-            frameBorder="0"
-            scrolling="no"
-            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14033.273570394473!2d77.045641!3d28.485092!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1782981388299!5m2!1sen!2sin"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            title="Cure Stone Hospital Location"
-          />
-        </div>
-      );
-    } else if (line.trim().startsWith("[YOUTUBE_EMBED:")) {
-      const match = line.trim().match(/\[YOUTUBE_EMBED:(.+)\]/);
-      if (match && match[1]) {
-        elements.push(
-          <div key={idx} className="my-3 w-full rounded-2xl overflow-hidden shadow-sm bg-black border border-slate-200">
-            <iframe
-              width="100%"
-              height="200"
-              src={`https://www.youtube.com/embed/${match[1]}?autoplay=0`}
-              title="Cure Stone Hospital Video"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+function renderBotText(text: string) {
+  return parseBotText(text).map((block, idx) => {
+    switch (block.type) {
+      case "space":
+        return <div key={idx} className="h-2" />;
+      case "title":
+        return (
+          <p key={idx} className="mt-4 mb-1 text-[15px] font-extrabold text-slate-900">
+            {renderInline(block.text)}
+          </p>
+        );
+      case "heading":
+        return (
+          <p key={idx} className="mt-4 mb-1.5 pb-1 text-base font-black text-slate-900 border-b border-slate-200">
+            {renderInline(block.text)}
+          </p>
+        );
+      case "bullet":
+        return (
+          <div key={idx} className="flex items-start gap-2 my-1 group" style={{ marginLeft: block.level * 16 + 4 }}>
+            <span
+              className={`mt-2 shrink-0 rounded-full bg-primary/40 group-hover:bg-primary transition-colors ${block.level ? "w-1 h-1" : "w-1.5 h-1.5"}`}
+            />
+            <span className="text-slate-700 leading-snug">{renderInline(block.text)}</span>
           </div>
         );
-      }
-    } else {
-      elements.push(
-        <p key={idx} className="my-0.5 text-slate-700 leading-relaxed">
-          {renderInline(line)}
-        </p>
-      );
+      case "number":
+        return (
+          <div key={idx} className="flex items-start gap-2 my-1" style={{ marginLeft: block.level * 16 + 4 }}>
+            <span className="font-extrabold text-primary shrink-0">{block.n}.</span>
+            <span className="text-slate-700 leading-snug">{renderInline(block.text)}</span>
+          </div>
+        );
+      case "para":
+        return (
+          <p key={idx} className="my-0.5 text-slate-700 leading-relaxed">
+            {renderInline(block.text)}
+          </p>
+        );
     }
   });
-  return elements;
 }
 
 function renderInline(text: string) {
-  const parts = text.split(/(\*\*[^*]+\*\*|_[^_]+_)/g);
-  return parts.map((part, i) => {
-    if (part.startsWith("**") && part.endsWith("**"))
+  return splitInline(text).map((part, i) => {
+    if (part.kind === "bold")
       return (
         <strong key={i} className="font-extrabold text-slate-900">
-          {part.slice(2, -2)}
+          {part.text}
         </strong>
       );
-    if (part.startsWith("_") && part.endsWith("_"))
+    if (part.kind === "italic")
       return (
         <em key={i} className="italic text-slate-500 text-[13px]">
-          {part.slice(1, -1)}
+          {part.text}
         </em>
       );
-    return part;
+    return part.text;
   });
+}
+
+function VideoEmbed({ videoId }: { videoId: string }) {
+  return (
+    <div className="mt-3 w-full rounded-2xl overflow-hidden shadow-sm bg-black border border-slate-200">
+      <iframe
+        width="100%"
+        height="200"
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=0`}
+        title="Cure Stone Hospital Video"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </div>
+  );
+}
+
+function MapEmbedBlock() {
+  return (
+    <div className="mt-3 w-full rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+      <iframe
+        width="100%"
+        height="250"
+        frameBorder="0"
+        scrolling="no"
+        src={MAP_SRC}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="strict-origin-when-cross-origin"
+        title="Cure Stone Hospital Location"
+      />
+    </div>
+  );
 }
 
 export default function KidneyChatBot() {
@@ -198,9 +231,9 @@ export default function KidneyChatBot() {
     }).catch((error) => console.error("Checker CRM lead submission failed:", error));
   }, [phoneNumber, userName, userQuestions]);
 
-  const addBotMsg = (content: string) => {
+  const addBotMsg = (content: string, extras: Partial<Message> = {}) => {
     setMessages((prev) => {
-      const newArr = [...prev, { role: "bot", content, timestamp: new Date() } as Message];
+      const newArr = [...prev, { role: "bot", content, timestamp: new Date(), ...extras } as Message];
       return newArr.length > 10 ? newArr.slice(newArr.length - 10) : newArr;
     });
   };
@@ -291,7 +324,11 @@ export default function KidneyChatBot() {
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
-        addBotMsg(ensureVideo(data.reply, requiredVideoId));
+        const reply = stripEmbedTags(data.reply ?? "");
+        addBotMsg(reply, {
+          videoId: requiredVideoId ?? pickVideoId(text),
+          showMap: LOCATION_PATTERN.test(text) || LOCATION_PATTERN.test(reply),
+        });
       } catch {
         const err =
           language === "en"
@@ -392,7 +429,9 @@ export default function KidneyChatBot() {
                           : "bg-[#F1F5F9] text-slate-800 rounded-tl-none border border-slate-200/50"
                         }`}
                     >
-                      {msg.role === "bot" ? renderMarkdown(msg.content) : msg.content}
+                      {msg.role === "bot" ? renderBotText(msg.content) : msg.content}
+                      {msg.role === "bot" && msg.videoId && <VideoEmbed videoId={msg.videoId} />}
+                      {msg.role === "bot" && msg.showMap && <MapEmbedBlock />}
                     </div>
                     <span className="text-[10px] font-bold text-slate-400 px-2 uppercase tracking-tighter">
                       {msg.role === "user" ? (language === "en" ? "You" : "आप") : "Cure Stone AI"} •{" "}

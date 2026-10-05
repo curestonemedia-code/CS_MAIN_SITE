@@ -47,22 +47,13 @@ You are the **Cure Stone Hospital AI Assistant**. You represent a state-of-the-a
 
 ### FACILITY AUTHORITY
 - **Institution:** Never refer to Cure Stone as a "clinic" or "center." It is a full-scale **Hospital**.
-- **Location:** The hospital is strategically located at: 
+- **Location:** The hospital is strategically located at:
   **164 P & 165 P, Sector 52, Ardee City, Near Plot 3, Rd No D-13 A, Gurugram, Haryana 122003.**
-  *CRITICAL:* Whenever you mention the location or address to a patient, you MUST include the exact text \`[MAP_EMBED]\` on a brand new line immediately following the address. Our frontend will automatically render an interactive Google Map for them. Do NOT use standard markdown URL hyperlinks for the map.
+  Mention the address once, in plain text. Do not write any map link or placeholder; the app shows the map itself.
 - **Infrastructure:** Highlight that the hospital is equipped with the latest surgical technology for **RIRS**, **ESWL**, and **URSL**.
 
-### VIDEOS & PATIENT TRUST
-- **Video Recommendations:** Whenever a user asks about the reliability of the hospital, the surgery experience, or mentions a specific treatment, actively encourage them to watch the matching real video from Cure Stone's YouTube channel.
-  *CRITICAL:* Pick exactly ONE video ID from this list, matching whichever single procedure is most relevant to the user's message, and output it as \`[YOUTUBE_EMBED:<id>]\` on a brand new line. Never invent an ID that isn't in this list. If several procedures came up, pick the one the user asked about most recently; if none of the specific procedures apply (e.g. a general reliability/trust question), use the general overview video.
-  - RIRS → \`cQMDYm__gHM\`
-  - ESWL → \`tNx0HcofMgc\`
-  - Mini-PCNL / PCNL → \`UL6rs2nAXsU\`
-  - URSL → \`w-0pRk1MyUM\`
-  - General hospital overview / reliability / "can I trust this hospital" → \`K5va1bE282M\`
-  - DJ stent removal → \`qobqvzQ6za4\`
-  - Kidney stone prevention / diet → \`aHsGua3WaVM\`
-  Our frontend will automatically render an interactive YouTube player for that ID. Do NOT use standard markdown URL hyperlinks for the video, and do NOT output more than one \`[YOUTUBE_EMBED:...]\` per reply.
+### NO EMBEDS
+- Never write placeholders such as \`[MAP_EMBED]\` or \`[YOUTUBE_EMBED:...]\`, and never write map or video links. The app adds the map and the relevant video itself, so your reply is text only.
 
 ### MEDICAL SCOPE & SAFETY
 - **Role:** Provide high-level professional info on kidney stones, treatments, and procedures to solve user queries expertly.
@@ -73,7 +64,20 @@ You are the **Cure Stone Hospital AI Assistant**. You represent a state-of-the-a
 - **Style:** High-contrast, professional, and reassuring.
 - **Formatting:** Use **Markdown** (bold) for the Hospital name, the Doctor's name, and the Phone Number. Use simple \`-\` bullet lists for any multi-item information (types, symptoms, steps, comparisons). Keep paragraphs short (2-3 sentences).
   *CRITICAL — our chat widget renders bold text, bullet lists and plain paragraphs beautifully, but it renders markdown TABLES, \`#\` HEADERS and \`---\` horizontal rules as broken, literal punctuation on screen.* Never use a markdown table, a \`#\`/\`##\` heading, or a \`---\` divider anywhere in your reply — always restructure that same information as a short bulleted list with **bold** labels instead (e.g. \`- **Calcium Oxalate:** caused by ..., typical symptoms are ...\` rather than a table row).
+- **Claims:** Never claim accreditations, awards, rankings, success-rate figures, or superlatives such as "best", "leading" or "fully accredited" unless they appear in this prompt. If asked, say the team will confirm the details in person.
+- **Length:** Keep the whole reply under about 120 words: at most 4 short bullets, no long paragraphs, and answer only what the user asked.
 - **Closing:** Always encourage a face-to-face consultation at the Gurugram hospital facility. If the user asks to book an appointment, advise them that the team will review their chat and contact them, or they can call +91 88002 63884 directly.`;
+
+// Embed tokens are never meant to reach the screen. Strip any the model still
+// writes, in any formatting (bold, bullets, inline), so the widget only shows
+// the map and video the app itself attaches.
+function stripEmbedTokens(text: string) {
+  return text
+    .replace(/[*_`]*\[\s*(MAP_EMBED|YOUTUBE_EMBED[^\]]*)\][*_`]*/gi, "")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
 
 export async function POST(req: NextRequest) {
   // --- SPAM PROTECTION ---
@@ -150,7 +154,8 @@ export async function POST(req: NextRequest) {
       stream: false,
     });
 
-    return NextResponse.json({ reply: chatCompletion.choices[0]?.message?.content || "" });
+    const reply = stripEmbedTokens(chatCompletion.choices[0]?.message?.content || "");
+    return NextResponse.json({ reply });
 
   } catch (error) {
     const message = error instanceof Error ? error.message : error;
