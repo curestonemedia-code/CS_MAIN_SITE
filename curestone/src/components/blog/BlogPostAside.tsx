@@ -20,7 +20,7 @@ export default function BlogPostAside({ postTitle }: { postTitle: string }) {
     <aside id="blog-enquiry" className="mt-12 scroll-mt-28 lg:mt-0" aria-label="Book a consultation">
       <div className="space-y-6 lg:sticky lg:top-28">
         <div className="rounded-3xl border border-primary/15 bg-white p-6 shadow-xl shadow-primary/5">
-          <p className="text-[10px] font-black uppercase tracking-widest text-primary">Free Consultation</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-primary">Patient Enquiry</p>
           <h2 className="mb-1 mt-1 text-xl font-black text-slate-900">Get a call back</h2>
           <p className="mb-4 text-sm font-medium text-slate-500">Share your number — we&apos;ll reach out shortly.</p>
           <BlogLeadForm postTitle={postTitle} />

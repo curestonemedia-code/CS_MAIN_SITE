@@ -123,7 +123,7 @@ export default function GurgaonPage() {
             {/* Lead Gen Card */}
             <div className="lg:col-span-5">
               <div className="bg-white p-8 lg:p-10 rounded-[2rem] ambient-shadow border border-slate-200">
-                <h3 className="font-sans text-2xl font-bold text-blue-900 mb-2">Get Free Estimate</h3>
+                <h3 className="font-sans text-2xl font-bold text-blue-900 mb-2">Get Estimate</h3>
                 <p className="text-slate-600 text-sm mb-8">Personalized cost breakdown for Gurgaon residents</p>
                 <LocationLeadForm />
               </div>
@@ -206,7 +206,7 @@ export default function GurgaonPage() {
               <p className="text-blue-100 text-xl max-w-2xl mx-auto mb-12 opacity-90">Book a kidney stone consultation in Gurgaon and review your scans with our care team.</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                 <Link href="/book" className="bg-amber-500 text-white px-12 py-5 rounded-full font-sans font-bold text-lg hover:bg-white hover:text-blue-900 transition-all duration-300">
-                  Book Free Appointment
+                  Book Appointment
                 </Link>
                 <a className="text-white flex items-center gap-2 font-sans font-bold text-lg" href="tel:+918800263884">
                   <span className="material-symbols-outlined">call</span> Call +91 88002 63884

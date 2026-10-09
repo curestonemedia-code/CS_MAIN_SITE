@@ -68,7 +68,7 @@ export default function AppointmentForm() {
             <div className="bg-white/70 backdrop-blur-2xl p-8 md:p-10 rounded-[2.5rem] border border-white shadow-2xl shadow-primary/5">
               <LocationLeadForm
                 formType="book_appointment"
-                submitLabel="SCHEDULE FREE CONSULTATION"
+                submitLabel="SCHEDULE CONSULTATION"
                 onSuccess={() => setIsSubmitted(true)}
               />
             </div>

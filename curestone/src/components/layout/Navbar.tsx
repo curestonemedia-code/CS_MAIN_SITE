@@ -91,7 +91,7 @@ export default function Navbar() {
             <Link href="/book" className="group relative px-5 xl:px-7 py-2 md:py-2.5 bg-primary text-white font-black text-[10px] md:text-xs rounded-full uppercase tracking-widest shadow-lg shadow-primary/30">
               {/* Thick Outer Highlight Border */}
               <div className="absolute inset-[-3px] rounded-full border-2 border-primary group-hover:border-primary-dark transition-colors" />
-              <span className="relative whitespace-nowrap">BOOK Free APPOINTMENT</span>
+              <span className="relative whitespace-nowrap">BOOK APPOINTMENT</span>
             </Link>
           </div>
 

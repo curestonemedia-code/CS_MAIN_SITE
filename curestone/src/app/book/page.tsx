@@ -8,7 +8,7 @@ import LocationLeadForm from "@/components/home/LocationLeadForm";
 
 const faqs = [
   { q: "How soon will I get a confirmation?", a: "Our coordinator calls within 15 minutes of form submission during clinic hours (10 AM – 7 PM On Appoinment)." },
-  { q: "Is the consultation free?", a: "The first online video consultation is free. In-clinic consultations start at ₹800." },
+  { q: "What does the consultation cost?", a: "The first online video consultation has no charge. In-clinic consultations start at ₹800." },
   { q: "Do I need to carry any reports?", a: "If you have existing ultrasound, CT KUB or blood reports, please carry them. It helps our team assess your case faster." },
   { q: "Can I book for a family member?", a: "Yes. Just fill in the patient's details in the form. You can also contact us directly via WhatsApp." },
   { q: "What if I am outside India?", a: "We offer international video consultations. Select 'Online Video' as consultation type and mention your country in the description." },
@@ -32,7 +32,7 @@ export default function BookPage() {
           </h1>
           <p className="text-lg text-white/60 font-medium max-w-2xl mx-auto mb-10">Speak with Dr. Deepanshu Gupta about kidney stone surgery in Gurgaon, RIRS options, scan review, and treatment planning.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            {["Call Back in 15 mins", "Online & In-Clinic", "Free First Consult", "Secure & Confidential"].map((t, i) => (
+            {["Call Back in 15 mins", "Online & In-Clinic", "First Consult: No Charge", "Secure & Confidential"].map((t, i) => (
               <span key={i} className="flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/10 rounded-full text-sm font-bold text-white/70">
                 <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                 {t}
@@ -59,11 +59,11 @@ export default function BookPage() {
                 </div>
               ) : (
                 <div className="bg-white/70 backdrop-blur-2xl p-8 md:p-10 rounded-[2.5rem] border border-white shadow-2xl shadow-primary/5">
-                  <h2 className="text-2xl font-black text-slate-900 mb-1">Schedule Free Consultation</h2>
+                  <h2 className="text-2xl font-black text-slate-900 mb-1">Schedule Consultation</h2>
                   <p className="text-sm text-slate-500 font-medium mb-8">Fill in the details and we&apos;ll reach out within 15 minutes.</p>
                   <LocationLeadForm
                     formType="book_appointment"
-                    submitLabel="Schedule Free Consultation"
+                    submitLabel="Schedule Consultation"
                     onSuccess={() => setSubmitted(true)}
                   />
                 </div>

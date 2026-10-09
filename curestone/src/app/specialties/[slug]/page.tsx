@@ -229,7 +229,7 @@ export default function SpecialtyPage() {
             href="/book"
             className="inline-block px-8 py-4 bg-white text-primary font-black rounded-xl text-lg hover:scale-105 transition-all"
           >
-            Book Free Consultation
+            Book Consultation
           </Link>
         </section>
       </main>

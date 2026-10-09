@@ -298,7 +298,7 @@ function BookingLeadForm({ submitLabel, onSuccess }: { submitLabel: string; onSu
 
 export default function LocationLeadForm({
   formType = "get_estimate",
-  submitLabel = "Schedule Free Consultation",
+  submitLabel = "Schedule Consultation",
   onSuccess,
 }: {
   formType?: "get_estimate" | "book_appointment";

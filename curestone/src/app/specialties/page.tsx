@@ -182,7 +182,7 @@ export default function SpecialtiesPage() {
             Not Sure Which Specialty You Need?
           </h2>
           <p className="max-w-xl mx-auto text-blue-100 font-medium mb-8">
-            Use our free AI symptom checker or book a consultation and our team
+            Use our AI symptom checker or book a consultation and our team
             will guide you to the right specialist.
           </p>
           <div className="flex xs:flex-row gap-4 justify-center">
@@ -190,7 +190,7 @@ export default function SpecialtiesPage() {
               href="/book"
               className="px-8 py-4 bg-white text-primary font-black rounded-xl text-lg hover:scale-105 transition-all no-underline"
             >
-              Book Free Consultation
+              Book Consultation
             </Link>
             <Link
               href="/checker"

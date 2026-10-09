@@ -104,7 +104,7 @@ export default function FaqsPage() {
         <section className="py-16 md:py-24 bg-primary text-center px-4">
           <h2 className="text-3xl md:text-5xl font-black text-white mb-6">Still Have Questions?</h2>
           <p className="max-w-xl mx-auto text-blue-100 font-medium mb-8">
-            Talk to our care team or book a free consultation with Dr. Deepanshu Gupta for a
+            Talk to our care team or book a consultation with Dr. Deepanshu Gupta for a
             personalised treatment plan.
           </p>
           <div className="flex xs:flex-row gap-4 justify-center">
@@ -112,7 +112,7 @@ export default function FaqsPage() {
               href="/book"
               className="px-8 py-4 bg-white text-primary font-black rounded-xl text-lg hover:scale-105 transition-all no-underline"
             >
-              Book Free Consultation
+              Book Consultation
             </Link>
             <Link
               href="/checker"

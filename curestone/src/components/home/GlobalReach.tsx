@@ -55,7 +55,7 @@ export default function GlobalReach() {
             </h2>
 
             <button className="group relative flex items-center gap-4 py-4 px-10 rounded-full bg-white text-blue-700 font-black hover:bg-blue-50 transition-all shadow-2xl shadow-blue-900/20">
-              <span> Book Free Consultation </span>
+              <span> Book Consultation </span>
               <div className="w-8 h-8 rounded-full bg-blue-700 flex items-center justify-center text-white group-hover:scale-110 transition-transform">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />

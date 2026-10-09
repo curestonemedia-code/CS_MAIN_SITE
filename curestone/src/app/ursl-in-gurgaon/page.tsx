@@ -225,7 +225,7 @@ export default function UrslInGurgaonPage() {
               URSL cost depends on stone location, complexity and length of hospital stay — there is no fixed number until your scan is reviewed. Most patients use cashless health insurance when medically indicated, and Cure Stone&apos;s team handles the documentation and approvals.
             </p>
             <p className="text-slate-600 font-medium leading-relaxed">
-              The first video consultation is free; in-clinic consultations start at ₹800.
+              The first video consultation has no charge; in-clinic consultations start at ₹800.
             </p>
           </div>
         </section>

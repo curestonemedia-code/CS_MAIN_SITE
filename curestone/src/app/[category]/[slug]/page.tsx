@@ -303,7 +303,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 href="#blog-enquiry"
                 className="flex items-center justify-center rounded-xl bg-primary py-3.5 text-sm font-black text-white shadow-lg shadow-primary/20"
               >
-                Book Free Consult
+                Book Consult
               </a>
             </div>
           </header>

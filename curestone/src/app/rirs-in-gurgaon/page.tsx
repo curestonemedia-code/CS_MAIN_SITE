@@ -105,7 +105,7 @@ const differentiators = [
 ];
 
 const journey = [
-  { step: "Consultation", desc: "Free video consult or in-clinic visit at Sector 52 — bring your CT KUB scan, or get one done locally beforehand." },
+  { step: "Consultation", desc: "Video consult or in-clinic visit at Sector 52 — bring your CT KUB scan, or get one done locally beforehand." },
   { step: "Admission Day", desc: "Same-facility admission in Gurgaon; pre-anaesthesia checks completed on site." },
   { step: "Discharge", desc: "Most patients go home the same day or within 24 hours, straight from the Sector 52 facility." },
   { step: "Local Follow-Up", desc: "Follow-up visits and any stent removal are scheduled back at the same Gurgaon hospital." },
@@ -225,7 +225,7 @@ export default function RirsInGurgaonPage() {
               RIRS cost depends on stone size, complexity and length of hospital stay — there is no fixed number until your scan is reviewed. Most patients use cashless health insurance when medically indicated, and Cure Stone&apos;s team handles the documentation and approvals.
             </p>
             <p className="text-slate-600 font-medium leading-relaxed">
-              The first video consultation is free; in-clinic consultations start at ₹800.
+              The first video consultation has no charge; in-clinic consultations start at ₹800.
             </p>
           </div>
         </section>
@@ -249,7 +249,7 @@ export default function RirsInGurgaonPage() {
             <h2 className="text-3xl md:text-5xl font-black text-white mb-4">Ready to Book RIRS in Gurgaon?</h2>
             <p className="text-white/70 font-medium mb-10 text-base md:text-lg">Bring your CT KUB scan, or get one done locally, and meet Dr. Deepanshu Gupta at Sector 52.</p>
             <Link href="/book" className="inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 bg-white text-primary font-black rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-base md:text-lg">
-              Book Free RIRS Consultation →
+              Book RIRS Consultation →
             </Link>
             <p className="text-white/40 text-[10px] md:text-xs font-bold uppercase tracking-widest mt-6">
               <a href={`tel:${PHONE_TEL}`}>{PHONE_SCHEMA}</a> · {CONSULTATION_HOURS}

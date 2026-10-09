@@ -26,7 +26,7 @@ const STAGES = [
     desc: "Personalized kidney stone surgery in Gurgaon with RIRS, PCNL, ESWL and URSL options.",
   },
   {
-    tag: "Book Free Consultation",
+    tag: "Book Consultation",
     line1: "TAKE CONTROL",
     line2: "OF YOUR HEALTH",
     desc: "Consult a urologist doctor in Gurgaon at Cure Stone Hospital.",
@@ -609,7 +609,7 @@ export default function Hero() {
               onTouchStart={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
               onTouchEnd={(e) => (e.currentTarget.style.transform = "scale(1)")}
             >
-              Book Free Appointment →
+              Book Appointment →
             </button>
           </div>
 

@@ -277,7 +277,7 @@ const DoctorProfile = () => {
                 className="flex-1 px-8 py-5 bg-blue-600 text-white font-black rounded-3xl shadow-[0_20px_40px_-12px_rgba(43,92,230,0.4)] hover:bg-blue-700 hover:shadow-[0_24px_48px_-12px_rgba(43,92,230,0.5)] transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
               >
                 <CalendarCheck2 size={20} />
-                Book Consultation Free
+                Book Consultation
               </Link>
               <a
                 href="https://wa.me/918800263884"

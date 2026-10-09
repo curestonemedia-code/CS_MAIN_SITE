@@ -310,9 +310,9 @@ export default function RIRSPage() {
         <section className="py-16 md:py-24 bg-primary">
           <div className="max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-5xl font-black text-white mb-4">Ready to Be Stone-Free?</h2>
-            <p className="text-white/70 font-medium mb-10 text-base md:text-lg">Book a free consultation with Dr. Deepanshu Gupta. Most patients are treated and discharged within 24 hours.</p>
+            <p className="text-white/70 font-medium mb-10 text-base md:text-lg">Book a consultation with Dr. Deepanshu Gupta. Most patients are treated and discharged within 24 hours.</p>
             <Link href="/book" className="inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 bg-white text-primary font-black rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-base md:text-lg">
-              Book Free RIRS Consultation →
+              Book RIRS Consultation →
             </Link>
             <p className="text-white/40 text-[10px] md:text-xs font-bold uppercase tracking-widest mt-6">+91 88002 63884 · Available 10 AM – 7 PM On Appoinment</p>
             <p className="mt-4">

@@ -176,7 +176,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "How do I book RIRS surgery at Cure Stone, Gurgaon?",
-        a: "You can book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884. Your CT KUB scan is reviewed before confirming RIRS as the right procedure.",
+        a: "You can book a video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884. Your CT KUB scan is reviewed before confirming RIRS as the right procedure.",
       },
       {
         q: "Is parking available at Cure Stone Hospital, Sector 52?",
@@ -196,7 +196,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "How do I book a Mini-PCNL consultation at Cure Stone, Gurgaon?",
-        a: "Book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884, with your CT KUB scan ready for review.",
+        a: "Book a video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884, with your CT KUB scan ready for review.",
       },
       {
         q: "Does Cure Stone Hospital in Gurgaon assist with cashless insurance for Mini-PCNL?",
@@ -216,7 +216,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "How do I book an ESWL session at Cure Stone, Gurgaon?",
-        a: "Book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884. ESWL sessions are scheduled after your CT KUB scan is reviewed.",
+        a: "Book a video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884. ESWL sessions are scheduled after your CT KUB scan is reviewed.",
       },
       {
         q: "Is ESWL available as a same-day outpatient procedure at Cure Stone, Gurgaon?",
@@ -240,7 +240,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "How do I book a URSL consultation at Cure Stone, Gurgaon?",
-        a: "Book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884, with your CT KUB scan ready for review.",
+        a: "Book a video consultation or an in-clinic appointment with Dr. Deepanshu Gupta through the online booking form or by calling +91 88002 63884, with your CT KUB scan ready for review.",
       },
     ],
   },
@@ -256,11 +256,11 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "How much does kidney stone treatment cost?",
-        a: "Cost depends on the stone size, the procedure recommended, and the length of hospital stay required. Book a consultation for a personalised estimate — the first video consultation is free and in-clinic consultations start at ₹800.",
+        a: "Cost depends on the stone size, the procedure recommended, and the length of hospital stay required. Book a consultation for a personalised estimate — the first video consultation has no charge and in-clinic consultations start at ₹800.",
       },
       {
         q: "How do I book an appointment with a urologist in Gurgaon?",
-        a: "You can book a free video consultation or an in-clinic appointment with Dr. Deepanshu Gupta at Cure Stone Hospital, Sector 52, Gurgaon through our online booking form or by calling +91 88002 63884.",
+        a: "You can book a video consultation or an in-clinic appointment with Dr. Deepanshu Gupta at Cure Stone Hospital, Sector 52, Gurgaon through our online booking form or by calling +91 88002 63884.",
       },
       {
         q: "Does Cure Stone offer online consultations for patients outside India?",
