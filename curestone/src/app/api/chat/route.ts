@@ -1,45 +1,12 @@
-import Groq from "groq-sdk";
 import type { ChatCompletionMessageParam } from "groq-sdk/resources/chat/completions";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
+import { getGroq } from "@/lib/groq";
+import { getRatelimit } from "@/lib/rateLimit";
 
 type ChatMessage = {
   role: "user" | "assistant" | "system";
   content: string;
 };
-
-let cachedRatelimit: Ratelimit | null | undefined;
-let cachedGroq: Groq | null | undefined;
-
-function getRatelimit() {
-  if (cachedRatelimit !== undefined) return cachedRatelimit;
-
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-
-  if (!url || !token) {
-    cachedRatelimit = null;
-    return cachedRatelimit;
-  }
-
-  cachedRatelimit = new Ratelimit({
-    redis: new Redis({ url, token }),
-    limiter: Ratelimit.slidingWindow(5, "1m"),
-    analytics: true,
-  });
-
-  return cachedRatelimit;
-}
-
-function getGroq() {
-  if (cachedGroq !== undefined) return cachedGroq;
-
-  const apiKey = process.env.GROQ_API_KEY;
-  cachedGroq = apiKey ? new Groq({ apiKey }) : null;
-
-  return cachedGroq;
-}
 
 // 2. High-Conversion Professional System Prompt
 const SYSTEM_PROMPT = `### INSTITUTIONAL IDENTITY

@@ -268,6 +268,46 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
     ],
   },
+  {
+    slug: "diet-planner",
+    title: "Kidney Stone Diet & Nutrition",
+    relatedHref: "/kidney-stone-diet-planner",
+    relatedLabel: "Try the Free Diet Planner",
+    items: [
+      {
+        q: "What is the best diet for kidney stones?",
+        a: "There's no single diet for every stone — it depends on the stone type. In general: drink enough water to pass 2.5–3 litres of urine a day, keep sodium (salt) low, don't restrict dietary calcium, and limit high-oxalate foods and excess animal protein. Our free diet planner personalizes this based on your stone type and profile.",
+      },
+      {
+        q: "What foods should I avoid with kidney stones?",
+        a: "The foods to limit depend on the stone type. For the most common type (calcium oxalate), high-oxalate foods like spinach, beetroot and nuts, plus excess salt and red/organ meat, are the main ones to moderate. For uric acid stones, high-purine foods like organ meat and certain seafood matter more. Avoid guessing — our planner tiers foods by your specific stone type.",
+      },
+      {
+        q: "Should I stop eating dairy or calcium if I have kidney stones?",
+        a: "No — this is a common myth. Low dietary calcium actually increases oxalate absorption and raises stone risk. Most guidelines recommend normal calcium intake (around 1000–1200mg/day) from food, ideally eaten alongside oxalate-rich foods rather than avoided.",
+      },
+      {
+        q: "How much water should I drink daily to prevent kidney stones?",
+        a: "Most adults with a history of kidney stones are advised to drink enough fluid to produce at least 2.5 litres of urine a day — for an average adult this is often 3–3.5 litres of water, spread through the day rather than all at once. Your exact target depends on your weight, activity level and climate; our diet planner calculates this for you.",
+      },
+      {
+        q: "Which fruits are good for kidney stones?",
+        a: "Citrus fruits — lemon, orange and sweet lime — are especially helpful since their citrate content can reduce stone formation. Most fruits are low-oxalate and safe; a few (like berries in large amounts) are higher in oxalate and best eaten in moderation.",
+      },
+      {
+        q: "Is the kidney stone diet different for different stone types?",
+        a: "Yes. Calcium oxalate stones (the most common type) respond to oxalate and sodium control. Uric acid stones respond more to limiting animal protein and purines. Struvite stones are infection-driven, so diet plays a smaller role. Cystine stones need sodium and fluid management. Our planner asks your stone type and adjusts accordingly.",
+      },
+      {
+        q: "What should I eat after kidney stone surgery (RIRS, PCNL, ESWL, URSL)?",
+        a: "Post-surgery, hydration is the priority — fluid intake is often recommended slightly higher than the general prevention target to help flush the urinary tract. Keep meals light for the first few days, maintain normal sodium and calcium intake, and avoid very high-oxalate foods until you've followed up with your surgeon.",
+      },
+      {
+        q: "Does a vegetarian diet help prevent kidney stones?",
+        a: "It can help for some stone types — lower animal protein intake reduces uric acid and calcium excretion, which benefits calcium oxalate and uric acid stone formers. It isn't required, though: a non-vegetarian diet is fine with moderated portions of red meat and organ meat. Our planner adapts its recommendations to your dietary preference either way.",
+      },
+    ],
+  },
 ];
 
 export const ALL_FAQS: FaqItem[] = FAQ_CATEGORIES.flatMap((category) => category.items);

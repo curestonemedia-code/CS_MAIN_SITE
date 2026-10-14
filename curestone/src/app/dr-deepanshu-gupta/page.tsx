@@ -243,7 +243,7 @@ export default function DrDeepanshuGuptaPage() {
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center gap-2 text-sm font-black text-blue-600 hover:underline"
               >
-                Visit Dr. Gupta&apos;s Personal Website →
+                Visit Dr. Deepanshu Gupta&apos;s Personal Website →
               </a>
             </div>
 

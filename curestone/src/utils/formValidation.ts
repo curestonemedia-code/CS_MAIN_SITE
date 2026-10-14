@@ -38,3 +38,12 @@ export function validateOptionalDescription(value: string, maxLength = 500) {
   if (value.length > maxLength) return `Description must be under ${maxLength} characters.`;
   return "";
 }
+
+/** Validates an optional numeric field — an empty value is valid (the field is skippable). */
+export function validateNumberInRange(value: string, min: number, max: number, label: string) {
+  if (!value) return "";
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return `${label} must be a number.`;
+  if (parsed < min || parsed > max) return `${label} must be between ${min} and ${max}.`;
+  return "";
+}
