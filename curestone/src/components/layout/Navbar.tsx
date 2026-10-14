@@ -44,6 +44,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Cure Stone AI", href: "/checker", highlight: true },
+    { name: "Diet Planner", href: "/kidney-stone-diet-planner" },
     { name: "Specialties", href: "/specialties" },
     { name: "Blog", href: "/blog" },
     { name: "About", href: "/about" },
