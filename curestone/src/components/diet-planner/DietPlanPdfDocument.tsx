@@ -1,4 +1,4 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, Text, View, Image, StyleSheet } from "@react-pdf/renderer";
 import { STONE_STATUSES, STONE_TYPES, DIETARY_PREFERENCES, ACTIVITY_LEVELS } from "@/constants/dietPlannerOptions";
 import type { DietPlanApiResponse, DietPlanInput, FoodCategory, FoodItem, FoodItemSelection, MealSlot } from "@/lib/dietPlanner/types";
 
@@ -6,7 +6,9 @@ import type { DietPlanApiResponse, DietPlanInput, FoodCategory, FoodItem, FoodIt
 // every detail is rendered here directly from the plan data, regardless of
 // what's expanded/collapsed in the on-screen UI. In particular, the meal
 // plan always prints all 7 days in one consistent repeating block, never
-// just the one day the UI happens to have selected.
+// just the one day the UI happens to have selected. Food photos (same
+// Sanity-hosted images used on screen) are embedded directly rather than
+// just listing names, so the PDF doesn't read as a bare text dump.
 
 const CATEGORY_LABELS: Record<FoodCategory, string> = {
   vegetable: "Vegetables",
@@ -31,10 +33,10 @@ const SLOT_LABELS: Record<MealSlot, string> = {
   dinner: "Dinner",
 };
 
-const TIERS: { key: keyof FoodItemSelection; label: string }[] = [
-  { key: "eatFreely", label: "Eat Freely" },
-  { key: "moderate", label: "Eat in Moderation" },
-  { key: "avoid", label: "Limit / Avoid" },
+const TIER_META: { key: keyof FoodItemSelection; label: string; accent: string; bg: string }[] = [
+  { key: "eatFreely", label: "Eat Freely", accent: "#15803d", bg: "#f0fdf4" },
+  { key: "moderate", label: "Eat in Moderation", accent: "#b45309", bg: "#fffbeb" },
+  { key: "avoid", label: "Limit / Avoid", accent: "#b91c1c", bg: "#fef2f2" },
 ];
 
 function labelFor(options: readonly { value: string; label: string }[], value?: string, fallback = "Not specified") {
@@ -43,8 +45,10 @@ function labelFor(options: readonly { value: string; label: string }[], value?: 
 
 const styles = StyleSheet.create({
   page: { padding: 32, fontSize: 10, fontFamily: "Helvetica", color: "#1e293b" },
+  coverRow: { flexDirection: "row", alignItems: "center", gap: 14, marginBottom: 16 },
+  heroImage: { width: 76, height: 76, borderRadius: 10 },
   h1: { fontSize: 18, fontFamily: "Helvetica-Bold", marginBottom: 4 },
-  subtitle: { fontSize: 9, color: "#64748b", marginBottom: 14 },
+  subtitle: { fontSize: 9, color: "#64748b" },
   sectionTitle: { fontSize: 13, fontFamily: "Helvetica-Bold", marginTop: 18, marginBottom: 8, color: "#0f172a" },
   statsGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 6 },
   statBox: { width: "23%", backgroundColor: "#f1f5f9", borderRadius: 6, padding: 8 },
@@ -58,25 +62,28 @@ const styles = StyleSheet.create({
   guidelineRow: { flexDirection: "row", marginBottom: 5 },
   bullet: { width: 10 },
   guidelineText: { flex: 1 },
-  tierHeading: { fontSize: 11, fontFamily: "Helvetica-Bold", marginTop: 10, marginBottom: 4 },
-  categoryHeading: { fontSize: 9, fontFamily: "Helvetica-Bold", marginTop: 6, marginBottom: 3, color: "#334155" },
-  foodList: { flexDirection: "row", flexWrap: "wrap" },
-  foodChip: {
-    fontSize: 8,
-    backgroundColor: "#eef2ff",
-    color: "#3730a3",
-    borderRadius: 4,
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    marginRight: 4,
-    marginBottom: 4,
+  tierHeading: { fontSize: 11, fontFamily: "Helvetica-Bold", marginTop: 12, marginBottom: 5 },
+  categoryHeading: { fontSize: 9, fontFamily: "Helvetica-Bold", marginTop: 7, marginBottom: 4, color: "#334155" },
+  foodGrid: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  foodCard: { width: 64, alignItems: "center", borderRadius: 6, padding: 4 },
+  foodThumb: { width: 44, height: 44, borderRadius: 6, marginBottom: 3 },
+  foodThumbPlaceholder: { width: 44, height: 44, borderRadius: 6, marginBottom: 3, backgroundColor: "#e2e8f0" },
+  foodName: { fontSize: 6.5, textAlign: "center", lineHeight: 1.2 },
+  dayBlock: { marginBottom: 14 },
+  dayTitle: { fontSize: 11, fontFamily: "Helvetica-Bold", marginBottom: 6, backgroundColor: "#eef2ff", padding: 5, borderRadius: 4 },
+  mealRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#e2e8f0",
+    paddingVertical: 5,
   },
-  dayBlock: { marginBottom: 12 },
-  dayTitle: { fontSize: 11, fontFamily: "Helvetica-Bold", marginBottom: 5, backgroundColor: "#eef2ff", padding: 5, borderRadius: 4 },
-  mealRow: { flexDirection: "row", borderBottomWidth: 0.5, borderBottomColor: "#e2e8f0", paddingVertical: 4 },
-  mealSlot: { width: "28%", fontFamily: "Helvetica-Bold", fontSize: 8 },
-  mealName: { width: "44%", fontSize: 8 },
-  mealTags: { width: "28%", fontSize: 7, color: "#64748b", textAlign: "right" },
+  mealThumb: { width: 32, height: 32, borderRadius: 5 },
+  mealThumbPlaceholder: { width: 32, height: 32, borderRadius: 5, backgroundColor: "#e2e8f0" },
+  mealSlot: { width: "25%", fontFamily: "Helvetica-Bold", fontSize: 8 },
+  mealName: { width: "40%", fontSize: 8 },
+  mealTags: { width: "25%", fontSize: 7, color: "#64748b", textAlign: "right" },
   disclaimer: { fontSize: 7, color: "#94a3b8", marginTop: 3 },
   footer: { position: "absolute", bottom: 18, left: 32, right: 32, fontSize: 7, color: "#94a3b8", textAlign: "center" },
 });
@@ -99,6 +106,36 @@ function ProfileBox({ value, label }: { value: string; label: string }) {
   );
 }
 
+// cdn.sanity.io doesn't send Access-Control-Allow-Origin, so this browser's
+// fetch() for the raw bytes (needed to embed images in the generated PDF)
+// gets blocked by CORS even though the same URL displays fine in an <img>
+// tag everywhere else on the site. Routing through our own /api/image-proxy
+// sidesteps that — see that route for details.
+//
+// `size` requests a resized, compressed rendition straight from Sanity's
+// own image pipeline (standard query params on any cdn.sanity.io asset URL)
+// instead of fetching the full original — these print at most ~50pt in the
+// PDF, so embedding e.g. a 2000x1333 original per food (the unscaled
+// originals here) inflated a single plan's PDF to 30+MB for nothing.
+function proxied(url: string, origin: string, size: number): string {
+  const resized = `${url}?w=${size}&h=${size}&fit=crop&q=70&auto=format`;
+  return `${origin}/api/image-proxy?url=${encodeURIComponent(resized)}`;
+}
+
+function FoodCard({ food, bg, origin }: { food: FoodItem; bg: string; origin: string }) {
+  const imageUrl = food.image?.asset?.url;
+  return (
+    <View style={[styles.foodCard, { backgroundColor: bg }]}>
+      {imageUrl ? (
+        <Image src={proxied(imageUrl, origin, 100)} style={styles.foodThumb} />
+      ) : (
+        <View style={styles.foodThumbPlaceholder} />
+      )}
+      <Text style={styles.foodName}>{food.name}</Text>
+    </View>
+  );
+}
+
 function groupByCategory(foods: FoodItem[]): [FoodCategory, FoodItem[]][] {
   const map = new Map<FoodCategory, FoodItem[]>();
   for (const food of foods) {
@@ -109,16 +146,33 @@ function groupByCategory(foods: FoodItem[]): [FoodCategory, FoodItem[]][] {
   return Array.from(map.entries());
 }
 
-export default function DietPlanPdfDocument({ plan, input }: { plan: DietPlanApiResponse; input: DietPlanInput }) {
+export default function DietPlanPdfDocument({
+  plan,
+  input,
+  foodsBySlug,
+  heroImageUrl,
+  origin,
+}: {
+  plan: DietPlanApiResponse;
+  input: DietPlanInput;
+  foodsBySlug: Map<string, FoodItem>;
+  heroImageUrl?: string;
+  origin: string;
+}) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Your Personalized Kidney Stone Diet Plan</Text>
-        <Text style={styles.subtitle}>
-          Generated{" "}
-          {new Date(plan.meta.generatedAt).toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" })} · Cure
-          Stone Hospital · thecurestone.com
-        </Text>
+        <View style={styles.coverRow}>
+          {heroImageUrl && <Image src={heroImageUrl} style={styles.heroImage} />}
+          <View style={{ flex: 1 }}>
+            <Text style={styles.h1}>Your Personalized Kidney Stone Diet Plan</Text>
+            <Text style={styles.subtitle}>
+              Generated{" "}
+              {new Date(plan.meta.generatedAt).toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" })} ·
+              Cure Stone Hospital · thecurestone.com
+            </Text>
+          </View>
+        </View>
 
         <Text style={styles.sectionTitle}>Daily Targets</Text>
         <View style={styles.statsGrid}>
@@ -150,24 +204,26 @@ export default function DietPlanPdfDocument({ plan, input }: { plan: DietPlanApi
             <Text style={styles.guidelineText}>{guideline}</Text>
           </View>
         ))}
+      </Page>
 
+      {/* Food recommendations get their own page(s) — a real photo grid per
+          tier/category, not a bare list of names. */}
+      <Page size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>Food Recommendations</Text>
-        {TIERS.map((tier) => {
+        {TIER_META.map((tier) => {
           const foods = plan.foods[tier.key];
           if (!foods.length) return null;
           return (
             <View key={tier.key}>
-              <Text style={styles.tierHeading}>
+              <Text style={[styles.tierHeading, { color: tier.accent }]}>
                 {tier.label} ({foods.length})
               </Text>
               {groupByCategory(foods).map(([category, items]) => (
-                <View key={category}>
+                <View key={category} wrap={false}>
                   <Text style={styles.categoryHeading}>{CATEGORY_LABELS[category]}</Text>
-                  <View style={styles.foodList}>
+                  <View style={styles.foodGrid}>
                     {items.map((food) => (
-                      <Text key={food._id} style={styles.foodChip}>
-                        {food.name}
-                      </Text>
+                      <FoodCard key={food._id} food={food} bg={tier.bg} origin={origin} />
                     ))}
                   </View>
                 </View>
@@ -178,21 +234,31 @@ export default function DietPlanPdfDocument({ plan, input }: { plan: DietPlanApi
       </Page>
 
       {/* Meal plan on its own page(s) — all 7 days, always, regardless of
-          which single day the on-screen tab happens to be showing. */}
+          which single day the on-screen tab happens to be showing. Each meal
+          shows its representative food photo, same as the on-screen cards. */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>7-Day Sample Meal Plan</Text>
         {plan.mealPlan.map((day) => (
           <View key={day.day} style={styles.dayBlock} wrap={false}>
             <Text style={styles.dayTitle}>Day {day.day}</Text>
-            {day.meals.map((meal) => (
-              <View key={meal.slot} style={styles.mealRow}>
-                <Text style={styles.mealSlot}>
-                  {SLOT_LABELS[meal.slot]} · {meal.time}
-                </Text>
-                <Text style={styles.mealName}>{meal.name}</Text>
-                <Text style={styles.mealTags}>{meal.tags.join(", ")}</Text>
-              </View>
-            ))}
+            {day.meals.map((meal) => {
+              const food = meal.primaryFoodSlug ? foodsBySlug.get(meal.primaryFoodSlug) : undefined;
+              const imageUrl = food?.image?.asset?.url;
+              return (
+                <View key={meal.slot} style={styles.mealRow}>
+                  {imageUrl ? (
+                    <Image src={proxied(imageUrl, origin, 70)} style={styles.mealThumb} />
+                  ) : (
+                    <View style={styles.mealThumbPlaceholder} />
+                  )}
+                  <Text style={styles.mealSlot}>
+                    {SLOT_LABELS[meal.slot]} · {meal.time}
+                  </Text>
+                  <Text style={styles.mealName}>{meal.name}</Text>
+                  <Text style={styles.mealTags}>{meal.tags.join(", ")}</Text>
+                </View>
+              );
+            })}
           </View>
         ))}
 

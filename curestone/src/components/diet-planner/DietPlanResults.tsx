@@ -38,7 +38,16 @@ export default function DietPlanResults({
         import("@react-pdf/renderer"),
         import("./DietPlanPdfDocument"),
       ]);
-      const blob = await pdf(<DietPlanPdfDocument plan={plan} input={input} />).toBlob();
+      const origin = window.location.origin;
+      // Route through Next's own image optimizer (same-origin, already part
+      // of the app) rather than embedding the 1.5MB original PNG at its
+      // full resolution for a photo that prints at ~76pt.
+      const heroImageUrl = `${origin}/_next/image?url=${encodeURIComponent(
+        "/Colorful Quinoa Chickpea Salad Bowl.png"
+      )}&w=256&q=70`;
+      const blob = await pdf(
+        <DietPlanPdfDocument plan={plan} input={input} foodsBySlug={foodsBySlug} heroImageUrl={heroImageUrl} origin={origin} />
+      ).toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
