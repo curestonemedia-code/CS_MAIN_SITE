@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "verify-redirects": "node scripts/verify-redirects.ts",
-    "sync-video-meta": "node scripts/sync-video-meta.ts"
+    "sync-video-meta": "node scripts/sync-video-meta.ts",
+    "crawl-youtube-videos": "node --env-file=.env scripts/crawl-youtube-videos.ts",
+    "backfill-view-counts": "node --env-file=.env scripts/backfill-view-counts.ts",
+    "reclassify-all-videos": "node --env-file=.env scripts/reclassify-all-videos.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

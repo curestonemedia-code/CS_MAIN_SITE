@@ -13,6 +13,7 @@ export default function robots(): MetadataRoute.Robots {
       "https://thecurestone.com/sitemap.xml",
       "https://thecurestone.com/specialties/sitemap.xml",
       "https://thecurestone.com/blog/sitemap.xml",
+      "https://thecurestone.com/videos/sitemap.xml",
     ],
     host: "https://thecurestone.com",
   };

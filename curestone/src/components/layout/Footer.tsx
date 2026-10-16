@@ -42,6 +42,7 @@ const footerSections = [
       { label: "FAQs", href: "/faqs" },
       { label: "Cure Stone AI", href: "/checker" },
       { label: "Kidney Stone Diet Planner", href: "/kidney-stone-diet-planner" },
+      { label: "Video Library", href: "/videos" },
       { label: "Book Consultation", href: "/book" },
       { label: "Urologist Doctor Gurgaon", href: "/sector-52" },
     ],

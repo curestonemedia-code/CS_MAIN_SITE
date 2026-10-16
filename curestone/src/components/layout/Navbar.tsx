@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { ChevronDown, Phone, Sparkles } from "lucide-react";
 
 // Social Media Icons
 const SocialIcons = {
@@ -18,9 +19,36 @@ const SocialIcons = {
   )
 };
 
+// Primary links sit directly in the desktop row; "More" groups the
+// lower-click-frequency info pages behind one dropdown instead of adding a
+// 5th/6th/7th item to an already-crowded row every time a new page is added
+// (this grew from 5 flat links to 7 over two feature launches, which is what
+// made the row feel cluttered — grouping stops it from growing unbounded).
+type NavLink = { name: string; href: string; highlight?: boolean };
+
+const primaryLinks: NavLink[] = [
+  { name: "Cure Stone AI", href: "/checker", highlight: true },
+  { name: "Diet Planner", href: "/kidney-stone-diet-planner" },
+  { name: "Careers", href: "https://career.thecurestone.com" },
+  { name: "Specialties", href: "/specialties" },
+];
+
+const moreLinks: NavLink[] = [
+  { name: "Videos", href: "/videos" },
+  { name: "Blog", href: "/blog" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
+];
+
+// Mobile menu stays a single flat list — vertical stacking has no space
+// pressure, so there's no reason to split it the way the desktop row is.
+const navLinks = [...primaryLinks, ...moreLinks];
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -42,14 +70,22 @@ export default function Navbar() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  const navLinks = [
-    { name: "Cure Stone AI", href: "/checker", highlight: true },
-    { name: "Diet Planner", href: "/kidney-stone-diet-planner" },
-    { name: "Specialties", href: "/specialties" },
-    { name: "Blog", href: "/blog" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-  ];
+  useEffect(() => {
+    if (!moreOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
+    };
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMoreOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [moreOpen]);
+
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 bg-white/95 backdrop-blur-xl border-b border-slate-100 ${scrolled ? "h-16 shadow-md" : "h-20"}`}>
@@ -62,32 +98,71 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className={`relative px-2 xl:px-4 py-2 group whitespace-nowrap ${link.highlight ? "" : "font-bold text-slate-600 hover:text-primary text-sm"}`}>
-                {link.highlight ? (
-                  <div className="relative">
-                    {/* Pulsing Highlight Border for Cure Stone AI */}
-                    <div className="absolute inset-0 rounded-full border-2 border-primary animate-pulse" />
-                    <div className="absolute inset-[-4px] rounded-full border border-primary/20" />
-                    <span className="relative px-3 xl:px-4 py-1.5 flex items-center gap-2 text-xs xl:text-sm font-black text-primary uppercase whitespace-nowrap">
+          <div className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+            {primaryLinks.map((link) =>
+              link.highlight ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative flex items-center gap-1.5 px-3 xl:px-4 py-1.5 mr-1 rounded-full border-2 border-primary/80 hover:border-primary transition-colors whitespace-nowrap"
+                >
+                  <span className="absolute inset-0 rounded-full border-2 border-primary animate-pulse motion-reduce:animate-none" aria-hidden="true" />
+                  <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" aria-hidden="true" />
+                  <span className="relative text-xs xl:text-sm font-black text-primary uppercase tracking-wide">{link.name}</span>
+                </Link>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="px-2 xl:px-3 py-2 font-bold text-slate-600 hover:text-primary text-sm whitespace-nowrap transition-colors"
+                >
+                  {link.name}
+                </Link>
+              )
+            )}
+
+            {/* "More" groups the lower-traffic info pages (Blog/About/Contact
+                are all one click away in the footer too) so the row doesn't
+                grow a new top-level item every time a page is added. */}
+            <div className="relative" ref={moreRef}>
+              <button
+                type="button"
+                onClick={() => setMoreOpen((v) => !v)}
+                aria-expanded={moreOpen}
+                className="flex items-center gap-1 px-2 xl:px-3 py-2 font-bold text-slate-600 hover:text-primary text-sm whitespace-nowrap transition-colors"
+              >
+                More
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+              </button>
+              {moreOpen && (
+                <div className="absolute top-full right-0 mt-2 w-44 bg-white rounded-xl border border-slate-100 shadow-xl py-2 z-[65]">
+                  {moreLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMoreOpen(false)}
+                      className="block px-4 py-2.5 text-sm font-bold text-slate-600 hover:text-primary hover:bg-slate-50 transition-colors"
+                    >
                       {link.name}
-                    </span>
-                  </div>
-                ) : link.name}
-              </Link>
-            ))}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Right Section: Socials + Phone + Book Button */}
-          <div className="hidden md:flex items-center gap-4 xl:gap-5">
-            <div className="hidden xl:flex items-center gap-3 pr-4 border-r border-slate-200">
+          <div className="hidden md:flex items-center gap-3 xl:gap-4">
+            <div className="hidden xl:flex items-center gap-3 pr-3 border-r border-slate-200">
               <a href="https://www.youtube.com/@cure_stone" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#FF0000] transition-colors"><SocialIcons.Youtube /></a>
               <a href="https://www.instagram.com/the_cure_stone/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors"><SocialIcons.Instagram /></a>
               <a href="https://www.facebook.com/curestone/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors"><SocialIcons.Facebook /></a>
             </div>
 
-            <a href="tel:+918800263884" className="hidden xl:block text-sm font-black text-slate-700 hover:text-primary whitespace-nowrap">+91 88002 63884</a>
+            <a href="tel:+918800263884" className="hidden xl:flex items-center gap-1.5 text-sm font-bold text-slate-500 hover:text-primary whitespace-nowrap transition-colors">
+              <Phone className="w-3.5 h-3.5" />
+              +91 88002 63884
+            </a>
 
             <Link href="/book" className="group relative px-5 xl:px-7 py-2 md:py-2.5 bg-primary text-white font-black text-[10px] md:text-xs rounded-full uppercase tracking-widest shadow-lg shadow-primary/30">
               {/* Thick Outer Highlight Border */}

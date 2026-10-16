@@ -348,6 +348,42 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
     ],
   },
+  {
+    slug: "videos",
+    title: "Kidney Stone Videos",
+    relatedHref: "/videos",
+    relatedLabel: "Watch the Full Video Library",
+    items: [
+      {
+        q: "Where can I watch kidney stone surgery videos by Dr. Deepanshu Gupta?",
+        a: "Every video from Dr. Deepanshu Gupta's YouTube channel is organized at thecurestone.com/videos — browse by stone size, procedure (RIRS, PCNL, URSL, ESWL), diet, prevention, symptoms, recovery and more, or search directly for a topic.",
+      },
+      {
+        q: "Does Cure Stone have videos explaining RIRS, PCNL, URSL and ESWL?",
+        a: "Yes — the video library has a dedicated category for each kidney stone procedure (RIRS, PCNL, URSL, ESWL), so you can watch the exact surgery type you're considering or preparing for, including what to expect and recovery.",
+      },
+      {
+        q: "Are there videos about kidney stone diet and foods to avoid?",
+        a: "Yes, the Diet category on the video page covers foods to eat and avoid, hydration habits, and nutrition guidance after surgery. Pair it with the free kidney stone diet planner for a personalized plan.",
+      },
+      {
+        q: "Is there a video explaining which kidney stone size needs surgery?",
+        a: "Yes — the \"By Stone Size\" category groups videos by stone size (under 5mm, 5–10mm, over 10mm) so you can watch content specific to your stone's size and the treatment options typically considered at that size.",
+      },
+      {
+        q: "Does Dr. Gupta have patient testimonial or recovery videos?",
+        a: "Yes, the Patient Stories and Recovery categories feature real patient experiences and post-surgery care guidance, including what recovery after RIRS, PCNL, URSL or ESWL actually feels like.",
+      },
+      {
+        q: "Are the kidney stone videos in Hindi or English?",
+        a: "Most videos are in Hindi (with some in English), matching how Dr. Gupta communicates with patients directly — the video library doesn't filter by language, but titles make the language clear before you click play.",
+      },
+      {
+        q: "How often are new videos added to the library?",
+        a: "The library syncs automatically with Dr. Gupta's YouTube channel every few hours, so newly published videos appear here — and get sorted into the right categories — without any manual work.",
+      },
+    ],
+  },
 ];
 
 export const ALL_FAQS: FaqItem[] = FAQ_CATEGORIES.flatMap((category) => category.items);
