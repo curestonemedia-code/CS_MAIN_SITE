@@ -31,11 +31,18 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
                 </svg>
               </button>
             </h3>
-            {isOpen && (
-              <div className="px-6 pb-5 text-sm md:text-base text-slate-600 font-medium leading-relaxed border-t border-slate-200 pt-4">
-                {faq.a}
+            {/* Answer is always in the DOM (not conditionally mounted) so
+                every FAQ is crawlable, not just whichever one is open —
+                collapse is purely visual via the grid-row transition. */}
+            <div
+              className={`grid transition-[grid-template-rows] duration-300 ease-out ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+            >
+              <div className="overflow-hidden">
+                <div className="px-6 pb-5 text-sm md:text-base text-slate-600 font-medium leading-relaxed border-t border-slate-200 pt-4">
+                  {faq.a}
+                </div>
               </div>
-            )}
+            </div>
           </div>
         );
       })}

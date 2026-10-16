@@ -2,29 +2,31 @@ import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import DietPlannerApp from "@/components/diet-planner/DietPlannerApp";
+import DietPlannerSeoContent from "@/components/diet-planner/DietPlannerSeoContent";
 import FaqAccordion from "@/components/FaqAccordion";
 import { FAQ_CATEGORIES } from "@/constants/faqs";
 
 const faqCategory = FAQ_CATEGORIES.find((category) => category.slug === "diet-planner")!;
 
-const TITLE = "Kidney Stone Diet Plan: Foods to Eat & Avoid";
+const TITLE = "7-Day Kidney Stone Diet Chart & Free Planner";
 const DESCRIPTION =
-  "Free kidney stone diet planner — foods to eat, limit and avoid, daily water & sodium targets, and a 7-day meal plan personalized to your stone type.";
+  "Explore a 7-day Indian kidney stone diet chart, foods to eat and avoid, and a free personalized diet planner with hydration and stone-type guidance.";
 const URL = "https://thecurestone.com/kidney-stone-diet-planner";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
-    "kidney stone diet",
-    "kidney stone diet plan",
+    "7 day kidney stone diet chart",
     "kidney stone diet chart",
+    "kidney stone diet plan",
+    "kidney stone diet",
     "foods to avoid kidney stones",
     "foods to eat kidney stones",
-    "kidney stone diet calculator",
-    "kidney stone prevention diet",
+    "low oxalate kidney stone diet",
+    "kidney stone meal plan",
+    "kidney stone diet plan pdf",
     "diet after kidney stone surgery",
-    "oxalate diet kidney stones",
     "kidney stone diet Indian food",
   ],
   alternates: {
@@ -139,9 +141,11 @@ export default function DietPlannerPage() {
       <main className="flex-grow pt-20 md:pt-28 pb-10 bg-gradient-to-b from-[#eff2f8] to-white">
         <DietPlannerApp />
 
+        <DietPlannerSeoContent />
+
         <div className="max-w-3xl mx-auto mb-10 mt-16 px-4">
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 text-center">
-            Kidney Stone Diet <span className="text-primary italic">FAQs</span>
+            Frequently Asked <span className="text-primary italic">Questions</span>
           </h2>
           <FaqAccordion items={faqCategory.items} />
         </div>

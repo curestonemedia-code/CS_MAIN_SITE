@@ -18,16 +18,16 @@ function wait(ms: number) {
 
 function Hero() {
   return (
-    <div className="max-w-3xl mx-auto px-6 text-center mb-12">
+    <div id="diet-planner-tool" className="max-w-3xl mx-auto px-6 text-center mb-12 scroll-mt-24">
       <span className="inline-block px-4 py-1.5 mt-5 lg:mt-0 mb-4 text-[10px] font-black tracking-widest text-primary bg-primary/5 border border-primary/10 rounded-full uppercase">
         Free Tool
       </span>
       <h1 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
-        Your Personalized Kidney Stone Diet Plan
+        7-Day Kidney Stone Diet Chart &amp; Personalized Diet Planner
       </h1>
       <p className="mt-4 text-text-light font-medium">
         Answer a few questions and get food guidance, hydration targets and a
-        sample day — tailored to your stone status.
+        full 7-day meal plan — tailored to your stone type and status.
       </p>
     </div>
   );

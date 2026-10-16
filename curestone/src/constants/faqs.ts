@@ -306,6 +306,46 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         q: "Does a vegetarian diet help prevent kidney stones?",
         a: "It can help for some stone types — lower animal protein intake reduces uric acid and calcium excretion, which benefits calcium oxalate and uric acid stone formers. It isn't required, though: a non-vegetarian diet is fine with moderated portions of red meat and organ meat. Our planner adapts its recommendations to your dietary preference either way.",
       },
+      {
+        q: "Can I follow a 7-day Indian diet chart for kidney stones?",
+        a: "Yes — a kidney stone diet chart can include familiar Indian foods like roti, rice, dal, seasonal vegetables and curd. Portions and specific food choices should still be adjusted to your stone type and medical history, which is exactly what our free planner personalizes beyond the general 7-day chart above.",
+      },
+      {
+        q: "What should I eat for breakfast, lunch and dinner if I have kidney stones?",
+        a: "A sample day could include vegetable poha with curd for breakfast, roti with dal and vegetables for lunch, and rice with a balanced vegetable dish for dinner. Exact choices should be personalized, particularly if you have calcium oxalate or uric acid stones — see the 7-day chart above for a full week of ideas.",
+      },
+      {
+        q: "Is rice or dal safe for kidney stone patients?",
+        a: "Generally yes — rice and dal can be part of a kidney-stone-friendly diet. The right portions depend on your stone type, overall protein intake, and other conditions like chronic kidney disease, so check with your doctor if you have additional health concerns.",
+      },
+      {
+        q: "What is a low-oxalate diet for calcium oxalate kidney stones?",
+        a: "A low-oxalate approach limits particularly high-oxalate foods — spinach, rhubarb, certain nuts — when clinically appropriate, while still eating adequate calcium from food (ideally alongside oxalate-rich foods) and keeping sodium in check. It's the most common dietary approach since calcium oxalate is the most common stone type.",
+      },
+      {
+        q: "Can kidney stone patients drink milk and eat curd?",
+        a: "Yes, for most people with calcium oxalate stones, normal dietary calcium from milk and curd is beneficial rather than harmful — calcium binds oxalate in the gut, reducing how much gets absorbed. Don't restrict dietary calcium unless your doctor specifically advises it.",
+      },
+      {
+        q: "Is lemon water good for preventing kidney stones?",
+        a: "Yes, as part of a prevention routine — lemon water supports hydration and provides citrate, which helps reduce stone formation. It can't dissolve an existing stone or replace medical treatment, though.",
+      },
+      {
+        q: "Can I follow a kidney stone diet plan without knowing my stone type?",
+        a: "You can start with general habits — adequate hydration, moderate salt, balanced meals — covered in the 7-day chart above. A personalized prevention plan is more effective once your stone type is known from a lab test, which is why our planner asks for it (optionally) if you have it.",
+      },
+      {
+        q: "What foods should I limit if I have uric acid kidney stones?",
+        a: "High-purine foods — organ meats, excess red meat, certain seafood — are the main ones to limit. Maintaining a healthy weight and leaning toward more plant-based proteins also helps. Follow your clinician's specific advice for your case.",
+      },
+      {
+        q: "Can a kidney stone diet prevent stones from coming back?",
+        a: "Dietary changes meaningfully reduce recurrence risk, especially combined with adequate fluid intake and any medical management your doctor recommends. No single diet guarantees complete prevention — the right approach depends on your specific stone type and cause.",
+      },
+      {
+        q: "Can people with diabetes or chronic kidney disease use this diet planner?",
+        a: "Yes, as general educational guidance — but diabetes, reduced kidney function and similar conditions often need special adjustments to fluid, protein, potassium and other nutrients beyond what a general kidney-stone diet covers. Have any plan reviewed by your treating doctor before making major changes.",
+      },
     ],
   },
 ];
