@@ -21,6 +21,8 @@ export type FoodCategory =
   | "other";
 
 export interface DietPlanInput {
+  /** Optional — used only to personalize the generated PDF's title, never sent to the API. */
+  name?: string;
   stoneStatus: StoneStatus;
   ageYears?: number;
   weightKg?: number;

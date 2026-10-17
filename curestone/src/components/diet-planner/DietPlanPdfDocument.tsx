@@ -165,7 +165,9 @@ export default function DietPlanPdfDocument({
         <View style={styles.coverRow}>
           {heroImageUrl && <Image src={heroImageUrl} style={styles.heroImage} />}
           <View style={{ flex: 1 }}>
-            <Text style={styles.h1}>Your Personalized Kidney Stone Diet Plan</Text>
+            <Text style={styles.h1}>
+              {input.name ? `Diet Plan For "${input.name}"` : "Your Personalized Kidney Stone Diet Plan"}
+            </Text>
             <Text style={styles.subtitle}>
               Generated{" "}
               {new Date(plan.meta.generatedAt).toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" })} ·

@@ -17,8 +17,9 @@ import {
   ArrowRight,
   Heart,
   BarChart3,
+  UserRound,
 } from "lucide-react";
-import { cleanText, validateNumberInRange, validateSelect } from "@/utils/formValidation";
+import { cleanText, validateNumberInRange, validateOptionalName, validateSelect } from "@/utils/formValidation";
 import {
   ACTIVITY_LEVELS,
   DIETARY_PREFERENCES,
@@ -27,7 +28,7 @@ import {
 } from "@/constants/dietPlannerOptions";
 import type { DietPlanInput } from "@/lib/dietPlanner/types";
 
-type FormField = "stoneStatus" | "ageYears" | "weightKg" | "heightCm" | "stoneType" | "dietaryPreference" | "activityLevel";
+type FormField = "name" | "stoneStatus" | "ageYears" | "weightKg" | "heightCm" | "stoneType" | "dietaryPreference" | "activityLevel";
 type FormErrors = Partial<Record<FormField, string>>;
 
 const STATUS_ICONS: Record<string, typeof History> = {
@@ -88,6 +89,7 @@ export default function DietPlannerForm({ onSubmit }: { onSubmit: (input: DietPl
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+    const name = cleanText(formData.get("name"));
     const stoneStatus = cleanText(formData.get("stoneStatus"));
     const ageYears = cleanText(formData.get("ageYears"));
     const weightKg = cleanText(formData.get("weightKg"));
@@ -101,6 +103,7 @@ export default function DietPlannerForm({ onSubmit }: { onSubmit: (input: DietPl
     const isDiabetic = formData.get("isDiabetic") === "on";
 
     const nextErrors: FormErrors = {
+      name: validateOptionalName(name),
       stoneStatus: validateSelect(stoneStatus, STONE_STATUSES.map((o) => o.value) as unknown as string[], "Stone status"),
       ageYears: validateNumberInRange(ageYears, 1, 120, "Age"),
       weightKg: validateNumberInRange(weightKg, 10, 300, "Weight"),
@@ -118,6 +121,7 @@ export default function DietPlannerForm({ onSubmit }: { onSubmit: (input: DietPl
     setErrors({});
 
     onSubmit({
+      name: name || undefined,
       stoneStatus: stoneStatus as DietPlanInput["stoneStatus"],
       ageYears: ageYears ? Number(ageYears) : undefined,
       weightKg: weightKg ? Number(weightKg) : undefined,
@@ -169,6 +173,12 @@ export default function DietPlannerForm({ onSubmit }: { onSubmit: (input: DietPl
 
       {/* Right: form */}
       <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
+        <div>
+          <FieldLabel icon={UserRound} color="#2563ff">Your name (optional)</FieldLabel>
+          <input name="name" type="text" maxLength={80} placeholder="e.g. Rohan Sharma" className={inputClass(errors.name)} />
+          <FieldError message={errors.name} />
+        </div>
+
         <div>
           <p className="text-sm font-black text-foreground mb-3">
             Where are you in your journey? <span className="text-danger">*</span>

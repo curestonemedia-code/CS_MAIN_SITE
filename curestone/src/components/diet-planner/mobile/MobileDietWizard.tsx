@@ -16,11 +16,12 @@ import {
   Candy,
   Repeat,
   User,
+  UserRound,
   Droplet,
   Heart,
   BarChart3,
 } from "lucide-react";
-import { validateNumberInRange, validateSelect } from "@/utils/formValidation";
+import { validateNumberInRange, validateOptionalName, validateSelect } from "@/utils/formValidation";
 import {
   ACTIVITY_LEVELS,
   DIETARY_PREFERENCES,
@@ -37,9 +38,10 @@ const STATUS_ICONS: Record<string, typeof History> = {
   prevention: ShieldCheck,
 };
 
-type FieldErrors = Partial<Record<"stoneStatus" | "ageYears" | "weightKg" | "heightCm", string>>;
+type FieldErrors = Partial<Record<"name" | "stoneStatus" | "ageYears" | "weightKg" | "heightCm", string>>;
 
 type WizardValues = {
+  name: string;
   stoneStatus: string;
   ageYears: string;
   weightKg: string;
@@ -54,6 +56,7 @@ type WizardValues = {
 };
 
 const INITIAL_VALUES: WizardValues = {
+  name: "",
   stoneStatus: "",
   ageYears: "",
   weightKg: "",
@@ -190,6 +193,7 @@ export default function MobileDietWizard({ onSubmit }: { onSubmit: (input: DietP
 
   const goToStep2 = () => {
     const nextErrors: FieldErrors = {
+      name: validateOptionalName(values.name),
       ageYears: validateNumberInRange(values.ageYears, 1, 120, "Age"),
       weightKg: validateNumberInRange(values.weightKg, 10, 300, "Weight"),
       heightCm: validateNumberInRange(values.heightCm, 50, 250, "Height"),
@@ -205,6 +209,7 @@ export default function MobileDietWizard({ onSubmit }: { onSubmit: (input: DietP
 
   const handleCreate = () => {
     onSubmit({
+      name: values.name || undefined,
       stoneStatus: values.stoneStatus as DietPlanInput["stoneStatus"],
       ageYears: values.ageYears ? Number(values.ageYears) : undefined,
       weightKg: values.weightKg ? Number(values.weightKg) : undefined,
@@ -301,6 +306,18 @@ export default function MobileDietWizard({ onSubmit }: { onSubmit: (input: DietP
           <p className="text-sm text-text-light mb-6">Basic details to personalize your plan.</p>
 
           <div className="space-y-5">
+            <div>
+              <FieldLabel icon={UserRound} color="#2563ff">Your name (optional)</FieldLabel>
+              <input
+                type="text"
+                maxLength={80}
+                value={values.name}
+                onChange={(e) => set("name", e.target.value)}
+                placeholder="e.g. Rohan Sharma"
+                className={inputClass(errors.name)}
+              />
+              {errors.name && <p className="mt-1.5 text-xs font-bold text-danger">{errors.name}</p>}
+            </div>
             <UnitField
               icon={Calendar}
               color="#f59e0b"

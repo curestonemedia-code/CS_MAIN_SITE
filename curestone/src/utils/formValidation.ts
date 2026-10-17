@@ -33,6 +33,12 @@ export function validateSelect(value: string, allowedValues: string[], label: st
   return "";
 }
 
+export function validateOptionalName(value: string, maxLength = 80) {
+  if (!value) return "";
+  if (value.length > maxLength) return `Name must be under ${maxLength} characters.`;
+  return "";
+}
+
 export function validateOptionalDescription(value: string, maxLength = 500) {
   if (!value) return "";
   if (value.length > maxLength) return `Description must be under ${maxLength} characters.`;
