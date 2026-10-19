@@ -19,7 +19,7 @@ import {
 
 const faqCategory = FAQ_CATEGORIES.find((category) => category.slug === "mini-pcnl-gurgaon")!;
 
-const TITLE = "Mini-PCNL in Gurgaon: Cure Stone Hospital, Sector 52";
+const TITLE = "Mini-PCNL in Gurgaon: Cost & Recovery";
 const DESCRIPTION =
   "Considering Mini-PCNL for a large kidney stone in Gurgaon? Meet the surgeon, see Cure Stone Hospital's Sector 52 facility, and how to book — the local decision guide, not the procedure explainer.";
 const URL = "https://thecurestone.com/mini-pcnl-in-gurgaon";

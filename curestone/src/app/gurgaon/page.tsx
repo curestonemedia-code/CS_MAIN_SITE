@@ -8,13 +8,13 @@ import LocationLeadForm from "@/components/home/LocationLeadForm";
 import ExpertVideos from "@/components/home/ExpertVideos";
 
 export const metadata: Metadata = {
-  title: "Kidney Stone Surgery in Gurgaon | RIRS Surgery & Treatment",
+  title: "Kidney Stone Surgery in Gurgaon",
   description: "Learn about kidney stone surgery in Gurgaon, RIRS surgery cost considerations, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
   alternates: {
     canonical: "https://thecurestone.com/gurgaon",
   },
   openGraph: {
-    title: "Kidney Stone Surgery in Gurgaon | RIRS Surgery & Treatment",
+    title: "Kidney Stone Surgery in Gurgaon",
     description: "Kidney stone treatment in Gurgaon with RIRS, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
     url: "https://thecurestone.com/gurgaon",
     siteName: "Cure Stone",

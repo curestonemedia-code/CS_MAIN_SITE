@@ -7,17 +7,17 @@ import GlobalReach from "@/components/home/GlobalReach";
 import LocationLeadForm from "@/components/home/LocationLeadForm";
 
 export const metadata: Metadata = {
-  title: "Kidney Stone Surgery in Sector 52, Gurgaon | RIRS & Laser Treatment",
+  title: "Kidney Stone Hospital in Sector 52, Gurgaon",
   description: "Consult a urologist doctor in Gurgaon for kidney stone treatment, RIRS surgery in Gurgaon, PCNL, ESWL and URSL care at Cure Stone Hospital, Sector 52.",
   alternates: {
     canonical: "https://thecurestone.com/sector-52",
   },
   openGraph: {
-    title: "Kidney Stone Surgery in Sector 52, Gurgaon | RIRS & Laser Treatment",
+    title: "Kidney Stone Hospital in Sector 52, Gurgaon",
     description: "Kidney stone hospital in Gurgaon offering RIRS surgery, PCNL, ESWL and URSL care at Cure Stone Hospital, Sector 52.",
     url: "https://thecurestone.com/sector-52",
     siteName: "Cure Stone",
-    images: [{ url: "/assets/doctor.png", width: 753, height: 807, alt: "Kidney Stone Surgery in Sector 52, Gurgaon | RIRS & Laser Treatment" }],
+    images: [{ url: "/assets/doctor.png", width: 753, height: 807, alt: "Kidney Stone Hospital in Sector 52, Gurgaon" }],
     locale: "en_IN",
     type: "website",
   },

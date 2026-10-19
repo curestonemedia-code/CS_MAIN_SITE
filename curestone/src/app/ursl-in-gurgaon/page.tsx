@@ -19,7 +19,7 @@ import {
 
 const faqCategory = FAQ_CATEGORIES.find((category) => category.slug === "ursl-gurgaon")!;
 
-const TITLE = "URSL in Gurgaon: Cure Stone Hospital, Sector 52";
+const TITLE = "URSL in Gurgaon: Cost & Recovery";
 const DESCRIPTION =
   "Ureteric stone causing pain in Gurgaon? Meet the surgeon, see Cure Stone Hospital's Sector 52 facility, and how to book URSL — the local decision guide, not the procedure explainer.";
 const URL = "https://thecurestone.com/ursl-in-gurgaon";

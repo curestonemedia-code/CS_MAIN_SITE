@@ -31,11 +31,11 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   if (!post) {
     return {
-      title: "Article Not Found | Cure Stone",
+      title: "Article Not Found",
     };
   }
 
-  const title = post.seo?.metaTitle || `${post.title} | Health Blog`;
+  const title = post.seo?.metaTitle || post.title;
   const description = post.seo?.metaDescription || post.excerpt || "";
   const image = post.seo?.ogImage?.asset?.url || post.coverImage?.asset?.url;
   const url = `https://thecurestone.com/${getPostCategorySlug(post)}/${post.slug}`;
