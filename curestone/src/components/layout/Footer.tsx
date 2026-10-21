@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import MapEmbed from "./MapEmbed";
+import { DOCTOR_REGISTRATION_DISPLAY } from "@/constants/business";
 
 const SocialIcons = {
   Instagram: () => (
@@ -171,7 +172,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">
-            © 2026 Cure Stone Hospital. All rights reserved.
+            © 2026 Cure Stone Hospital. All rights reserved. · Dr. Deepanshu Gupta, MCh Urology — {DOCTOR_REGISTRATION_DISPLAY}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-5">
             {[

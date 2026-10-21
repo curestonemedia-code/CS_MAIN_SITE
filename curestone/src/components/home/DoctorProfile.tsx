@@ -14,6 +14,8 @@ import {
   GraduationCap,
   ShieldCheck,
 } from "lucide-react";
+import { DOCTOR_REGISTRATION_DISPLAY } from "@/constants/business";
+
 const DoctorProfile = () => {
   const stats = [
     {
@@ -147,6 +149,9 @@ const DoctorProfile = () => {
                     </p>
                     <p className="text-blue-200/60 text-[12px] sm:text-[12px] font-medium leading-relaxed">
                       MBBS · MS (PGIMS) · MCh Urology (Rank 1)
+                    </p>
+                    <p className="text-blue-200/60 text-[11px] font-medium leading-relaxed">
+                      {DOCTOR_REGISTRATION_DISPLAY}
                     </p>
                   </div>
                 </div>

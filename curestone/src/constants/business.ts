@@ -41,3 +41,9 @@ export const CONSULTATION_HOURS = "10:00 AM – 7:00 PM, Monday to Saturday (by 
 /** JSON-LD @id anchors for the sitewide schema graph (defined in layout.tsx / dr-deepanshu-gupta/page.tsx). */
 export const ORGANIZATION_ID = "https://thecurestone.com/#organization";
 export const PHYSICIAN_ID = "https://thecurestone.com/dr-deepanshu-gupta#physician";
+
+/** Mandatory NMC advertising-notice disclosure — Dr. Deepanshu Gupta's state medical council registration. */
+export const DOCTOR_REGISTRATION_COUNCIL = "Delhi Medical Council (DMC)";
+export const DOCTOR_REGISTRATION_NO = "70308";
+export const DOCTOR_REGISTRATION_YEAR = "2014";
+export const DOCTOR_REGISTRATION_DISPLAY = "DMC Reg. No. 70308 (2014)";

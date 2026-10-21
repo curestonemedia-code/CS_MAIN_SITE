@@ -17,6 +17,7 @@ import {
   Trophy,
   Users,
 } from "lucide-react";
+import { DOCTOR_REGISTRATION_DISPLAY } from "@/constants/business";
 
 const TITLE = "Dr. Deepanshu Gupta | Urologist in Gurgaon";
 const DESCRIPTION =
@@ -157,6 +158,11 @@ const physicianSchema = {
   description: DESCRIPTION,
   alumniOf: "PGIMS Rohtak, RML Hospital New Delhi",
   hasCredential: "MBBS, MS (PGIMS), MCh Urology (Rank 1, RML Hospital)",
+  identifier: {
+    "@type": "PropertyValue",
+    propertyID: "Delhi Medical Council Registration Number",
+    value: "70308",
+  },
   worksFor: {
     "@type": "MedicalBusiness",
     name: "Cure Stone",
@@ -210,6 +216,9 @@ export default function DrDeepanshuGuptaPage() {
               </p>
               <p className="mt-2 text-sm font-bold text-slate-500">
                 MBBS · MS (PGIMS) · MCh Urology (Rank 1)
+              </p>
+              <p className="mt-1 text-xs font-bold text-slate-400">
+                {DOCTOR_REGISTRATION_DISPLAY}
               </p>
               <p className="mt-6 max-w-2xl text-lg font-medium leading-8 text-slate-600 text-justify">
                 Dr. Deepanshu Gupta is an experienced urologist in Gurgaon known for

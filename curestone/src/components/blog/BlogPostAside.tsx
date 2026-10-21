@@ -2,11 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import BlogLeadForm from "./BlogLeadForm";
+import { DOCTOR_REGISTRATION_DISPLAY } from "@/constants/business";
 
 const CREDENTIALS = [
   "MBBS · MS (PGIMS) · MCh Urology (Rank 1, RML Hospital)",
   "Chief Urologist & Founder, Cure Stone Hospital",
   "Formerly at Apollo, RML / PGIMER, Fortis and Max Hospitals",
+  DOCTOR_REGISTRATION_DISPLAY,
 ];
 
 const STATS = [
