@@ -26,17 +26,17 @@ const CATEGORY_LABELS: Record<FoodCategory, string> = {
   other: "Other",
 };
 
-const SLOT_LABELS: Record<MealSlot, string> = {
-  breakfast: "Breakfast",
-  lunch: "Lunch",
-  evening_snack: "Evening Snack",
-  dinner: "Dinner",
+const SLOT_META: Record<MealSlot, { label: string; accent: string; bg: string }> = {
+  breakfast: { label: "Breakfast", accent: "#b45309", bg: "#fffbeb" },
+  lunch: { label: "Lunch", accent: "#1d4ed8", bg: "#eff6ff" },
+  evening_snack: { label: "Evening Snack", accent: "#7e22ce", bg: "#faf5ff" },
+  dinner: { label: "Dinner", accent: "#4f46e5", bg: "#eef2ff" },
 };
 
-const TIER_META: { key: keyof FoodItemSelection; label: string; accent: string; bg: string }[] = [
-  { key: "eatFreely", label: "Eat Freely", accent: "#15803d", bg: "#f0fdf4" },
-  { key: "moderate", label: "Eat in Moderation", accent: "#b45309", bg: "#fffbeb" },
-  { key: "avoid", label: "Limit / Avoid", accent: "#b91c1c", bg: "#fef2f2" },
+const TIER_META: { key: keyof FoodItemSelection; label: string; accent: string; bg: string; blurb: string }[] = [
+  { key: "eatFreely", label: "Eat Freely", accent: "#15803d", bg: "#f0fdf4", blurb: "Low-risk for your stone type — build meals around these." },
+  { key: "moderate", label: "Eat in Moderation", accent: "#b45309", bg: "#fffbeb", blurb: "Fine in modest portions — don't make these the main event." },
+  { key: "avoid", label: "Limit / Avoid", accent: "#b91c1c", bg: "#fef2f2", blurb: "Keep these occasional, not everyday staples." },
 ];
 
 function labelFor(options: readonly { value: string; label: string }[], value?: string, fallback = "Not specified") {
@@ -44,12 +44,13 @@ function labelFor(options: readonly { value: string; label: string }[], value?: 
 }
 
 const styles = StyleSheet.create({
-  page: { padding: 32, fontSize: 10, fontFamily: "Helvetica", color: "#1e293b" },
+  page: { padding: 32, paddingBottom: 40, fontSize: 10, fontFamily: "Helvetica", color: "#1e293b" },
   coverRow: { flexDirection: "row", alignItems: "center", gap: 14, marginBottom: 16 },
   heroImage: { width: 76, height: 76, borderRadius: 10 },
   h1: { fontSize: 18, fontFamily: "Helvetica-Bold", marginBottom: 4 },
   subtitle: { fontSize: 9, color: "#64748b" },
   sectionTitle: { fontSize: 13, fontFamily: "Helvetica-Bold", marginTop: 18, marginBottom: 8, color: "#0f172a" },
+  pageSubtitle: { fontSize: 9, color: "#64748b", marginTop: -4, marginBottom: 14, lineHeight: 1.45, maxWidth: 440 },
   statsGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 6 },
   statBox: { width: "23%", backgroundColor: "#f1f5f9", borderRadius: 6, padding: 8 },
   statValue: { fontSize: 12, fontFamily: "Helvetica-Bold" },
@@ -62,31 +63,64 @@ const styles = StyleSheet.create({
   guidelineRow: { flexDirection: "row", marginBottom: 5 },
   bullet: { width: 10 },
   guidelineText: { flex: 1 },
-  tierHeading: { fontSize: 11, fontFamily: "Helvetica-Bold", marginTop: 12, marginBottom: 5 },
-  categoryHeading: { fontSize: 9, fontFamily: "Helvetica-Bold", marginTop: 7, marginBottom: 4, color: "#334155" },
-  foodGrid: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
-  foodCard: { width: 64, alignItems: "center", borderRadius: 6, padding: 4 },
-  foodThumb: { width: 44, height: 44, borderRadius: 6, marginBottom: 3 },
-  foodThumbPlaceholder: { width: 44, height: 44, borderRadius: 6, marginBottom: 3, backgroundColor: "#e2e8f0" },
-  foodName: { fontSize: 6.5, textAlign: "center", lineHeight: 1.2 },
-  dayBlock: { marginBottom: 14 },
-  dayTitle: { fontSize: 11, fontFamily: "Helvetica-Bold", marginBottom: 6, backgroundColor: "#eef2ff", padding: 5, borderRadius: 4 },
-  mealRow: {
+
+  // Tier legend (top of the Food Recommendations page) — gives the page
+  // visible content immediately, instead of starting straight into a grid
+  // that can look sparse if a tier only has a handful of items.
+  legendRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 18 },
+  legendChip: { flexDirection: "row", alignItems: "center", gap: 6, borderRadius: 8, paddingVertical: 7, paddingHorizontal: 10, width: "31.5%" },
+  legendDot: { width: 8, height: 8, borderRadius: 4 },
+  legendTextWrap: { flex: 1 },
+  legendCount: { fontSize: 10, fontFamily: "Helvetica-Bold" },
+  legendBlurb: { fontSize: 6.5, color: "#475569", marginTop: 1, lineHeight: 1.3 },
+
+  tierHeading: { fontSize: 11, fontFamily: "Helvetica-Bold", marginTop: 14, marginBottom: 6 },
+  categoryHeading: { fontSize: 9, fontFamily: "Helvetica-Bold", marginTop: 8, marginBottom: 5, color: "#334155" },
+  foodGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  foodCard: { width: 76, alignItems: "center", borderRadius: 8, padding: 6, borderWidth: 0.5, borderColor: "#e2e8f0" },
+  foodThumb: { width: 54, height: 54, borderRadius: 7, marginBottom: 4 },
+  foodThumbPlaceholder: { width: 54, height: 54, borderRadius: 7, marginBottom: 4, backgroundColor: "#e2e8f0" },
+  foodName: { fontSize: 7, textAlign: "center", lineHeight: 1.25 },
+
+  // Meal plan — each day is its own card (not a bare list of rows), and
+  // meals sit two-per-row so the page uses its full width instead of a
+  // single narrow column surrounded by whitespace.
+  tipBox: {
     flexDirection: "row",
-    alignItems: "center",
     gap: 8,
-    borderBottomWidth: 0.5,
-    borderBottomColor: "#e2e8f0",
-    paddingVertical: 5,
+    backgroundColor: "#eff6ff",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 16,
+    alignItems: "center",
   },
-  mealThumb: { width: 32, height: 32, borderRadius: 5 },
-  mealThumbPlaceholder: { width: 32, height: 32, borderRadius: 5, backgroundColor: "#e2e8f0" },
-  mealSlot: { width: "25%", fontFamily: "Helvetica-Bold", fontSize: 8 },
-  mealName: { width: "40%", fontSize: 8 },
-  mealTags: { width: "25%", fontSize: 7, color: "#64748b", textAlign: "right" },
-  disclaimer: { fontSize: 7, color: "#94a3b8", marginTop: 3 },
+  tipMarker: { width: 16, height: 16, borderRadius: 8, backgroundColor: "#1d4ed8", color: "#fff", fontSize: 9, fontFamily: "Helvetica-Bold", textAlign: "center", lineHeight: 1.15 },
+  tipText: { flex: 1, fontSize: 8, color: "#1e3a8a", lineHeight: 1.4 },
+  dayCard: { marginBottom: 14, borderRadius: 10, backgroundColor: "#f8fafc", borderWidth: 0.5, borderColor: "#e2e8f0", padding: 10 },
+  dayTitle: { fontSize: 11, fontFamily: "Helvetica-Bold", marginBottom: 8, color: "#1e293b" },
+  mealGrid: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
+  mealCard: { width: "48.5%", flexDirection: "row", alignItems: "center", gap: 7, borderRadius: 7, padding: 7 },
+  mealThumb: { width: 36, height: 36, borderRadius: 6 },
+  mealThumbPlaceholder: { width: 36, height: 36, borderRadius: 6, backgroundColor: "#e2e8f0" },
+  mealTextWrap: { flex: 1 },
+  mealSlot: { fontFamily: "Helvetica-Bold", fontSize: 7.5, textTransform: "uppercase", letterSpacing: 0.3 },
+  mealName: { fontSize: 8, marginTop: 2 },
+  mealTags: { fontSize: 6.5, color: "#64748b", marginTop: 2 },
+
+  disclaimerBox: { backgroundColor: "#f8fafc", borderRadius: 8, padding: 10, marginTop: 4 },
+  disclaimer: { fontSize: 7, color: "#64748b", marginTop: 3, lineHeight: 1.4 },
   footer: { position: "absolute", bottom: 18, left: 32, right: 32, fontSize: 7, color: "#94a3b8", textAlign: "center" },
 });
+
+function PageFooter() {
+  return (
+    <Text
+      style={styles.footer}
+      fixed
+      render={({ pageNumber, totalPages }) => `Cure Stone Hospital · thecurestone.com · Page ${pageNumber} of ${totalPages}`}
+    />
+  );
+}
 
 function StatBox({ value, label }: { value: string; label: string }) {
   return (
@@ -127,7 +161,7 @@ function FoodCard({ food, bg, origin }: { food: FoodItem; bg: string; origin: st
   return (
     <View style={[styles.foodCard, { backgroundColor: bg }]}>
       {imageUrl ? (
-        <Image src={proxied(imageUrl, origin, 100)} style={styles.foodThumb} />
+        <Image src={proxied(imageUrl, origin, 120)} style={styles.foodThumb} />
       ) : (
         <View style={styles.foodThumbPlaceholder} />
       )}
@@ -208,10 +242,30 @@ export default function DietPlanPdfDocument({
         ))}
       </Page>
 
-      {/* Food recommendations get their own page(s) — a real photo grid per
-          tier/category, not a bare list of names. */}
+      {/* Food recommendations get their own page(s) — a legend summarising
+          all three tiers up top (so the page has substance even before the
+          grid), then a real photo grid per tier/category. */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>Food Recommendations</Text>
+        <Text style={styles.pageSubtitle}>
+          Foods are grouped into three tiers based on your stone type and profile. Swap freely within a tier — exact
+          portions matter less than which tier a food sits in.
+        </Text>
+
+        <View style={styles.legendRow}>
+          {TIER_META.map((tier) => (
+            <View key={tier.key} style={[styles.legendChip, { backgroundColor: tier.bg }]}>
+              <View style={[styles.legendDot, { backgroundColor: tier.accent }]} />
+              <View style={styles.legendTextWrap}>
+                <Text style={[styles.legendCount, { color: tier.accent }]}>
+                  {plan.foods[tier.key].length} {tier.label}
+                </Text>
+                <Text style={styles.legendBlurb}>{tier.blurb}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+
         {TIER_META.map((tier) => {
           const foods = plan.foods[tier.key];
           if (!foods.length) return null;
@@ -233,49 +287,68 @@ export default function DietPlanPdfDocument({
             </View>
           );
         })}
+
+        <PageFooter />
       </Page>
 
       {/* Meal plan on its own page(s) — all 7 days, always, regardless of
-          which single day the on-screen tab happens to be showing. Each meal
-          shows its representative food photo, same as the on-screen cards. */}
+          which single day the on-screen tab happens to be showing. Each day
+          is a card with a 2-column grid of meals (not a thin single-column
+          list), so the page reads as designed rather than a bare table. */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>7-Day Sample Meal Plan</Text>
+        <Text style={styles.pageSubtitle}>
+          A sample structure for the week ahead — swap any item for another from the same tier on the previous page
+          to match your own taste, schedule and budget.
+        </Text>
+
+        <View style={styles.tipBox}>
+          <Text style={styles.tipMarker}>i</Text>
+          <Text style={styles.tipText}>
+            Consistency across the week matters more than any single meal. Aim to hit your daily water target
+            (previous page) spread evenly through the day, not all at once.
+          </Text>
+        </View>
+
         {plan.mealPlan.map((day) => (
-          <View key={day.day} style={styles.dayBlock} wrap={false}>
+          <View key={day.day} style={styles.dayCard} wrap={false}>
             <Text style={styles.dayTitle}>Day {day.day}</Text>
-            {day.meals.map((meal) => {
-              const food = meal.primaryFoodSlug ? foodsBySlug.get(meal.primaryFoodSlug) : undefined;
-              const imageUrl = food?.image?.asset?.url;
-              return (
-                <View key={meal.slot} style={styles.mealRow}>
-                  {imageUrl ? (
-                    <Image src={proxied(imageUrl, origin, 70)} style={styles.mealThumb} />
-                  ) : (
-                    <View style={styles.mealThumbPlaceholder} />
-                  )}
-                  <Text style={styles.mealSlot}>
-                    {SLOT_LABELS[meal.slot]} · {meal.time}
-                  </Text>
-                  <Text style={styles.mealName}>{meal.name}</Text>
-                  <Text style={styles.mealTags}>{meal.tags.join(", ")}</Text>
-                </View>
-              );
-            })}
+            <View style={styles.mealGrid}>
+              {day.meals.map((meal) => {
+                const food = meal.primaryFoodSlug ? foodsBySlug.get(meal.primaryFoodSlug) : undefined;
+                const imageUrl = food?.image?.asset?.url;
+                const slotMeta = SLOT_META[meal.slot];
+                return (
+                  <View key={meal.slot} style={[styles.mealCard, { backgroundColor: slotMeta.bg }]}>
+                    {imageUrl ? (
+                      <Image src={proxied(imageUrl, origin, 90)} style={styles.mealThumb} />
+                    ) : (
+                      <View style={styles.mealThumbPlaceholder} />
+                    )}
+                    <View style={styles.mealTextWrap}>
+                      <Text style={[styles.mealSlot, { color: slotMeta.accent }]}>
+                        {slotMeta.label} · {meal.time}
+                      </Text>
+                      <Text style={styles.mealName}>{meal.name}</Text>
+                      {meal.tags.length > 0 && <Text style={styles.mealTags}>{meal.tags.join(", ")}</Text>}
+                    </View>
+                  </View>
+                );
+              })}
+            </View>
           </View>
         ))}
 
         <Text style={styles.sectionTitle}>Disclaimers</Text>
-        {plan.disclaimers.map((disclaimer, i) => (
-          <Text key={i} style={styles.disclaimer}>
-            {disclaimer}
-          </Text>
-        ))}
+        <View style={styles.disclaimerBox}>
+          {plan.disclaimers.map((disclaimer, i) => (
+            <Text key={i} style={styles.disclaimer}>
+              {disclaimer}
+            </Text>
+          ))}
+        </View>
 
-        <Text
-          style={styles.footer}
-          fixed
-          render={({ pageNumber, totalPages }) => `Cure Stone Hospital · thecurestone.com · Page ${pageNumber} of ${totalPages}`}
-        />
+        <PageFooter />
       </Page>
     </Document>
   );
