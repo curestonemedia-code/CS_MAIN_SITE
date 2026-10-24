@@ -31,3 +31,6 @@ export const ACTIVITY_LEVELS = [
   { value: "sedentary", label: "Sedentary (mostly seated)" },
   { value: "high_heat_or_exercise", label: "High heat exposure or heavy exercise" },
 ] as const;
+export const DIET_VIDEOS_URL = "https://thecurestone.com/videos/diet";
+export const DIET_CONSULTATION_PHONE_DISPLAY = "+91 88003 02166";
+export const DIET_CONSULTATION_PHONE_TEL = "+918800302166";

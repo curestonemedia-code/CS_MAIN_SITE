@@ -1,9 +1,17 @@
 import React from "react";
 import Image from "next/image";
-import { Droplets, Flame, Leaf, Gauge, Sparkles } from "lucide-react";
+import { Droplets, Flame, Leaf, Gauge, Sparkles, Download, Loader2 } from "lucide-react";
 import type { DietPlanTargets } from "@/lib/dietPlanner/types";
 
-export default function DietPlanHeaderCard({ targets }: { targets: DietPlanTargets }) {
+export default function DietPlanHeaderCard({
+  targets,
+  onDownloadPdf,
+  generatingPdf,
+}: {
+  targets: DietPlanTargets;
+  onDownloadPdf: () => void;
+  generatingPdf: boolean;
+}) {
   const stats = [
     { icon: Droplets, value: `${(targets.hydrationMlPerDay / 1000).toFixed(1)}L`, label: "Daily water" },
     { icon: Flame, value: `${targets.dailyCalorieKcal} kcal`, label: "Daily intake (est.)" },
@@ -32,6 +40,21 @@ export default function DietPlanHeaderCard({ targets }: { targets: DietPlanTarge
             </div>
           ))}
         </div>
+        <button
+          onClick={onDownloadPdf}
+          disabled={generatingPdf}
+          className="mt-5 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-blue-700 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-[filter] hover:brightness-110 disabled:opacity-60"
+        >
+          {generatingPdf ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Generating PDF...
+            </>
+          ) : (
+            <>
+              <Download className="h-4 w-4" /> Download PDF Plan
+            </>
+          )}
+        </button>
       </div>
       <div className="relative w-36 h-36 sm:w-44 sm:h-44 shrink-0">
         <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg">

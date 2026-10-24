@@ -7,9 +7,9 @@ import { buildGuidelines } from "@/lib/dietPlanner/guidelines";
 import { generateMealPlan } from "@/lib/dietPlanner/mealPlan";
 import type { DietPlanInput } from "@/lib/dietPlanner/types";
 import { validateNumberInRange, validateSelect } from "@/utils/formValidation";
-import { PHONE_DISPLAY } from "@/constants/business";
 import {
   ACTIVITY_LEVELS,
+  DIET_CONSULTATION_PHONE_DISPLAY,
   DIETARY_PREFERENCES,
   STONE_STATUSES,
   STONE_TYPES,
@@ -22,7 +22,7 @@ const ACTIVITY_LEVEL_VALUES = ACTIVITY_LEVELS.map((o) => o.value);
 
 const DISCLAIMERS = [
   "This planner provides general nutrition guidance for kidney stone prevention — it does not replace a personalized clinical plan.",
-  `Always confirm major dietary changes with Dr. Deepanshu Gupta, especially if you're pregnant, have kidney disease, or are diabetic. Call ${PHONE_DISPLAY} to book a consultation.`,
+  `Always confirm major dietary changes with Dr. Deepanshu Gupta, especially if you're pregnant, have kidney disease, or are diabetic.\nCall ${DIET_CONSULTATION_PHONE_DISPLAY} to book a consultation.`,
 ];
 
 function validateInput(body: unknown): { input?: DietPlanInput; errors?: Record<string, string> } {
@@ -218,7 +218,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Diet plan API error:", error);
     return NextResponse.json(
-      { error: `Something went wrong building your plan. Please call ${PHONE_DISPLAY} and our team can help directly.` },
+      { error: `Something went wrong building your plan. Please call ${DIET_CONSULTATION_PHONE_DISPLAY} and our team can help directly.` },
       { status: 500 }
     );
   }
