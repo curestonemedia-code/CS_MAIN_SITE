@@ -20,7 +20,7 @@ type Message = {
 };
 
 const MAP_SRC =
-  "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14033.273570394473!2d77.045641!3d28.485092!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1782981388299!5m2!1sen!2sin";
+  "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14033.273570394473!2d77.070288!3d28.439817!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19559d21f213%3A0xa736733167a5023b!2sCure%20Stone!5e0!3m2!1sen!2sin!4v1782981388299!5m2!1sen!2sin";
 
 // Topic keywords -> the matching real video. Checked in order, first hit wins.
 const VIDEO_TOPICS: Array<{ pattern: RegExp; videoId: string }> = [
