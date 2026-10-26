@@ -8,9 +8,9 @@ import { FAQ_CATEGORIES } from "@/constants/faqs";
 
 const faqCategory = FAQ_CATEGORIES.find((category) => category.slug === "diet-planner")!;
 
-const TITLE = "7-Day Kidney Stone Diet Chart & Free Planner";
+const TITLE = "7-Day Kidney Stone Diet Chart & Diet Planner";
 const DESCRIPTION =
-  "Explore a 7-day Indian kidney stone diet chart, foods to eat and avoid, and a free personalized diet planner with hydration and stone-type guidance.";
+  "Explore a 7-day Indian kidney stone diet chart, foods to eat and avoid, and a personalized diet planner with hydration and stone-type guidance.";
 const URL = "https://thecurestone.com/kidney-stone-diet-planner";
 
 export const metadata: Metadata = {

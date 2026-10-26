@@ -30,6 +30,7 @@ const STATIC_ROUTES: Array<{
   { path: "/book", changeFrequency: "monthly", priority: 0.7 },
   { path: "/checker", changeFrequency: "monthly", priority: 0.6 },
   { path: "/faqs", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/kidney-stone-diet-planner", changeFrequency: "weekly", priority: 0.9 },
 ];
 
 // Real, distinct videos from the Cure Stone YouTube channel, keyed by the

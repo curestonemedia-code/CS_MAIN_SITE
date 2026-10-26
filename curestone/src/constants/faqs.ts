@@ -272,11 +272,11 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     slug: "diet-planner",
     title: "Kidney Stone Diet & Nutrition",
     relatedHref: "/kidney-stone-diet-planner",
-    relatedLabel: "Try the Free Diet Planner",
+    relatedLabel: "Try the Diet Planner",
     items: [
       {
         q: "What is the best diet for kidney stones?",
-        a: "There's no single diet for every stone — it depends on the stone type. In general: drink enough water to pass 2.5–3 litres of urine a day, keep sodium (salt) low, don't restrict dietary calcium, and limit high-oxalate foods and excess animal protein. Our free diet planner personalizes this based on your stone type and profile.",
+        a: "There's no single diet for every stone — it depends on the stone type. In general: drink enough water to pass 2.5–3 litres of urine a day, keep sodium (salt) low, don't restrict dietary calcium, and limit high-oxalate foods and excess animal protein. Our diet planner personalizes this based on your stone type and profile.",
       },
       {
         q: "What foods should I avoid with kidney stones?",
@@ -308,7 +308,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "Can I follow a 7-day Indian diet chart for kidney stones?",
-        a: "Yes — a kidney stone diet chart can include familiar Indian foods like roti, rice, dal, seasonal vegetables and curd. Portions and specific food choices should still be adjusted to your stone type and medical history, which is exactly what our free planner personalizes beyond the general 7-day chart above.",
+        a: "Yes — a kidney stone diet chart can include familiar Indian foods like roti, rice, dal, seasonal vegetables and curd. Portions and specific food choices should still be adjusted to your stone type and medical history, which is exactly what our planner personalizes beyond the general 7-day chart above.",
       },
       {
         q: "What should I eat for breakfast, lunch and dinner if I have kidney stones?",
@@ -364,7 +364,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "Are there videos about kidney stone diet and foods to avoid?",
-        a: "Yes, the Diet category on the video page covers foods to eat and avoid, hydration habits, and nutrition guidance after surgery. Pair it with the free kidney stone diet planner for a personalized plan.",
+        a: "Yes, the Diet category on the video page covers foods to eat and avoid, hydration habits, and nutrition guidance after surgery. Pair it with the kidney stone diet planner for a personalized plan.",
       },
       {
         q: "Is there a video explaining which kidney stone size needs surgery?",

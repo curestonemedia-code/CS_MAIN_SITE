@@ -66,7 +66,7 @@ export default function DietPlannerSeoContent() {
           7-Day Indian Kidney Stone Diet Chart
         </h2>
         <p className="text-sm text-text-light text-center max-w-2xl mx-auto mb-7">
-          A general-purpose starting point using everyday Indian meals. It isn&apos;t personalized to your stone type — use the free
+          A general-purpose starting point using everyday Indian meals. It isn&apos;t personalized to your stone type — use the
           planner above for guidance tailored to you.
         </p>
         <div className="bg-white border border-border/50 rounded-2xl overflow-x-auto">
@@ -156,13 +156,13 @@ export default function DietPlannerSeoContent() {
         <p className="text-sm text-text-mid max-w-xl mx-auto mb-6">
           The chart above is a general starting point. For guidance that accounts for your specific stone type, weight, activity
           level and dietary preference — including your own hydration and sodium targets and a full 7-day meal plan — answer a few
-          questions in the free planner above.
+          questions in the planner above.
         </p>
         <a
           href="#diet-planner-tool"
           className="inline-flex items-center gap-2 bg-gradient-to-br from-blue-900 to-blue-700 text-white font-bold text-sm px-6 py-3 rounded-full hover:opacity-90 transition-opacity no-underline"
         >
-          Start Free Diet Planner <ArrowRight className="w-4 h-4" />
+          Start Diet Planner <ArrowRight className="w-4 h-4" />
         </a>
         <p className="text-xs text-text-light mt-6">
           Want broader general nutrition advice too?{" "}

@@ -20,7 +20,7 @@ function Hero() {
   return (
     <div id="diet-planner-tool" className="max-w-3xl mx-auto px-6 text-center mb-12 scroll-mt-24">
       <span className="inline-block px-4 py-1.5 mt-5 lg:mt-0 mb-4 text-[10px] font-black tracking-widest text-primary bg-primary/5 border border-primary/10 rounded-full uppercase">
-        Free Tool
+        Diet Tool
       </span>
       <h1 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
         7-Day Kidney Stone Diet Chart &amp; Personalized Diet Planner
