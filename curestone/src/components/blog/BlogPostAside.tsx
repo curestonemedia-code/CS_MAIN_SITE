@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
+import { ArrowRight, Sparkles, Star } from "lucide-react";
 import BlogLeadForm from "./BlogLeadForm";
 import { DOCTOR_REGISTRATION_DISPLAY } from "@/constants/business";
 
@@ -21,6 +21,27 @@ export default function BlogPostAside({ postTitle }: { postTitle: string }) {
   return (
     <aside id="blog-enquiry" className="mt-12 scroll-mt-28 lg:mt-0" aria-label="Book a consultation">
       <div className="space-y-6 lg:sticky lg:top-28">
+        <a
+          href="https://www.google.com/preferences/source?q=https://thecurestone.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group block rounded-3xl bg-gradient-to-br from-blue-900 via-blue-700 to-primary p-6 shadow-xl shadow-primary/25 transition-transform hover:scale-[1.015]"
+        >
+          <div className="mb-3 flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
+              <Sparkles className="h-4 w-4 text-white" />
+            </span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-white/75">Google Search</span>
+          </div>
+          <h2 className="text-lg font-black leading-snug text-white">Prefer Cure Stone on Google</h2>
+          <p className="mt-1.5 text-xs font-medium leading-relaxed text-white/80">
+            See more from thecurestone.com in your search results and AI Overviews.
+          </p>
+          <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2.5 text-xs font-black text-primary transition-colors group-hover:bg-blue-50">
+            Add as Preferred Source <ArrowRight className="h-3.5 w-3.5" />
+          </span>
+        </a>
+
         <div className="rounded-3xl border border-primary/15 bg-white p-6 shadow-xl shadow-primary/5">
           <p className="text-[10px] font-black uppercase tracking-widest text-primary">Patient Enquiry</p>
           <h2 className="mb-1 mt-1 text-xl font-black text-slate-900">Get a call back</h2>
