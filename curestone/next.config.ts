@@ -107,6 +107,8 @@ const MIGRATION_REDIRECTS: Array<{ source: string; destination: string }> = [
   { source: "/kidney-stones/best-treatment-for-7mm-kidney-stones", destination: "/kidney-stones/can-a-7mm-kidney-stone-dissolve" },
   { source: "/kidney-stones/can-a-13mm-kidney-stone-be-removed-without-cutting", destination: "/size/best-treatment-for-13mm-kidney-stones" },
   { source: "/kidney/what-is-the-most-painful-stage-of-kidney-stones-2", destination: "/kidney-stones/what-is-the-most-painful-stage-of-kidney-stones" },
+  { source: "/kidney-stones/kidney-stones-in-pregnancy-symptoms-treatment", destination: "/kidney/kidney-stones-while-pregnant-can-you-wait-until-delivery" },
+  { source: "/kidney-stones/kidney-stones-in-pregnant-women-what-to-do", destination: "/kidney/kidney-stones-while-pregnant-can-you-wait-until-delivery" },
 ];
 
 const nextConfig: NextConfig = {
