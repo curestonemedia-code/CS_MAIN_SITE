@@ -100,12 +100,12 @@ const differentiators = [
   {
     icon: "🩺",
     title: "Surgeon-Led Scan Review",
-    desc: "Dr. Deepanshu Gupta personally reviews your CT KUB before confirming ESWL is suitable for your stone's size and position — not a call-centre triage step.",
+    desc: "Dr. Deepanshu Gupta personally reviews your CT or USG scan before confirming ESWL is suitable for your stone's size and position — not a call-centre triage step.",
   },
 ];
 
 const journey = [
-  { step: "Consultation", desc: "Video consult or in-clinic visit at Sector 52 — bring your CT KUB scan, or get one done locally beforehand." },
+  { step: "Consultation", desc: "Video consult or in-clinic visit at Sector 52 — bring your CT or USG scan, or get one done locally beforehand." },
   { step: "Session Day", desc: "Arrive at the Sector 52 facility for the ESWL session — no admission required for most patients." },
   { step: "Same-Day Discharge", desc: "Most patients go home the same day, resuming light activity within 24–48 hours." },
   { step: "Local Follow-Up", desc: "Follow-up imaging and any repeat sessions are scheduled back at the same Gurgaon hospital." },
@@ -217,16 +217,22 @@ export default function EswlInGurgaonPage() {
           </div>
         </section>
 
-        {/* Cost & Insurance */}
+        {/* Cost & Insurance (full breakdown lives on the dedicated cost page) */}
         <section className="py-16 md:py-24 bg-slate-50">
           <div className="max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-6">Cost & Insurance</h2>
             <p className="text-slate-600 font-medium leading-relaxed mb-4">
               ESWL cost depends on stone size, the number of sessions needed and imaging — there is no fixed number until your scan is reviewed. Most patients use cashless health insurance when medically indicated, and Cure Stone&apos;s team handles the documentation and approvals.
             </p>
+            <p className="text-slate-600 font-medium leading-relaxed mb-4">
+              Costs vary hospital to hospital and policy to policy, and larger or multiple stones may need staged sessions — this clearly depends on your case.
+            </p>
             <p className="text-slate-600 font-medium leading-relaxed">
               The first video consultation has no charge; in-clinic consultations start at ₹800.
             </p>
+            <Link href="/kidney-stone-surgery-cost-guide" className="text-primary font-black text-xs uppercase tracking-widest hover:underline">
+              See what affects your surgery cost →
+            </Link>
           </div>
         </section>
 
@@ -247,7 +253,7 @@ export default function EswlInGurgaonPage() {
         <section className="py-16 md:py-24 bg-primary">
           <div className="max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-5xl font-black text-white mb-4">Ready to Book ESWL in Gurgaon?</h2>
-            <p className="text-white/70 font-medium mb-10 text-base md:text-lg">Bring your CT KUB scan, or get one done locally, and meet Dr. Deepanshu Gupta at Sector 52.</p>
+            <p className="text-white/70 font-medium mb-10 text-base md:text-lg">Bring your CT or USG scan, or get one done locally, and meet Dr. Deepanshu Gupta at Sector 52.</p>
             <Link href="/book" className="inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 bg-white text-primary font-black rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-base md:text-lg">
               Book ESWL Consultation →
             </Link>

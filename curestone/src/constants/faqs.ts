@@ -245,6 +245,174 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     ],
   },
   {
+    slug: "rirs-cost",
+    title: "RIRS Cost — India & Gurgaon",
+    relatedHref: "/rirs-cost",
+    relatedLabel: "RIRS Cost",
+    items: [
+      {
+        q: "How much does RIRS surgery cost in India?",
+        a: "Published rates from other Indian hospital groups place RIRS cost roughly between ₹85,000 and ₹2,00,000, varying by hospital tier, city and stone complexity. At Cure Stone Hospital, Gurgaon, RIRS starts from ₹78,000, with your final cost confirmed after Dr. Deepanshu Gupta reviews your CT or USG scan.",
+      },
+      {
+        q: "What determines the exact cost of my RIRS surgery?",
+        a: "Stone size and complexity, length of hospital stay, anesthesia type, any additional imaging or lab tests, and choice of room category all affect the final RIRS cost. There is no fixed number until your scan is reviewed.",
+      },
+      {
+        q: "Is RIRS surgery covered by health insurance?",
+        a: "RIRS is generally covered under cashless health insurance when medically indicated. Cure Stone's team assists with documentation and insurer approvals before your admission date.",
+      },
+      {
+        q: "Does the quoted RIRS cost include the CT or USG scan?",
+        a: "Not usually — the quoted range covers the surgery itself (surgeon's fee, OT, anaesthesia, standard stay). If you don't already have a recent scan, that's billed separately, whether it's done at Cure Stone or brought in from elsewhere.",
+      },
+      {
+        q: "Is RIRS priced differently for a recurrent (repeat) stone?",
+        a: "Not inherently — a repeat case is priced the same way as a first-time case: by stone size, location and complexity. If scar tissue from an earlier surgery makes access harder, that's factored in at consultation like any other complicating factor.",
+      },
+    ],
+  },
+  {
+    slug: "rirs-cost-gurgaon",
+    title: "RIRS Cost in Gurgaon — Cure Stone Hospital",
+    relatedHref: "/rirs-cost-in-gurgaon",
+    relatedLabel: "RIRS Cost in Gurgaon",
+    items: [
+      {
+        q: "What is included in Cure Stone's RIRS cost estimate in Gurgaon?",
+        a: "The starting price typically covers the surgeon's fee, OT and anaesthesia charges, and a standard ward stay for the usual same-day-to-24-hour admission. A private room upgrade or a longer stay than usual can add to this — ask for the exact breakdown at your consultation.",
+      },
+      {
+        q: "Will I know the exact cost before my surgery date?",
+        a: "Yes. Once Dr. Deepanshu Gupta reviews your CT or USG scan at consultation, Cure Stone's team gives you a written case-specific estimate before you confirm your admission date.",
+      },
+      {
+        q: "How do I get an exact RIRS cost estimate for my case in Gurgaon?",
+        a: "Book a video consultation or an in-clinic visit at Sector 52 with your CT or USG scan. Dr. Deepanshu Gupta reviews the scan and gives you a case-specific cost estimate before you decide on surgery.",
+      },
+      {
+        q: "Can I get a RIRS cost estimate without visiting Sector 52 in person?",
+        a: "Yes. Book a video consultation and share your CT or USG scan digitally — Dr. Deepanshu Gupta reviews it the same way he would in person and gives you a case-specific estimate, useful if you're travelling in from outside Gurgaon.",
+      },
+      {
+        q: "Will my RIRS cost change if the surgery turns out more complex than expected?",
+        a: "The written estimate given after your scan review is what you're billed, barring a genuine surprise once the surgeon is inside — a stone that fragments differently than imaging suggested, for instance. That's uncommon, and the team talks you through it rather than simply adding it to the final bill.",
+      },
+    ],
+  },
+  {
+    slug: "mini-pcnl-cost",
+    title: "Mini-PCNL Cost — India & Gurgaon",
+    relatedHref: "/mini-pcnl-cost",
+    relatedLabel: "Mini-PCNL Cost",
+    items: [
+      {
+        q: "How much does Mini-PCNL cost in India?",
+        a: "Published rates from other Indian hospital groups place Mini-PCNL cost roughly between ₹1,00,000 and ₹1,90,000, varying by stone size, hospital tier and city. At Cure Stone Hospital, Gurgaon, Mini-PCNL starts from ₹70,000, with your final cost confirmed after Dr. Deepanshu Gupta reviews your CT or USG scan.",
+      },
+      {
+        q: "Why does Mini-PCNL cost more than RIRS?",
+        a: "Mini-PCNL is used for larger or staghorn stones (20mm and above) that need a small keyhole tract and a longer hospital stay (typically 1-2 days) to clear in one session — that extra complexity and stay is what pushes the cost above RIRS.",
+      },
+      {
+        q: "Is Mini-PCNL surgery covered by health insurance?",
+        a: "Mini-PCNL is generally covered under cashless health insurance when medically indicated. Cure Stone's team assists with documentation and insurer approvals before your admission date.",
+      },
+      {
+        q: "Does the quoted Mini-PCNL cost include the CT or USG scan?",
+        a: "Not usually — the quoted range covers the surgery itself (surgeon's fee, OT, anaesthesia, standard stay). If you don't already have a recent scan, that's billed separately, whether it's done at Cure Stone or brought in from elsewhere.",
+      },
+      {
+        q: "Will I get a written Mini-PCNL estimate before I agree to surgery?",
+        a: "Yes — once Dr. Deepanshu Gupta reviews your scan at consultation, Cure Stone's team gives you a written, case-specific estimate before you confirm your admission date, not a number mentioned in passing.",
+      },
+    ],
+  },
+  {
+    slug: "mini-pcnl-cost-gurgaon",
+    title: "Mini-PCNL Cost in Gurgaon — Cure Stone Hospital",
+    relatedHref: "/mini-pcnl-cost-in-gurgaon",
+    relatedLabel: "Mini-PCNL Cost in Gurgaon",
+    items: [
+      {
+        q: "What is included in Cure Stone's Mini-PCNL cost estimate in Gurgaon?",
+        a: "The starting price typically covers the surgeon's fee, OT and anaesthesia charges, and a standard ward stay of 1-2 days. A private room upgrade or a longer stay than usual can add to this — ask for the exact breakdown at your consultation.",
+      },
+      {
+        q: "Does Mini-PCNL cost more for staghorn stones?",
+        a: "Yes. Staghorn or multiple-stone cases can need a longer procedure, sometimes a second tract, and a longer hospital stay — Dr. Deepanshu Gupta confirms the exact cost after reviewing your CT or USG scan.",
+      },
+      {
+        q: "How do I get an exact Mini-PCNL cost estimate for my case in Gurgaon?",
+        a: "Book a video consultation or an in-clinic visit at Sector 52 with your CT or USG scan. Dr. Deepanshu Gupta reviews the scan and gives you a case-specific cost estimate before you decide on surgery.",
+      },
+      {
+        q: "Can I get a Mini-PCNL cost estimate without visiting Sector 52 in person?",
+        a: "Yes. Book a video consultation and share your CT or USG scan digitally — Dr. Deepanshu Gupta reviews it the same way he would in person and gives you a case-specific estimate before you plan your travel.",
+      },
+      {
+        q: "Is Mini-PCNL priced differently for a recurrent (repeat) stone?",
+        a: "Not inherently — a repeat case is priced by stone size, number of tracts needed and complexity, the same factors that apply to a first-time case. Scar tissue from an earlier surgery is factored in at consultation if relevant.",
+      },
+    ],
+  },
+  {
+    slug: "ursl-cost",
+    title: "URSL Cost — India & Gurgaon",
+    relatedHref: "/ursl-cost",
+    relatedLabel: "URSL Cost",
+    items: [
+      {
+        q: "How much does URSL cost in India?",
+        a: "Published rates from other Indian hospital groups place URSL cost roughly between ₹55,000 and ₹1,30,000, varying by stone location, hospital tier and city. At Cure Stone Hospital, Gurgaon, URSL starts from ₹58,000, with your final cost confirmed after Dr. Deepanshu Gupta reviews your CT or USG scan.",
+      },
+      {
+        q: "Does URSL cost depend on where the stone is in the ureter?",
+        a: "Yes. Stones lower in the ureter are generally more straightforward to reach with the rigid scope than stones higher up (mid-ureter) or larger, impacted stones — that difference in complexity is what moves the cost within the range.",
+      },
+      {
+        q: "Is URSL surgery covered by health insurance?",
+        a: "URSL is generally covered under cashless health insurance when medically indicated. Cure Stone's team assists with documentation and insurer approvals before your admission date.",
+      },
+      {
+        q: "Will I get a written URSL estimate before I agree to surgery?",
+        a: "Yes — once Dr. Deepanshu Gupta reviews your scan at consultation, Cure Stone's team gives you a written, case-specific estimate before you confirm your admission date, not a number mentioned in passing.",
+      },
+      {
+        q: "Does the quoted URSL cost include the CT or USG scan?",
+        a: "Not usually — the quoted range covers the surgery itself (surgeon's fee, OT, anaesthesia, standard stay). If you don't already have a recent scan, that's billed separately, whether it's done at Cure Stone or brought in from elsewhere.",
+      },
+    ],
+  },
+  {
+    slug: "ursl-cost-gurgaon",
+    title: "URSL Cost in Gurgaon — Cure Stone Hospital",
+    relatedHref: "/ursl-cost-in-gurgaon",
+    relatedLabel: "URSL Cost in Gurgaon",
+    items: [
+      {
+        q: "What is included in Cure Stone's URSL cost estimate in Gurgaon?",
+        a: "The starting price typically covers the surgeon's fee, OT and anaesthesia charges, and the standard same-day-to-24-hour stay. A DJ stent, if needed, and its later removal are confirmed as a separate line item.",
+      },
+      {
+        q: "Is URSL cost different for an emergency/urgent case?",
+        a: "The procedure cost itself is the same; what can change is timing and priority scheduling for a severely painful or obstructing stone — call +91 88002 63884 directly for urgent cases rather than the standard booking form.",
+      },
+      {
+        q: "How do I get an exact URSL cost estimate for my case in Gurgaon?",
+        a: "Book a video consultation or an in-clinic visit at Sector 52 with your CT or USG scan. Dr. Deepanshu Gupta reviews the scan and gives you a case-specific cost estimate before you decide on surgery.",
+      },
+      {
+        q: "Can I get a URSL cost estimate without visiting Sector 52 in person?",
+        a: "Yes. Book a video consultation and share your CT or USG scan digitally — Dr. Deepanshu Gupta reviews it the same way he would in person and gives you a case-specific estimate before you plan your travel.",
+      },
+      {
+        q: "Will my URSL cost change if the procedure turns out more complex than expected?",
+        a: "The written estimate given after your scan review is what you're billed, barring a genuine surprise once the surgeon is inside — a stone that's more impacted than imaging suggested, for instance. That's uncommon, and the team talks you through it rather than simply adding it to the final bill.",
+      },
+    ],
+  },
+  {
     slug: "cost-appointments",
     title: "Cost, Insurance & Appointments",
     relatedHref: "/book",
@@ -265,6 +433,38 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       {
         q: "Does Cure Stone offer online consultations for patients outside India?",
         a: "Yes, Cure Stone offers international video consultations for patients outside India. Select 'Online Video Consult' while booking and mention your location in the description.",
+      },
+    ],
+  },
+  {
+    slug: "surgery-cost-guide",
+    title: "What Affects Kidney Stone Surgery Cost",
+    relatedHref: "/book",
+    relatedLabel: "Book a Consultation",
+    items: [
+      {
+        q: "Why does the same procedure cost different amounts at different hospitals?",
+        a: "Costs vary hospital to hospital and policy to policy — hospital tier, city, surgeon experience, room category and what your specific insurance policy covers all move the final number. There's no single fixed price for any kidney stone procedure across India.",
+      },
+      {
+        q: "Will I need more than one procedure for my stone?",
+        a: "It clearly depends on your case. Larger stones, multiple stones, or stones in a difficult location can sometimes need a staged approach — more than one sitting — which adds to the total cost. Dr. Deepanshu Gupta tells you upfront after reviewing your CT or USG scan if your case is likely to need staging.",
+      },
+      {
+        q: "What's typically included in a kidney stone surgery cost estimate?",
+        a: "Most estimates cover the surgeon's fee, OT and anaesthesia charges, and a standard ward stay. A private room upgrade, a longer stay than usual, a DJ stent (where applicable), or additional pre-op imaging can add to the total — ask for the exact breakdown at your consultation.",
+      },
+      {
+        q: "Is kidney stone surgery covered by health insurance?",
+        a: "It's generally covered under cashless health insurance when medically indicated, but coverage terms differ policy to policy. Cure Stone's team checks your specific policy and handles documentation and insurer approvals before your admission date.",
+      },
+      {
+        q: "Can my cost estimate change after the surgery has already started?",
+        a: "The written estimate given after your scan review is what you're billed, barring a genuine surprise once the surgeon is inside — a stone that behaves differently than imaging suggested, for instance. That's uncommon, and the team talks you through it rather than adding it to the final bill unexplained.",
+      },
+      {
+        q: "Does the quoted cost include the CT or USG scan?",
+        a: "Not usually — the quoted range covers the surgery itself. If you don't already have a recent scan, that's billed separately, whether it's done at Cure Stone or brought in from elsewhere.",
       },
     ],
   },

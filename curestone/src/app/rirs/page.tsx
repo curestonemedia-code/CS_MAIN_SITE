@@ -315,9 +315,12 @@ export default function RIRSPage() {
               Book RIRS Consultation →
             </Link>
             <p className="text-white/40 text-[10px] md:text-xs font-bold uppercase tracking-widest mt-6">+91 88002 63884 · Available 10 AM – 7 PM On Appoinment</p>
-            <p className="mt-4">
+            <p className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center">
               <Link href="/rirs-in-gurgaon" className="text-white/60 text-sm font-bold underline underline-offset-4 hover:text-white">
                 Ready to book in Gurgaon? See Cure Stone Hospital, Sector 52 →
+              </Link>
+              <Link href="/rirs-cost" className="text-white/60 text-sm font-bold underline underline-offset-4 hover:text-white">
+                How much does RIRS cost? →
               </Link>
             </p>
           </div>

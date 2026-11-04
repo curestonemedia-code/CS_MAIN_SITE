@@ -24,6 +24,10 @@ const footerSections = [
       { label: "Mini PCNL Surgery", href: "/mini-pcnl" },
       { label: "URSL Treatment", href: "/ursl" },
       { label: "ESWL Lithotripsy", href: "/eswl" },
+      { label: "RIRS Cost", href: "/rirs-cost" },
+      { label: "Mini-PCNL Cost", href: "/mini-pcnl-cost" },
+      { label: "URSL Cost", href: "/ursl-cost" },
+      { label: "Surgery Cost Guide", href: "/kidney-stone-surgery-cost-guide" },
       { label: "Sector 52 Hospital", href: "/sector-52" },
     ],
   },
@@ -31,9 +35,12 @@ const footerSections = [
     title: "Book in Gurgaon",
     links: [
       { label: "RIRS in Gurgaon", href: "/rirs-in-gurgaon" },
+      { label: "RIRS Cost in Gurgaon", href: "/rirs-cost-in-gurgaon" },
       { label: "Mini-PCNL in Gurgaon", href: "/mini-pcnl-in-gurgaon" },
+      { label: "Mini-PCNL Cost in Gurgaon", href: "/mini-pcnl-cost-in-gurgaon" },
       { label: "ESWL in Gurgaon", href: "/eswl-in-gurgaon" },
       { label: "URSL in Gurgaon", href: "/ursl-in-gurgaon" },
+      { label: "URSL Cost in Gurgaon", href: "/ursl-cost-in-gurgaon" },
     ],
   },
   {
@@ -148,7 +155,7 @@ export default function Footer() {
             <div className="flex flex-wrap gap-8">
               <div>
                 <p className="text-[10px] text-white/30 uppercase tracking-widest mb-1">Consultation Hours</p>
-                <p className="text-sm text-white/70 font-medium">10:00 AM – 7:00 PM On Appoiment</p>
+                <p className="text-sm text-white/70 font-medium">10:00 AM – 7:00 PM On Appointment</p>
               </div>
               <div>
                 <p className="text-[10px] text-white/30 uppercase tracking-widest mb-1">Emergency Service</p>

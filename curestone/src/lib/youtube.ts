@@ -32,6 +32,7 @@ export const KNOWN_VIDEO_META: Record<string, { uploadDate: string; duration: st
   Cd07UbuxVho: { uploadDate: "2024-10-08T06:30:07-07:00", duration: "PT1M32S" },
   y0vrA8T0q2g: { uploadDate: "2024-10-15T05:45:04-07:00", duration: "PT1M47S" },
   dQw4w9WgXcQ: { uploadDate: "2009-10-24T23:57:33-07:00", duration: "PT3M33S" },
+  IelkLYdmvm8: { uploadDate: "2023-09-21T05:30:11-07:00", duration: "PT6M5S" },
   // -- sync-video-meta appends new entries below this line --
 };
 

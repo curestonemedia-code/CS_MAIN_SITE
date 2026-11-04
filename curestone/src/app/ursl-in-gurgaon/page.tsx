@@ -100,7 +100,7 @@ const differentiators = [
   {
     icon: "🩺",
     title: "Surgeon-Led Scan Review",
-    desc: "Dr. Deepanshu Gupta personally reviews your CT KUB before confirming URSL as the right approach for a mid or lower ureter stone — not a call-centre triage step.",
+    desc: "Dr. Deepanshu Gupta personally reviews your CT or USG scan before confirming URSL as the right approach for a mid or lower ureter stone — not a call-centre triage step.",
   },
 ];
 
@@ -217,16 +217,22 @@ export default function UrslInGurgaonPage() {
           </div>
         </section>
 
-        {/* Cost & Insurance */}
+        {/* Cost & Insurance (full breakdown lives on the dedicated cost page) */}
         <section className="py-16 md:py-24 bg-slate-50">
           <div className="max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-6">Cost & Insurance</h2>
             <p className="text-slate-600 font-medium leading-relaxed mb-4">
               URSL cost depends on stone location, complexity and length of hospital stay — there is no fixed number until your scan is reviewed. Most patients use cashless health insurance when medically indicated, and Cure Stone&apos;s team handles the documentation and approvals.
             </p>
+            <p className="text-slate-600 font-medium leading-relaxed mb-4">
+              Costs vary hospital to hospital and policy to policy, and larger or multiple stones may need a staged approach — this clearly depends on your case.
+            </p>
             <p className="text-slate-600 font-medium leading-relaxed">
               The first video consultation has no charge; in-clinic consultations start at ₹800.
             </p>
+            <Link href="/ursl-cost-in-gurgaon" className="text-primary font-black text-xs uppercase tracking-widest hover:underline">
+              See the full URSL cost breakdown for Gurgaon →
+            </Link>
           </div>
         </section>
 

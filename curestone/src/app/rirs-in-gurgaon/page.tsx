@@ -100,12 +100,12 @@ const differentiators = [
   {
     icon: "🩺",
     title: "Surgeon-Led Scan Review",
-    desc: "Dr. Deepanshu Gupta personally reviews your CT KUB before confirming RIRS is the right fit — not a call-centre triage step.",
+    desc: "Dr. Deepanshu Gupta personally reviews your CT or USG scan before confirming RIRS is the right fit — not a call-centre triage step.",
   },
 ];
 
 const journey = [
-  { step: "Consultation", desc: "Video consult or in-clinic visit at Sector 52 — bring your CT KUB scan, or get one done locally beforehand." },
+  { step: "Consultation", desc: "Video consult or in-clinic visit at Sector 52 — bring your CT or USG scan, or get one done locally beforehand." },
   { step: "Admission Day", desc: "Same-facility admission in Gurgaon; pre-anaesthesia checks completed on site." },
   { step: "Discharge", desc: "Most patients go home the same day or within 24 hours, straight from the Sector 52 facility." },
   { step: "Local Follow-Up", desc: "Follow-up visits and any stent removal are scheduled back at the same Gurgaon hospital." },
@@ -217,16 +217,22 @@ export default function RirsInGurgaonPage() {
           </div>
         </section>
 
-        {/* Cost & Insurance */}
+        {/* Cost & Insurance (full breakdown lives on the dedicated cost page) */}
         <section className="py-16 md:py-24 bg-slate-50">
           <div className="max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-6">Cost & Insurance</h2>
             <p className="text-slate-600 font-medium leading-relaxed mb-4">
               RIRS cost depends on stone size, complexity and length of hospital stay — there is no fixed number until your scan is reviewed. Most patients use cashless health insurance when medically indicated, and Cure Stone&apos;s team handles the documentation and approvals.
             </p>
+            <p className="text-slate-600 font-medium leading-relaxed mb-4">
+              Costs vary hospital to hospital and policy to policy, and larger or multiple stones may need a staged approach — this clearly depends on your case.
+            </p>
             <p className="text-slate-600 font-medium leading-relaxed">
               The first video consultation has no charge; in-clinic consultations start at ₹800.
             </p>
+            <Link href="/rirs-cost-in-gurgaon" className="text-primary font-black text-xs uppercase tracking-widest hover:underline">
+              See the full RIRS cost breakdown for Gurgaon →
+            </Link>
           </div>
         </section>
 
@@ -247,7 +253,7 @@ export default function RirsInGurgaonPage() {
         <section className="py-16 md:py-24 bg-primary">
           <div className="max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-5xl font-black text-white mb-4">Ready to Book RIRS in Gurgaon?</h2>
-            <p className="text-white/70 font-medium mb-10 text-base md:text-lg">Bring your CT KUB scan, or get one done locally, and meet Dr. Deepanshu Gupta at Sector 52.</p>
+            <p className="text-white/70 font-medium mb-10 text-base md:text-lg">Bring your CT or USG scan, or get one done locally, and meet Dr. Deepanshu Gupta at Sector 52.</p>
             <Link href="/book" className="inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 bg-white text-primary font-black rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-base md:text-lg">
               Book RIRS Consultation →
             </Link>
