@@ -85,3 +85,58 @@
     overflow-x: hidden;
   }
 }
+
+/* Shared guardrails for the cost-information page family. Cost ranges are
+   intentionally kept side by side, but each column must be allowed to shrink
+   on narrow phones instead of pushing the page wider than the viewport. */
+.cost-page {
+  overflow-wrap: anywhere;
+}
+
+.cost-page h1,
+.cost-page h2,
+.cost-page h3 {
+  text-wrap: balance;
+}
+
+.cost-page .cost-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cost-page .cost-stats > * {
+  min-width: 0;
+}
+
+.cost-page .cost-stat-value {
+  font-size: clamp(0.75rem, 3.5vw, 1.875rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.cost-page .cost-card,
+.cost-page .cost-card > * {
+  min-width: 0;
+}
+
+@media (max-width: 639px) {
+  .cost-page .cost-shell {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .cost-page .cost-cta {
+    width: 100%;
+    white-space: normal;
+  }
+
+  .cost-page .cost-stats {
+    gap: 0.5rem;
+  }
+
+  .cost-page .cost-stat-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+  }
+}

@@ -103,7 +103,7 @@ const videoSchema = {
 
 export default function RirsCostPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="cost-page flex flex-col min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(procedureSchema).replace(/</g, "\\u003c") }}
@@ -126,7 +126,7 @@ export default function RirsCostPage() {
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-slate-50 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(43,92,230,0.1),transparent_60%)]" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div className="cost-shell max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="max-w-3xl">
               <span className="inline-block px-4 py-1.5 mb-6 text-[10px] font-black tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full uppercase">RIRS Cost</span>
@@ -191,18 +191,18 @@ export default function RirsCostPage() {
               <h2 className="text-2xl sm:text-4xl font-black text-foreground">RIRS Cost at <span className="text-primary">Cure Stone, Gurgaon</span></h2>
             </div>
             <div className="bg-primary rounded-[2rem] p-8 md:p-10 shadow-xl shadow-primary/20 text-white">
-              <div className="grid grid-cols-3 gap-3 mb-6">
+              <div className="cost-stats grid grid-cols-3 gap-3 mb-6">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">Minimum</p>
-                  <p className="text-2xl md:text-3xl font-black">₹78,000</p>
+                  <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Minimum</p>
+                  <p className="cost-stat-value text-2xl md:text-3xl font-black">₹78,000</p>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">Average</p>
-                  <p className="text-2xl md:text-3xl font-black">₹1,00,000</p>
+                  <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Average</p>
+                  <p className="cost-stat-value text-2xl md:text-3xl font-black">₹1,00,000</p>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">Maximum</p>
-                  <p className="text-2xl md:text-3xl font-black">₹1,50,000</p>
+                  <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Maximum</p>
+                  <p className="cost-stat-value text-2xl md:text-3xl font-black">₹1,50,000</p>
                 </div>
               </div>
               <p className="text-sm text-white/80 font-medium leading-relaxed mb-2">

@@ -124,7 +124,7 @@ const differentiators = [
 
 export default function RirsCostInGurgaonPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="cost-page flex flex-col min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -149,7 +149,7 @@ export default function RirsCostInGurgaonPage() {
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-slate-50 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(43,92,230,0.1),transparent_60%)]" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div className="cost-shell max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="max-w-3xl">
               <span className="inline-block px-4 py-1.5 mb-6 text-[10px] font-black tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full uppercase">
@@ -223,18 +223,18 @@ export default function RirsCostInGurgaonPage() {
                 <span className="text-[10px] font-black tracking-widest uppercase text-white/70">
                   RIRS Cost Range at Cure Stone
                 </span>
-                <div className="grid grid-cols-3 gap-3 mt-4 mb-3">
+                <div className="cost-stats grid grid-cols-3 gap-3 mt-4 mb-3">
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">Minimum</p>
-                    <p className="text-xl md:text-2xl font-black">₹78,000</p>
+                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Minimum</p>
+                    <p className="cost-stat-value text-xl md:text-2xl font-black">₹78,000</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">Average</p>
-                    <p className="text-xl md:text-2xl font-black">₹1,00,000</p>
+                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Average</p>
+                    <p className="cost-stat-value text-xl md:text-2xl font-black">₹1,00,000</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">Maximum</p>
-                    <p className="text-xl md:text-2xl font-black">₹1,50,000</p>
+                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Maximum</p>
+                    <p className="cost-stat-value text-xl md:text-2xl font-black">₹1,50,000</p>
                   </div>
                 </div>
                 <p className="text-sm text-white/70 font-medium leading-relaxed mb-1">
