@@ -108,9 +108,14 @@
 }
 
 .cost-page .cost-stat-value {
-  font-size: clamp(0.75rem, 3.5vw, 1.875rem);
+  /* Capped well below the old 1.875rem max: that size, combined with vw
+     scaling off the full viewport rather than this card's own (much
+     narrower) width, let "₹1,50,000"-length values overflow their grid
+     column and visually overlap the neighbouring stat on tablet/narrow
+     desktop widths. */
+  font-size: clamp(0.75rem, 2.4vw, 1.3rem);
   line-height: 1.05;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }

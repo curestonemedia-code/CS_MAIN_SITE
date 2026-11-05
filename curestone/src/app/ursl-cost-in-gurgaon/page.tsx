@@ -149,8 +149,20 @@ export default function UrslCostInGurgaonPage() {
               <div className="relative rounded-[2rem] shadow-[0_32px_80px_-20px_rgba(43,92,230,0.3)] border-8 border-white bg-white overflow-hidden">
                 <div className="bg-primary px-8 pt-8 pb-10 md:px-10 md:pt-10 md:pb-12 text-white">
                   <span className="text-[10px] font-black tracking-widest uppercase text-white/70">URSL Cost Range at Cure Stone</span>
-                  <p className="text-3xl md:text-4xl font-black tracking-tight mt-3 mb-1">₹58,000</p>
-                  <p className="text-xs font-bold text-white/70 mb-4">Minimum — typical range ₹58,000 – ₹1,30,000</p>
+                  <div className="cost-stats grid grid-cols-3 gap-3 mt-4 mb-3">
+                    <div>
+                      <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Minimum</p>
+                      <p className="cost-stat-value font-bold">₹58,000</p>
+                    </div>
+                    <div>
+                      <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Average</p>
+                      <p className="cost-stat-value font-bold">₹70,000</p>
+                    </div>
+                    <div>
+                      <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Maximum</p>
+                      <p className="cost-stat-value font-bold">₹1,30,000</p>
+                    </div>
+                  </div>
                   <p className="text-sm text-white/70 font-medium leading-relaxed mb-1">
                     Costs vary hospital to hospital and policy to policy. Your final cost is confirmed only after
                     Dr. Deepanshu Gupta reviews your CT or USG scan at consultation — never quoted sight-unseen.

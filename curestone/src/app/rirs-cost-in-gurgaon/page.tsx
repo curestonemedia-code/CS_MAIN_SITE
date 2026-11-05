@@ -223,8 +223,20 @@ export default function RirsCostInGurgaonPage() {
                 <span className="text-[10px] font-black tracking-widest uppercase text-white/70">
                   RIRS Cost Range at Cure Stone
                 </span>
-                <p className="text-3xl md:text-4xl font-black tracking-tight mt-3 mb-1">₹78,000</p>
-                <p className="text-xs font-bold text-white/70 mb-4">Minimum — typical range ₹78,000 – ₹1,50,000</p>
+                <div className="cost-stats grid grid-cols-3 gap-3 mt-4 mb-3">
+                  <div>
+                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Minimum</p>
+                    <p className="cost-stat-value font-bold">₹78,000</p>
+                  </div>
+                  <div>
+                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Average</p>
+                    <p className="cost-stat-value font-bold">₹1,00,000</p>
+                  </div>
+                  <div>
+                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Maximum</p>
+                    <p className="cost-stat-value font-bold">₹1,50,000</p>
+                  </div>
+                </div>
                 <p className="text-sm text-white/70 font-medium leading-relaxed mb-1">
                   Costs vary hospital to hospital and policy to policy. Your final cost is confirmed only after Dr.
                   Deepanshu Gupta reviews your CT or USG scan at consultation — never quoted sight-unseen.
