@@ -227,9 +227,6 @@ export default function MiniPcnlInGurgaonPage() {
             <p className="text-slate-600 font-medium leading-relaxed mb-4">
               Costs vary hospital to hospital and policy to policy, and staghorn or multiple stones may need a staged approach — this clearly depends on your case.
             </p>
-            <p className="text-slate-600 font-medium leading-relaxed">
-              The first video consultation has no charge; in-clinic consultations start at ₹800.
-            </p>
             <Link href="/mini-pcnl-cost-in-gurgaon" className="text-primary font-black text-xs uppercase tracking-widest hover:underline">
               See the full Mini-PCNL cost breakdown for Gurgaon →
             </Link>

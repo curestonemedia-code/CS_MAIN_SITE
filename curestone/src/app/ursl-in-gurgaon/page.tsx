@@ -227,9 +227,6 @@ export default function UrslInGurgaonPage() {
             <p className="text-slate-600 font-medium leading-relaxed mb-4">
               Costs vary hospital to hospital and policy to policy, and larger or multiple stones may need a staged approach — this clearly depends on your case.
             </p>
-            <p className="text-slate-600 font-medium leading-relaxed">
-              The first video consultation has no charge; in-clinic consultations start at ₹800.
-            </p>
             <Link href="/ursl-cost-in-gurgaon" className="text-primary font-black text-xs uppercase tracking-widest hover:underline">
               See the full URSL cost breakdown for Gurgaon →
             </Link>

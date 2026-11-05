@@ -116,8 +116,8 @@ function EstimateForm({ onSuccess }: { onSuccess?: () => void }) {
       <div>
         <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">WhatsApp Number</label>
         <div className="flex">
-          <span className="bg-slate-50 border-r border-slate-200 py-4 px-4 rounded-l-xl text-slate-600 font-medium">+91</span>
-          <input name="phone" required className={`w-full bg-slate-50 border-transparent focus:border-blue-900 focus:ring-0 rounded-r-xl py-4 px-5 text-slate-900 ${errors.phone ? "border-red-300 bg-red-50 focus:border-red-500" : ""}`} placeholder="10-digit mobile" type="tel" inputMode="numeric" autoComplete="tel" pattern="[6-9][0-9]{9}" maxLength={10} aria-invalid={Boolean(errors.phone)} />
+          <span className="shrink-0 whitespace-nowrap bg-slate-50 border-r border-slate-200 py-4 px-4 rounded-l-xl text-slate-600 font-medium">+91</span>
+          <input name="phone" required className={`w-full min-w-0 bg-slate-50 border-transparent focus:border-blue-900 focus:ring-0 rounded-r-xl py-4 px-5 text-slate-900 ${errors.phone ? "border-red-300 bg-red-50 focus:border-red-500" : ""}`} placeholder="10-digit mobile" type="tel" inputMode="numeric" autoComplete="tel" pattern="[6-9][0-9]{9}" maxLength={10} aria-invalid={Boolean(errors.phone)} />
         </div>
         <FieldError message={errors.phone} />
       </div>
@@ -235,8 +235,8 @@ function BookingLeadForm({ submitLabel, onSuccess }: { submitLabel: string; onSu
       <div>
         <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">WhatsApp Number</label>
         <div className="flex">
-          <span className="bg-slate-50 border-r border-slate-200 py-4 px-4 rounded-l-xl text-slate-600 font-medium">+91</span>
-          <input name="phone" required className={`w-full bg-slate-50 border-transparent focus:border-blue-900 focus:ring-0 rounded-r-xl py-4 px-5 text-slate-900 ${errors.phone ? "border-red-300 bg-red-50 focus:border-red-500" : ""}`} placeholder="10-digit mobile" type="tel" inputMode="numeric" autoComplete="tel" pattern="[6-9][0-9]{9}" maxLength={10} aria-invalid={Boolean(errors.phone)} />
+          <span className="shrink-0 whitespace-nowrap bg-slate-50 border-r border-slate-200 py-4 px-4 rounded-l-xl text-slate-600 font-medium">+91</span>
+          <input name="phone" required className={`w-full min-w-0 bg-slate-50 border-transparent focus:border-blue-900 focus:ring-0 rounded-r-xl py-4 px-5 text-slate-900 ${errors.phone ? "border-red-300 bg-red-50 focus:border-red-500" : ""}`} placeholder="10-digit mobile" type="tel" inputMode="numeric" autoComplete="tel" pattern="[6-9][0-9]{9}" maxLength={10} aria-invalid={Boolean(errors.phone)} />
         </div>
         <FieldError message={errors.phone} />
       </div>

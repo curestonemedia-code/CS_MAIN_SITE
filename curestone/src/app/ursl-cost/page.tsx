@@ -157,20 +157,10 @@ export default function UrslCostPage() {
               <h2 className="text-2xl sm:text-4xl font-black text-foreground">URSL Cost at <span className="text-primary">Cure Stone, Gurgaon</span></h2>
             </div>
             <div className="bg-primary rounded-[2rem] p-8 md:p-10 shadow-xl shadow-primary/20 text-white">
-              <div className="cost-stats grid grid-cols-3 gap-3 mb-6">
-                <div>
-                  <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Minimum</p>
-                  <p className="cost-stat-value text-2xl md:text-3xl font-black">₹58,000</p>
-                </div>
-                <div>
-                  <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Average</p>
-                  <p className="cost-stat-value text-2xl md:text-3xl font-black">₹70,000</p>
-                </div>
-                <div>
-                  <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Maximum</p>
-                  <p className="cost-stat-value text-2xl md:text-3xl font-black">₹1,30,000</p>
-                </div>
-              </div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-2">Minimum Cost</p>
+              <p className="text-4xl md:text-5xl font-black tracking-tight mb-2">₹58,000</p>
+              <p className="text-sm font-bold text-white/70 mb-6">Typical range ₹58,000 – ₹1,30,000</p>
+              <div className="h-px bg-white/15 mb-6" />
               <p className="text-sm text-white/80 font-medium leading-relaxed mb-2">
                 Costs vary hospital to hospital and policy to policy. Your final cost is confirmed only after Dr.
                 Deepanshu Gupta reviews your CT or USG scan — never quoted sight-unseen.

@@ -223,20 +223,8 @@ export default function RirsCostInGurgaonPage() {
                 <span className="text-[10px] font-black tracking-widest uppercase text-white/70">
                   RIRS Cost Range at Cure Stone
                 </span>
-                <div className="cost-stats grid grid-cols-3 gap-3 mt-4 mb-3">
-                  <div>
-                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Minimum</p>
-                    <p className="cost-stat-value text-xl md:text-2xl font-black">₹78,000</p>
-                  </div>
-                  <div>
-                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Average</p>
-                    <p className="cost-stat-value text-xl md:text-2xl font-black">₹1,00,000</p>
-                  </div>
-                  <div>
-                    <p className="cost-stat-label text-[10px] font-bold uppercase tracking-widest text-white/60">Maximum</p>
-                    <p className="cost-stat-value text-xl md:text-2xl font-black">₹1,50,000</p>
-                  </div>
-                </div>
+                <p className="text-3xl md:text-4xl font-black tracking-tight mt-3 mb-1">₹78,000</p>
+                <p className="text-xs font-bold text-white/70 mb-4">Minimum — typical range ₹78,000 – ₹1,50,000</p>
                 <p className="text-sm text-white/70 font-medium leading-relaxed mb-1">
                   Costs vary hospital to hospital and policy to policy. Your final cost is confirmed only after Dr.
                   Deepanshu Gupta reviews your CT or USG scan at consultation — never quoted sight-unseen.
@@ -245,11 +233,7 @@ export default function RirsCostInGurgaonPage() {
                   Larger or multiple stones may need a staged approach — this clearly depends on your case.
                 </p>
               </div>
-              <div className="p-6 md:p-8 space-y-3">
-                <p className="text-sm text-slate-600 font-medium">
-                  The first video consultation is free; in-clinic consultations
-                  start at ₹800.
-                </p>
+              <div className="p-6 md:p-8">
                 <Link
                   href="/kidney-stone-surgery-cost-guide"
                   className="inline-flex items-center gap-2 text-primary font-black text-xs uppercase tracking-widest hover:gap-3 transition-all"

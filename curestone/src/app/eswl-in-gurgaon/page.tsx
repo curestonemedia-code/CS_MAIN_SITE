@@ -227,9 +227,6 @@ export default function EswlInGurgaonPage() {
             <p className="text-slate-600 font-medium leading-relaxed mb-4">
               Costs vary hospital to hospital and policy to policy, and larger or multiple stones may need staged sessions — this clearly depends on your case.
             </p>
-            <p className="text-slate-600 font-medium leading-relaxed">
-              The first video consultation has no charge; in-clinic consultations start at ₹800.
-            </p>
             <Link href="/kidney-stone-surgery-cost-guide" className="text-primary font-black text-xs uppercase tracking-widest hover:underline">
               See what affects your surgery cost →
             </Link>

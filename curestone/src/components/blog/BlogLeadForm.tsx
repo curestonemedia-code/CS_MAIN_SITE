@@ -87,7 +87,7 @@ export default function BlogLeadForm({
       <div>
         <label htmlFor={`${uid}-phone`} className="sr-only">Mobile number</label>
         <div className="flex">
-          <span className="flex items-center rounded-l-xl border border-r-0 border-slate-200 bg-slate-100 px-3 text-sm font-bold text-slate-600">+91</span>
+          <span className="flex shrink-0 items-center whitespace-nowrap rounded-l-xl border border-r-0 border-slate-200 bg-slate-100 px-3 text-sm font-bold text-slate-600">+91</span>
           <input
             id={`${uid}-phone`}
             name="phone"
@@ -97,7 +97,7 @@ export default function BlogLeadForm({
             maxLength={10}
             placeholder="10-digit mobile number"
             aria-invalid={Boolean(errors.phone)}
-            className={`${inputClass} rounded-l-none ${errors.phone ? "border-red-300 bg-red-50" : "border-slate-200"}`}
+            className={`${inputClass} min-w-0 rounded-l-none ${errors.phone ? "border-red-300 bg-red-50" : "border-slate-200"}`}
           />
         </div>
         {errors.phone && <p className="mt-1 text-xs font-bold text-red-600" role="alert">{errors.phone}</p>}

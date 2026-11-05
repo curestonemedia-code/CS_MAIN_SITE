@@ -424,7 +424,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "How much does kidney stone treatment cost?",
-        a: "Cost depends on the stone size, the procedure recommended, and the length of hospital stay required. Book a consultation for a personalised estimate — the first video consultation has no charge and in-clinic consultations start at ₹800.",
+        a: "Cost depends on the stone size, the procedure recommended, and the length of hospital stay required. Book a consultation for a personalised estimate.",
       },
       {
         q: "How do I book an appointment with a urologist in Gurgaon?",
