@@ -418,6 +418,21 @@ export default function KidneyChatBot() {
               </div>
             </div>
 
+            {/* Disclosure — persistent, not just a product name, and shown
+                before the first reply: this is an AI assistant, nothing it
+                says is doctor-reviewed before it reaches the screen, and
+                it doesn't replace an in-person diagnosis. Also covers what
+                happens to what's typed, since name/phone and the chat
+                questions are forwarded to Cure Stone's team for follow-up
+                (see /api/capture-data, sendCrmLead) once both are shared. */}
+            <div className="px-4 md:px-8 py-2.5 bg-amber-50 border-b border-amber-200/70 text-center">
+              <p className="text-[10px] md:text-[11px] font-semibold text-amber-800 leading-snug">
+                {language === "en"
+                  ? "AI assistant — replies aren't reviewed by a doctor before you see them and this isn't a diagnosis. Your name, number and questions are shared with our team for follow-up."
+                  : "AI सहायक — जवाब आपको भेजे जाने से पहले डॉक्टर द्वारा समीक्षित नहीं होते और यह निदान नहीं है। आपका नाम, नंबर और प्रश्न फॉलो-अप के लिए हमारी टीम के साथ साझा किए जाते हैं।"}
+              </p>
+            </div>
+
             {/* Messages */}
             <div ref={chatRef} className="flex-grow overflow-y-auto px-4 md:px-8 py-6 space-y-5 scroll-smooth">
               {messages.map((msg, i) => (

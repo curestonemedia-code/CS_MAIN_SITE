@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     "thecurestone",
     "kidney stone doctor gurgaon",
   ],
-  authors: [{ name: "Cure Stone Medical Team", url: SITE_URL }],
+  authors: [{ name: "Dr. Deepanshu Gupta", url: `${SITE_URL}/dr-deepanshu-gupta` }],
   creator: "Cure Stone",
   publisher: "Cure Stone Private Limited",
   category: "Healthcare / Urology",

@@ -71,7 +71,7 @@ export default function GetEstimateModalButton({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h3 className="font-sans text-2xl font-bold text-blue-900 mb-2">Get Free Estimate</h3>
+            <h3 className="font-sans text-2xl font-bold text-blue-900 mb-2">Get Estimate</h3>
             <p className="text-slate-600 text-sm mb-6">Personalized cost breakdown for Gurgaon residents</p>
             <LocationLeadForm />
           </div>
