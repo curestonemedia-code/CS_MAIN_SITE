@@ -109,6 +109,13 @@ const MIGRATION_REDIRECTS: Array<{ source: string; destination: string }> = [
   { source: "/kidney/what-is-the-most-painful-stage-of-kidney-stones-2", destination: "/kidney-stones/what-is-the-most-painful-stage-of-kidney-stones" },
   { source: "/kidney-stones/kidney-stones-in-pregnancy-symptoms-treatment", destination: "/kidney/kidney-stones-while-pregnant-can-you-wait-until-delivery" },
   { source: "/kidney-stones/kidney-stones-in-pregnant-women-what-to-do", destination: "/kidney/kidney-stones-while-pregnant-can-you-wait-until-delivery" },
+
+  // --- Cost-page cannibalisation (Nov 2026): the new dedicated /rirs-cost
+  // page competes with this old Sanity blog post for the same "RIRS cost"
+  // intent, and the thin /cost category hub competes with the new
+  // comprehensive cost guide. Old URLs 301 to the stronger current page.
+  { source: "/cost/how-much-does-rirs-cost", destination: "/rirs-cost" },
+  { source: "/cost", destination: "/kidney-stone-surgery-cost-guide" },
 ];
 
 const nextConfig: NextConfig = {
