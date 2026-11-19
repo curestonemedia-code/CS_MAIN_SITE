@@ -37,7 +37,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   const title = post.seo?.metaTitle || post.title;
   const description = post.seo?.metaDescription || post.excerpt || "";
-  const image = post.seo?.ogImage?.asset?.url || post.coverImage?.asset?.url;
+  // The declared width/height must match the actual asset — a mismatch (e.g.
+  // always claiming the 753x807 doctor-photo fallback size while serving a
+  // Sanity cover image with its own real dimensions) makes some link-preview
+  // crawlers mis-render or reject the image entirely.
+  const ogImageAsset = post.seo?.ogImage?.asset || post.coverImage?.asset;
+  const image = ogImageAsset?.url;
+  const imageWidth = ogImageAsset?.metadata?.dimensions?.width || 753;
+  const imageHeight = ogImageAsset?.metadata?.dimensions?.height || 807;
   const url = `https://thecurestone.com/${getPostCategorySlug(post)}/${post.slug}`;
 
   return {
@@ -56,7 +63,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
       authors: post.author?.name ? [post.author.name] : undefined,
-      images: [{ url: image || "/assets/doctor.png", width: 753, height: 807 }],
+      images: [{ url: image || "/assets/doctor.png", width: image ? imageWidth : 753, height: image ? imageHeight : 807 }],
     },
     twitter: {
       card: "summary_large_image",
