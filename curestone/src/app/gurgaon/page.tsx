@@ -1,225 +1,159 @@
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import type { Metadata } from "next";
 import Link from "next/link";
-import DoctorProfile from "@/components/home/DoctorProfile";
-import GlobalReach from "@/components/home/GlobalReach";
+import Image from "next/image";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import LocationLeadForm from "@/components/home/LocationLeadForm";
-import ExpertVideos from "@/components/home/ExpertVideos";
+
+const address = "Cure Stone Hospital, Sector 52, Near Plot 3, Road No. D-13 A, Ardee City, Gurugram, Haryana 122003";
+const phone = "+91 88002 63884";
 
 export const metadata: Metadata = {
-  title: "Kidney Stone Surgery in Gurgaon",
-  description: "Learn about kidney stone surgery in Gurgaon, RIRS surgery cost considerations, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
-  alternates: {
-    canonical: "https://thecurestone.com/gurgaon",
-  },
+  title: "Kidney Stone Treatment & Surgery in Gurgaon | Cure Stone",
+  description: "Meet Dr. Deepanshu Gupta at Cure Stone Hospital, Sector 52, Gurgaon. Discuss RIRS, URSL, Mini-PCNL or ESWL after scan review. Call +91 88002 63884.",
+  alternates: { canonical: "https://thecurestone.com/gurgaon" },
   openGraph: {
-    title: "Kidney Stone Surgery in Gurgaon",
-    description: "Kidney stone treatment in Gurgaon with RIRS, PCNL, ESWL and URSL options at Cure Stone Hospital, Sector 52.",
+    title: "Kidney Stone Treatment & Surgery in Gurgaon | Cure Stone",
+    description: "Scan-based kidney stone care at Cure Stone Hospital, Sector 52, Gurgaon.",
     url: "https://thecurestone.com/gurgaon",
     siteName: "Cure Stone",
-    images: [{ url: "/assets/doctor.png", width: 753, height: 807, alt: "Kidney Stone Surgery in Gurgaon | Cure Stone" }],
     locale: "en_IN",
     type: "website",
+    images: [{ url: "/assets/doctor.png", width: 753, height: 807, alt: "Dr. Deepanshu Gupta at Cure Stone" }],
   },
 };
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://thecurestone.com",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Kidney Stone Surgery Gurgaon",
-      item: "https://thecurestone.com/gurgaon",
-    },
-  ],
-};
-
-const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "MedicalBusiness",
-  name: "Cure Stone – Kidney Stone Surgery Gurgaon",
-  description: "Kidney stone surgery and RIRS laser treatment options at Cure Stone Hospital in Sector 52, Gurgaon.",
-  url: "https://thecurestone.com/gurgaon",
-  telephone: "+91-88002-63884",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Gurgaon",
-    addressRegion: "Haryana",
-    postalCode: "122003",
-    addressCountry: "IN",
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://thecurestone.com" },
+      { "@type": "ListItem", position: 2, name: "Kidney stone treatment in Gurgaon", item: "https://thecurestone.com/gurgaon" },
+    ],
   },
-  areaServed: "Gurgaon",
-  medicalSpecialty: "Urology",
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    name: "Cure Stone Hospital",
+    description: "Kidney stone consultation and treatment at Cure Stone Hospital in Sector 52, Gurgaon.",
+    url: "https://thecurestone.com/gurgaon",
+    telephone: "+918800263884",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Near Plot 3, Road No. D-13 A, Ardee City, Sector 52",
+      addressLocality: "Gurugram",
+      addressRegion: "Haryana",
+      postalCode: "122003",
+      addressCountry: "IN",
+    },
+    areaServed: "Gurugram",
+    medicalSpecialty: "Urology",
+  },
+];
+
+const treatments = [
+  { name: "RIRS", detail: "A flexible scope reaches selected stones inside the kidney; a laser breaks them into smaller pieces.", href: "/rirs-in-gurgaon" },
+  { name: "URSL", detail: "A scope reaches a stone in the ureter. The urologist may use a laser and remove fragments.", href: "/ursl-in-gurgaon" },
+  { name: "Mini-PCNL", detail: "A small access tract through the back can help remove larger or more complex kidney stones.", href: "/mini-pcnl-in-gurgaon" },
+  { name: "ESWL", detail: "Shock waves from outside the body may suit certain kidney stones, depending on size, location and density.", href: "/eswl-in-gurgaon" },
+];
 
 export default function GurgaonPage() {
   return (
-    <div className="flex flex-col min-h-screen font-sans bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
-      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
-        .editorial-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); }
-        .ambient-shadow { box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1); }
-      `}} />
-
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+    <div className="flex min-h-screen flex-col bg-white text-slate-900">
+      {structuredData.map((data) => (
+        <script key={data["@type"]} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />
+      ))}
       <Navbar />
-
       <main className="flex-grow pt-20">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-slate-10 py-20 lg:py-32">
-          {/* Background Video */}
-          <div className="absolute inset-0 z-0">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover opacity-[1.0]"
-              src="/Edit.mp4"
-            />
-            {/* Gradient overlay to ensure text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-50/90 via-slate-50/70 to-transparent"></div>
-          </div>
-          <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
-            <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-widest mb-6">
-                <span className="material-symbols-outlined text-sm">location_on</span> Gurgaon Clinical Excellence
+        <section className="relative isolate overflow-hidden bg-blue-950 py-8 text-white lg:flex lg:min-h-[calc(100svh-5rem)] lg:items-center">
+          <Image
+            src="/assets/gurgaon-care-hero.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_40%]"
+            style={{ transform: "scale(1.08) translateX(4%)" }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(90deg, rgba(4, 18, 45, 0.78) 0%, rgba(4, 18, 45, 0.22) 53%, rgba(4, 18, 45, 0.5) 100%)" }}
+            aria-hidden="true"
+          />
+          <div className="relative z-10 mx-auto grid w-full max-w-[1600px] gap-10 px-6 lg:grid-cols-[1.3fr_0.7fr] lg:items-center lg:px-10">
+            <div>
+              <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-300">Cure Stone Hospital · Sector 52, Gurgaon</p>
+              <h1 className="max-w-[34rem] text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-[3.25rem]">Kidney stone treatment and surgery in Gurgaon</h1>
+              <p className="mt-6 max-w-[31rem] text-lg leading-relaxed text-blue-100">Bring your ultrasound or CT report to discuss your stone&apos;s size, position and symptoms with a urologist. Dr. Deepanshu Gupta can explain whether observation, medicine or a procedure is appropriate for your case.</p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link href="/book" className="rounded-full bg-amber-400 px-7 py-4 font-bold text-blue-950 hover:bg-amber-300">Book an appointment</Link>
+                <a href="tel:+918800263884" className="rounded-full border border-white px-7 py-4 font-bold text-white hover:bg-white/10">Call {phone}</a>
               </div>
-              <h1 className="font-sans text-5xl lg:text-7xl font-extrabold text-blue-900 leading-tight tracking-tighter mb-8">
-                Kidney Stone Surgery <br /> in <span className="text-amber-600">Gurgaon</span>
-              </h1>
-              <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mb-12">
-                Learn about kidney stone surgery in Gurgaon, RIRS surgery cost factors, and treatment options after scan review with a urologist doctor in Gurgaon.
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-                <div className="flex flex-col gap-1">
-                  <span className="text-blue-900 font-bold text-2xl">9000+</span>
-                  <span className="text-sm text-slate-600 font-medium">Successful Surgeries</span>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-blue-900 font-bold text-2xl">4.9/5</span>
-                  <span className="text-sm text-slate-600 font-medium">Patient Satisfaction</span>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-blue-900 font-bold text-2xl">Cashless</span>
-                  <span className="text-sm text-slate-600 font-medium">Insurance Support</span>
-                </div>
-              </div>
+              <p className="mt-6 max-w-[32rem] text-sm text-blue-100">Appointments: 10 AM–7 PM, by appointment · {address}</p>
             </div>
-
-            {/* Lead Gen Card */}
-            <div className="lg:col-span-5">
-              <div className="bg-white p-8 lg:p-10 rounded-[2rem] ambient-shadow border border-slate-200">
-                <h3 className="font-sans text-2xl font-bold text-blue-900 mb-2">Get Estimate</h3>
-                <p className="text-slate-600 text-sm mb-8">Personalized cost breakdown for Gurgaon residents</p>
-                <LocationLeadForm />
-              </div>
+            <div className="rounded-3xl bg-white p-5 text-slate-900 shadow-2xl lg:max-h-[calc(100svh-9rem)] lg:overflow-y-auto">
+              <h2 className="text-2xl font-bold text-blue-950">Request a Gurgaon consultation</h2>
+              <p className="mb-3 mt-2 text-sm text-slate-600">Our team will contact you to discuss an appointment. Bring your latest scan or report.</p>
+              <LocationLeadForm formType="book_appointment" submitLabel="Request appointment" compact />
             </div>
           </div>
         </section>
 
-        {/* Trust Section - Why Choose Cure Stone */}
-        <section className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-              <div className="max-w-2xl">
-                <h2 className="font-sans text-4xl lg:text-5xl font-bold text-blue-900 tracking-tight mb-6">Why Choose <span className="text-amber-600">Cure Stone</span> in Gurgaon?</h2>
-                <p className="text-lg text-slate-600">We redefine kidney stone care by combining clinical precision with a sanctuary-like patient experience.</p>
-              </div>
+        <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
+          <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:items-start">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-widest text-amber-700">Your urologist</p>
+              <h2 className="mt-3 text-3xl font-bold text-blue-950">Dr. Deepanshu Gupta</h2>
+              <p className="mt-4 leading-relaxed text-slate-600">MBBS, MS, MCh Urology · DMC registration 70308. Dr. Gupta evaluates kidney and ureter stones and discusses treatment based on imaging and clinical findings.</p>
+              <Link href="/dr-deepanshu-gupta" className="mt-5 inline-block font-bold text-blue-800 underline underline-offset-4">View doctor profile</Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-slate-50 p-10 rounded-[2.5rem] flex flex-col gap-6 group hover:bg-slate-100 transition-colors duration-500">
-                <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-amber-600 text-3xl">medical_services</span>
-                </div>
-                <h4 className="font-sans text-2xl font-bold text-blue-900">Advanced Laser Tech</h4>
-                <p className="text-slate-600 leading-relaxed">Minimally invasive laser options using Holmium or Thulium technology for selected kidney stone cases after clinical evaluation.</p>
+            <div>
+              <h2 className="text-3xl font-bold text-blue-950">Treatment options at our Gurgaon hospital</h2>
+              <p className="mt-4 text-slate-600">The choice depends on where the stone is, its size and density, infection or obstruction, and your preferences. A procedure is not required for every stone.</p>
+              <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                {treatments.map((treatment) => (
+                  <div key={treatment.name} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+                    <h3 className="text-xl font-bold text-blue-950">{treatment.name}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-600">{treatment.detail}</p>
+                    <Link href={treatment.href} className="mt-4 inline-block font-semibold text-blue-800 underline underline-offset-4">Explore {treatment.name} in Gurgaon</Link>
+                  </div>
+                ))}
               </div>
-              <div className="bg-slate-50 p-10 rounded-[2.5rem] flex flex-col gap-6 group hover:bg-slate-100 transition-colors duration-500">
-                <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-amber-600 text-3xl">schedule</span>
-                </div>
-                <h4 className="font-sans text-2xl font-bold text-blue-900">24-Hour Recovery</h4>
-                <p className="text-slate-600 leading-relaxed">Our daycare procedures allow most patients to return home within 24 hours of surgery, minimizing hospital stay.</p>
-              </div>
-              <div className="bg-slate-50 p-10 rounded-[2.5rem] flex flex-col gap-6 group hover:bg-slate-100 transition-colors duration-500">
-                <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-amber-600 text-3xl">shield_with_heart</span>
-                </div>
-                <h4 className="font-sans text-2xl font-bold text-blue-900">Insurance Managed</h4>
-                <p className="text-slate-600 leading-relaxed">Our dedicated team handles all insurance documentation and approvals, offering a seamless cashless experience.</p>
-              </div>
+              <Link href="/specialties/kidney-stone-treatment" className="mt-6 inline-block text-sm font-semibold text-blue-800 underline underline-offset-4">Compare kidney stone treatment choices</Link>
             </div>
           </div>
         </section>
 
-        {/* Doctors Section */}
-        <DoctorProfile />
-
-        {/* Expert Videos */}
-        <ExpertVideos />
-
-        {/* Global Reach Component */}
-        <GlobalReach />
-
-        {/* Explore by Procedure */}
-        <section className="py-20 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-8">
-            <h2 className="font-sans text-3xl lg:text-4xl font-bold text-blue-900 tracking-tight mb-10 text-center">Explore Treatment Options in Gurgaon</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { label: "RIRS in Gurgaon", href: "/rirs-in-gurgaon" },
-                { label: "Mini-PCNL in Gurgaon", href: "/mini-pcnl-in-gurgaon" },
-                { label: "ESWL in Gurgaon", href: "/eswl-in-gurgaon" },
-                { label: "URSL in Gurgaon", href: "/ursl-in-gurgaon" },
-              ].map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="bg-white border border-slate-200 rounded-2xl p-6 text-center font-sans font-bold text-blue-900 hover:border-amber-400 hover:shadow-md transition-all"
-                >
-                  {item.label}
-                </Link>
-              ))}
+        <section className="bg-slate-50 py-16">
+          <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-2 lg:px-10">
+            <div>
+              <h2 className="text-3xl font-bold text-blue-950">Visit Cure Stone Hospital</h2>
+              <p className="mt-4 text-slate-700">{address}</p>
+              <p className="mt-3 text-slate-700">Call {phone} to confirm your appointment and ask what records to bring. Appointments are available from 10 AM to 7 PM by appointment.</p>
+              <div className="mt-6 flex flex-wrap gap-4">
+                <Link href="/book" className="rounded-full bg-blue-900 px-6 py-3 font-bold text-white hover:bg-blue-800">Book a visit</Link>
+                <a href="https://www.google.com/maps/search/?api=1&query=Cure+Stone+Hospital+Sector+52+Gurugram" target="_blank" rel="noopener noreferrer" className="rounded-full border border-blue-900 px-6 py-3 font-bold text-blue-900 hover:bg-blue-50">Get directions</a>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-7">
+              <h2 className="text-2xl font-bold text-blue-950">Hear from a patient</h2>
+              <p className="mt-3 leading-relaxed text-slate-600">Watch Mukesh describe his experience after treatment for a 10 mm kidney stone in a video on Cure Stone&apos;s YouTube channel. A patient story does not predict another person&apos;s outcome.</p>
+              <a href="https://www.youtube.com/watch?v=cQMDYm__gHM&t=359s" target="_blank" rel="noopener noreferrer" className="mt-5 inline-block font-bold text-blue-800 underline underline-offset-4">Watch Mukesh&apos;s patient story</a>
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-20 max-w-7xl mx-auto px-8">
-          <div className="editorial-gradient rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden">
-            <div className="relative z-10">
-              <h2 className="font-sans text-4xl lg:text-6xl font-extrabold text-white mb-8 tracking-tighter">Ready to Discuss Kidney Stone Treatment?</h2>
-              <p className="text-blue-100 text-xl max-w-2xl mx-auto mb-12 opacity-90">Book a kidney stone consultation in Gurgaon and review your scans with our care team.</p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <Link href="/book" className="bg-amber-500 text-white px-12 py-5 rounded-full font-sans font-bold text-lg hover:bg-white hover:text-blue-900 transition-all duration-300">
-                  Book Appointment
-                </Link>
-                <a className="text-white flex items-center gap-2 font-sans font-bold text-lg" href="tel:+918800263884">
-                  <span className="material-symbols-outlined">call</span> Call +91 88002 63884
-                </a>
-              </div>
-            </div>
-            {/* Abstract Design Elements */}
-            <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-black/5 rounded-full blur-3xl"></div>
+        <section className="mx-auto max-w-7xl px-6 py-16 text-center lg:px-10">
+          <h2 className="text-3xl font-bold text-blue-950">Ready to discuss your scan?</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-slate-600">Book a consultation for a clear diagnosis and a treatment plan suited to your stone.</p>
+          <div className="mt-7 flex flex-wrap justify-center gap-4">
+            <Link href="/book" className="rounded-full bg-blue-900 px-7 py-4 font-bold text-white hover:bg-blue-800">Book an appointment</Link>
+            <a href="tel:+918800263884" className="rounded-full border border-blue-900 px-7 py-4 font-bold text-blue-900 hover:bg-blue-50">Call {phone}</a>
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   );

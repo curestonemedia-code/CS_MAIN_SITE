@@ -141,7 +141,7 @@ function EstimateForm({ onSuccess }: { onSuccess?: () => void }) {
 }
 
 /** The newer "Book Appointment" form: Name, Phone, Category + conditional Stone Size / Sub-treatment. */
-function BookingLeadForm({ submitLabel, onSuccess }: { submitLabel: string; onSuccess?: () => void }) {
+function BookingLeadForm({ submitLabel, onSuccess, compact = false }: { submitLabel: string; onSuccess?: () => void; compact?: boolean }) {
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<BookingFormErrors>({});
@@ -226,7 +226,12 @@ function BookingLeadForm({ submitLabel, onSuccess }: { submitLabel: string; onSu
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form
+      onSubmit={handleSubmit}
+      className={compact
+        ? "space-y-2 [&_label]:mb-0.5 [&_input]:py-2.5 [&_select]:py-2.5 [&_textarea]:py-2.5 [&_button]:mt-1 [&_button]:py-3"
+        : "space-y-5"}
+    >
       <div>
         <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Patient Name</label>
         <input name="fullName" required minLength={2} maxLength={80} aria-invalid={Boolean(errors.fullName)} className={`w-full bg-slate-50 border-transparent focus:border-blue-900 focus:ring-0 rounded-xl py-4 px-5 text-slate-900 ${errors.fullName ? "border-red-300 bg-red-50 focus:border-red-500" : ""}`} placeholder="Enter full name" type="text" />
@@ -283,7 +288,7 @@ function BookingLeadForm({ submitLabel, onSuccess }: { submitLabel: string; onSu
       )}
       <div>
         <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Brief Description (Optional)</label>
-        <textarea name="description" rows={3} maxLength={500} aria-invalid={Boolean(errors.description)} className={`w-full bg-slate-50 border-transparent focus:border-blue-900 focus:ring-0 rounded-xl py-4 px-5 text-slate-900 resize-none ${errors.description ? "border-red-300 bg-red-50 focus:border-red-500" : ""}`} placeholder="Current symptoms or anything else we should know..." />
+        <textarea name="description" rows={compact ? 2 : 3} maxLength={500} aria-invalid={Boolean(errors.description)} className={`w-full bg-slate-50 border-transparent focus:border-blue-900 focus:ring-0 rounded-xl py-4 px-5 text-slate-900 resize-none ${errors.description ? "border-red-300 bg-red-50 focus:border-red-500" : ""}`} placeholder="Current symptoms or anything else we should know..." />
         <FieldError message={errors.description} />
       </div>
       <button disabled={loading} type="submit" className="w-full bg-gradient-to-br from-blue-900 to-blue-700 text-white font-sans font-bold py-5 rounded-full mt-4 hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-70">
@@ -300,13 +305,15 @@ export default function LocationLeadForm({
   formType = "get_estimate",
   submitLabel = "Schedule Consultation",
   onSuccess,
+  compact = false,
 }: {
   formType?: "get_estimate" | "book_appointment";
   submitLabel?: string;
   onSuccess?: () => void;
+  compact?: boolean;
 }) {
   if (formType === "get_estimate") {
     return <EstimateForm onSuccess={onSuccess} />;
   }
-  return <BookingLeadForm submitLabel={submitLabel} onSuccess={onSuccess} />;
+  return <BookingLeadForm submitLabel={submitLabel} onSuccess={onSuccess} compact={compact} />;
 }

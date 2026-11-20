@@ -21,7 +21,9 @@ export async function generateMetadata({ params }: SpecialtyLayoutProps): Promis
     return { title: "Specialty Not Found | Cure Stone" };
   }
 
-  const title = `${service.name}, Gurgaon`;
+  const title = slug === "kidney-stone-treatment"
+    ? "Kidney Stone Treatment Options | Cure Stone"
+    : `${service.name}, Gurgaon`;
   const description = service.shortDesc;
   const url = `${SITE_URL}/specialties/${service.slug}`;
 

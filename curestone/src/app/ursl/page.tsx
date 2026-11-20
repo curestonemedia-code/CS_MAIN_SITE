@@ -339,6 +339,9 @@ export default function URSLPage() {
                   <Link href="/ursl-in-gurgaon" className="text-green-700/70 text-sm font-bold underline underline-offset-4 hover:text-green-900">
                     Ready to book in Gurgaon? See Cure Stone Hospital, Sector 52 →
                   </Link>
+                  <Link href="/gurgaon" className="text-green-700/70 text-sm font-bold underline underline-offset-4 hover:text-green-900">
+                    Gurgaon hospital, doctor and appointments →
+                  </Link>
                   <Link href="/ursl-cost" className="text-green-700/70 text-sm font-bold underline underline-offset-4 hover:text-green-900">
                     How much does URSL cost? →
                   </Link>

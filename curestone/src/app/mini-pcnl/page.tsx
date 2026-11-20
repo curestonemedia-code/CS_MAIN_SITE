@@ -317,6 +317,9 @@ export default function MiniPCNLPage() {
               <Link href="/mini-pcnl-in-gurgaon" className="text-white/60 text-sm font-bold underline underline-offset-4 hover:text-white">
                 Ready to book in Gurgaon? See Cure Stone Hospital, Sector 52 →
               </Link>
+              <Link href="/gurgaon" className="text-white/60 text-sm font-bold underline underline-offset-4 hover:text-white">
+                Gurgaon hospital, doctor and appointments →
+              </Link>
               <Link href="/mini-pcnl-cost" className="text-white/60 text-sm font-bold underline underline-offset-4 hover:text-white">
                 How much does Mini-PCNL cost? →
               </Link>

@@ -66,6 +66,11 @@ export default function SpecialtyPage() {
                     Check My Symptoms
                   </Link>
                 </div>
+                {slug === "kidney-stone-treatment" && (
+                  <p className="mt-6 text-sm text-slate-600">
+                    Looking for care nearby? <Link href="/gurgaon" className="font-bold text-primary underline underline-offset-4">See our Gurgaon hospital, doctor and appointment details</Link>.
+                  </p>
+                )}
               </div>
 
               {/* Responsive Video Wrapper */}

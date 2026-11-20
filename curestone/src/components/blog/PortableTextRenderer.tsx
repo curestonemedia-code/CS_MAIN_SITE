@@ -57,8 +57,8 @@ function renderBlock(block: PortableTextBlock) {
           <SanityImage
             image={block}
             alt={block.alt}
-            width={1100}
-            height={640}
+            width={block.asset?.metadata?.dimensions?.width || 1100}
+            height={block.asset?.metadata?.dimensions?.height || 640}
             className="h-auto w-full object-cover"
             sizes="(min-width: 1024px) 900px, 100vw"
           />

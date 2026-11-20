@@ -14,6 +14,7 @@ import TreatmentTracker from "@/components/home/TreatmentTracker";
 import AppointmentForm from "@/components/home/AppointmentForm";
 import Footer from "@/components/layout/Footer";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Kidney Stone Surgery in Gurgaon",
@@ -96,6 +97,12 @@ export default function Home() {
       <main className="flex-grow">
         <Hero />
         <Marquee />
+        <section className="border-y border-blue-100 bg-blue-50 px-6 py-7">
+          <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-slate-700"><strong className="text-blue-950">Visit us in Gurgaon.</strong> Kidney stone consultations and surgery options at Cure Stone Hospital, Sector 52.</p>
+            <Link href="/gurgaon" className="shrink-0 font-bold text-blue-900 underline underline-offset-4">Explore our Gurgaon hospital →</Link>
+          </div>
+        </section>
         <DoctorProfile />
         <ExpertVideos />
         <PatientMosaic />

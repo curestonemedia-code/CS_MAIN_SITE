@@ -34,6 +34,7 @@ const primaryLinks: NavLink[] = [
 ];
 
 const moreLinks: NavLink[] = [
+  { name: "Gurgaon Hospital", href: "/gurgaon" },
   { name: "Videos", href: "/videos" },
   { name: "Blog", href: "/blog" },
   { name: "About", href: "/about" },

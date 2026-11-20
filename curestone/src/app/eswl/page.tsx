@@ -230,6 +230,9 @@ export default function ESWLPage() {
                 <Link href="/eswl-in-gurgaon" className="text-slate-500 text-sm font-bold underline underline-offset-4 hover:text-primary">
                   Ready to book in Gurgaon? See Cure Stone Hospital, Sector 52 →
                 </Link>
+                <Link href="/gurgaon" className="text-slate-500 text-sm font-bold underline underline-offset-4 hover:text-primary">
+                  Gurgaon hospital, doctor and appointments →
+                </Link>
                 <Link href="/kidney-stone-surgery-cost-guide" className="text-slate-500 text-sm font-bold underline underline-offset-4 hover:text-primary">
                   What affects surgery cost? →
                 </Link>
