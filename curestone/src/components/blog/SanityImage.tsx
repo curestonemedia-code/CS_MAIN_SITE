@@ -12,6 +12,19 @@ type SanityImageProps = {
   sizes?: string;
 };
 
+function sanityCdnUrl(assetUrl: string, width: number) {
+  const url = new URL(assetUrl);
+  if (url.hostname !== "cdn.sanity.io" || !url.pathname.startsWith("/images/")) {
+    return assetUrl;
+  }
+
+  url.searchParams.set("w", String(width));
+  url.searchParams.set("fit", "max");
+  url.searchParams.set("auto", "format");
+  url.searchParams.set("q", "80");
+  return url.toString();
+}
+
 export default function SanityImage({
   image,
   alt,
@@ -26,11 +39,14 @@ export default function SanityImage({
 
   const imageAlt = alt || image.alt || "";
   const blurDataURL = image.asset.metadata?.lqip;
+  const fixedSize = fill && sizes?.match(/^(\d+)px$/);
+  const deliveryWidth = fixedSize ? Math.min(Number(fixedSize[1]) * 2, 1400) : Math.min(width, 1400);
+  const src = sanityCdnUrl(image.asset.url, deliveryWidth);
 
   if (fill) {
     return (
       <Image
-        src={image.asset.url}
+        src={src}
         alt={imageAlt}
         fill
         className={className}
@@ -44,7 +60,7 @@ export default function SanityImage({
 
   return (
     <Image
-      src={image.asset.url}
+      src={src}
       alt={imageAlt}
       width={width}
       height={height}
