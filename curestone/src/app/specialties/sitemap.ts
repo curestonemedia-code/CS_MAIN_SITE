@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import { SERVICES } from "@/constants/services";
-import { escapeXml } from "@/lib/xml";
 
 const SITE_URL = "https://thecurestone.com";
 
@@ -12,18 +11,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    // No video sitemap entries: the hero no longer embeds a video player on
+    // any specialty page (it's a lead form now), so none of these qualify
+    // as a video "watch page" for Google.
     ...SERVICES.map((service) => ({
       url: `${SITE_URL}/specialties/${service.slug}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,
-      videos: service.videoGallery.map((video) => ({
-        title: escapeXml(video.title),
-        thumbnail_loc: `https://img.youtube.com/vi/${video.ytId}/maxresdefault.jpg`,
-        description: escapeXml(`${video.title} — ${service.name} at Cure Stone Hospital, Gurgaon.`),
-        player_loc: `https://www.youtube.com/embed/${video.ytId}`,
-        family_friendly: "yes" as const,
-      })),
     })),
   ];
 }

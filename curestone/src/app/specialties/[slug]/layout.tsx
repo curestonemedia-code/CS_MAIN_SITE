@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SERVICES } from "@/constants/services";
-import { getYouTubeMeta } from "@/lib/youtube";
 
 const SITE_URL = "https://thecurestone.com";
 
@@ -97,27 +96,10 @@ export default async function SpecialtyLayout({ children, params }: SpecialtyLay
     ],
   };
 
-  const videoSchemas = await Promise.all(
-    service.videoGallery.map(async (video) => {
-      const meta = await getYouTubeMeta(video.ytId);
-      return {
-        "@context": "https://schema.org",
-        "@type": "VideoObject",
-        name: video.title,
-        description: `${video.title} — ${service.name} at Cure Stone Hospital, Gurgaon.`,
-        thumbnailUrl: [`https://img.youtube.com/vi/${video.ytId}/maxresdefault.jpg`],
-        ...(meta.uploadDate ? { uploadDate: meta.uploadDate } : {}),
-        ...(meta.duration ? { duration: meta.duration } : {}),
-        embedUrl: `https://www.youtube.com/embed/${video.ytId}`,
-        contentUrl: `https://www.youtube.com/watch?v=${video.ytId}`,
-        publisher: {
-          "@type": "Organization",
-          name: "Cure Stone",
-          "@id": `${SITE_URL}/#organization`,
-        },
-      };
-    })
-  );
+  // No VideoObject schema: the hero no longer embeds a video player (it's a
+  // lead form now on every specialty page), and the Video Gallery further
+  // down is a click-to-play carousel, not the page's primary content —
+  // Search Console flags that combination as "Video isn't on a watch page."
 
   return (
     <>
@@ -133,13 +115,6 @@ export default async function SpecialtyLayout({ children, params }: SpecialtyLay
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
       />
-      {videoSchemas.map((schema) => (
-        <script
-          key={schema.embedUrl}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
-        />
-      ))}
       {children}
     </>
   );
