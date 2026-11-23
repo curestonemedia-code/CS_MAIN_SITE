@@ -16,6 +16,7 @@ import {
   STONE_SIZE_CATEGORIES,
   SUB_TREATMENTS,
   SUB_TREATMENT_CATEGORY,
+  type Category,
 } from "@/constants/leadFormOptions";
 
 // Unchanged from the original "Get Estimate" form - kept exactly as it was,
@@ -141,11 +142,11 @@ function EstimateForm({ onSuccess }: { onSuccess?: () => void }) {
 }
 
 /** The newer "Book Appointment" form: Name, Phone, Category + conditional Stone Size / Sub-treatment. */
-function BookingLeadForm({ submitLabel, onSuccess, compact = false }: { submitLabel: string; onSuccess?: () => void; compact?: boolean }) {
+function BookingLeadForm({ submitLabel, onSuccess, compact = false, defaultCategory }: { submitLabel: string; onSuccess?: () => void; compact?: boolean; defaultCategory?: Category }) {
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<BookingFormErrors>({});
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(defaultCategory ?? "");
 
   const showStoneSize = STONE_SIZE_CATEGORIES.includes(category as (typeof STONE_SIZE_CATEGORIES)[number]);
   const showSubTreatment = category === SUB_TREATMENT_CATEGORY;
@@ -306,14 +307,16 @@ export default function LocationLeadForm({
   submitLabel = "Schedule Consultation",
   onSuccess,
   compact = false,
+  defaultCategory,
 }: {
   formType?: "get_estimate" | "book_appointment";
   submitLabel?: string;
   onSuccess?: () => void;
   compact?: boolean;
+  defaultCategory?: Category;
 }) {
   if (formType === "get_estimate") {
     return <EstimateForm onSuccess={onSuccess} />;
   }
-  return <BookingLeadForm submitLabel={submitLabel} onSuccess={onSuccess} compact={compact} />;
+  return <BookingLeadForm submitLabel={submitLabel} onSuccess={onSuccess} compact={compact} defaultCategory={defaultCategory} />;
 }

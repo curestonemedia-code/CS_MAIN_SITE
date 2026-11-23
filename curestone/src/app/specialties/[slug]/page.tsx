@@ -7,13 +7,21 @@ import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import React, { useState } from "react";
+import FaqAccordion from "@/components/FaqAccordion";
+import LocationLeadForm from "@/components/home/LocationLeadForm";
+import type { Category } from "@/constants/leadFormOptions";
+
+const CATEGORY_BY_SLUG: Record<string, Category> = {
+  "kidney-stone-treatment": "Kidney Stone Treatment",
+  "urology-andrology": "Urology & Andrology",
+  "gallbladder-stone-treatment": "Gall Bladder Stone Surgery",
+};
 
 export default function SpecialtyPage() {
   const { slug } = useParams() as { slug: string };
   const service = SERVICES.find((s) => s.slug === slug);
 
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   if (!service) {
     notFound();
@@ -73,20 +81,35 @@ export default function SpecialtyPage() {
                 )}
               </div>
 
-              {/* Responsive Video Wrapper */}
-              <div className="relative w-full aspect-video rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-2xl border-4 md:border-8 border-white bg-white group">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={`https://www.youtube.com/embed/${service.videoGallery[0].ytId}`}
-                  title={`${service.name} Procedure Video`}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                ></iframe>
-              </div>
+              {/* Responsive Video Wrapper (falls back to a booking form, category pre-selected, when there's no video for this specialty yet) */}
+              {service.videoGallery.length > 0 ? (
+                <div className="relative w-full aspect-video rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-2xl border-4 md:border-8 border-white bg-white group">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${service.videoGallery[0].ytId}`}
+                    title={`${service.name} Procedure Video`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  ></iframe>
+                </div>
+              ) : (
+                <div className="w-full bg-white rounded-2xl sm:rounded-[2rem] shadow-2xl border-4 md:border-8 border-white p-6 md:p-8">
+                  <h3 className="text-lg font-black text-slate-900 mb-1">Enquire About {service.name}</h3>
+                  <p className="text-sm text-slate-500 font-medium mb-6">
+                    Fill in your details and our coordinator will call you back.
+                  </p>
+                  <LocationLeadForm
+                    formType="book_appointment"
+                    submitLabel="Request Callback"
+                    defaultCategory={CATEGORY_BY_SLUG[slug]}
+                    compact
+                  />
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -145,43 +168,45 @@ export default function SpecialtyPage() {
         </section>
 
         {/* Video Gallery - Fluid Grid */}
-        <section className="py-16 md:py-24 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900">Expert <span className="text-primary italic">Video Guides</span></h2>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {service.videoGallery.map((video, idx) => (
-                <div key={idx} className="bg-white rounded-2xl overflow-hidden border border-slate-200">
-                  <div className="relative aspect-video">
-                    {playingVideoId === video.ytId ? (
-                      <iframe
-                        src={`https://www.youtube.com/embed/${video.ytId}?autoplay=1`}
-                        className="w-full h-full"
-                        allow="autoplay; encrypted-media"
-                        allowFullScreen
-                      />
-                    ) : (
-                      <div className="absolute inset-0 cursor-pointer" onClick={() => setPlayingVideoId(video.ytId)}>
-                        <Image
-                          src={`https://img.youtube.com/vi/${video.ytId}/mqdefault.jpg`}
-                          alt={video.title}
-                          fill
-                          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                          className="object-cover"
+        {service.videoGallery.length > 0 && (
+          <section className="py-16 md:py-24 bg-slate-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-5xl font-black text-slate-900">Expert <span className="text-primary italic">Video Guides</span></h2>
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                {service.videoGallery.map((video, idx) => (
+                  <div key={idx} className="bg-white rounded-2xl overflow-hidden border border-slate-200">
+                    <div className="relative aspect-video">
+                      {playingVideoId === video.ytId ? (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${video.ytId}?autoplay=1`}
+                          className="w-full h-full"
+                          allow="autoplay; encrypted-media"
+                          allowFullScreen
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/20"><div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary">▶</div></div>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="absolute inset-0 cursor-pointer" onClick={() => setPlayingVideoId(video.ytId)}>
+                          <Image
+                            src={`https://img.youtube.com/vi/${video.ytId}/mqdefault.jpg`}
+                            alt={video.title}
+                            fill
+                            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20"><div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary">▶</div></div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <h4 className="font-black text-slate-900 text-sm md:text-base">{video.title}</h4>
+                    </div>
                   </div>
-                  <div className="p-5">
-                    <h4 className="font-black text-slate-900 text-sm md:text-base">{video.title}</h4>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* FAQ Section */}
         <section className="py-16 md:py-24 bg-white">
@@ -197,33 +222,7 @@ export default function SpecialtyPage() {
                 See All FAQs →
               </Link>
             </div>
-            <div className="space-y-3">
-              {service.faqs.map((faq, i) => (
-                <div key={i} className="bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden">
-                  <button
-                    className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-bold text-slate-900 hover:text-primary transition-colors"
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    aria-expanded={openFaq === i}
-                  >
-                    <span>{faq.q}</span>
-                    <svg
-                      className={`w-5 h-5 shrink-0 transition-transform duration-300 ${openFaq === i ? "rotate-45" : ""}`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
-                  </button>
-                  {openFaq === i && (
-                    <div className="px-6 pb-5 text-sm md:text-base text-slate-600 font-medium leading-relaxed border-t border-slate-200 pt-4">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <FaqAccordion items={service.faqs} />
           </div>
         </section>
 
