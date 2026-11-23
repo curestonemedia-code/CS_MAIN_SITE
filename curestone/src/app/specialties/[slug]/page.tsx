@@ -162,6 +162,22 @@ export default function SpecialtyPage() {
                     ))}
                   </div>
                 </div>
+
+                {/* Pages without a hero video get the enquiry form there instead; pages with a video get it here. */}
+                {service.videoGallery.length > 0 && (
+                  <div className="bg-white rounded-2xl md:rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-10">
+                    <h3 className="text-lg font-black text-slate-900 mb-1">Enquire About {service.name}</h3>
+                    <p className="text-sm text-slate-500 font-medium mb-6">
+                      Fill in your details and our coordinator will call you back.
+                    </p>
+                    <LocationLeadForm
+                      formType="book_appointment"
+                      submitLabel="Request Callback"
+                      defaultCategory={CATEGORY_BY_SLUG[slug]}
+                      compact
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
