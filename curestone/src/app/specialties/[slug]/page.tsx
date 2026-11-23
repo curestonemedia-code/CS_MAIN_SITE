@@ -81,35 +81,19 @@ export default function SpecialtyPage() {
                 )}
               </div>
 
-              {/* Responsive Video Wrapper (falls back to a booking form, category pre-selected, when there's no video for this specialty yet) */}
-              {service.videoGallery.length > 0 ? (
-                <div className="relative w-full aspect-video rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-2xl border-4 md:border-8 border-white bg-white group">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${service.videoGallery[0].ytId}`}
-                    title={`${service.name} Procedure Video`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full"
-                  ></iframe>
-                </div>
-              ) : (
-                <div className="w-full bg-white rounded-2xl sm:rounded-[2rem] shadow-2xl border-4 md:border-8 border-white p-6 md:p-8">
-                  <h3 className="text-lg font-black text-slate-900 mb-1">Enquire About {service.name}</h3>
-                  <p className="text-sm text-slate-500 font-medium mb-6">
-                    Fill in your details and our coordinator will call you back.
-                  </p>
-                  <LocationLeadForm
-                    formType="book_appointment"
-                    submitLabel="Request Callback"
-                    defaultCategory={CATEGORY_BY_SLUG[slug]}
-                    compact
-                  />
-                </div>
-              )}
+              {/* Hero enquiry form, category pre-selected - same slot/treatment on every specialty page */}
+              <div className="w-full bg-white rounded-2xl sm:rounded-[2rem] shadow-2xl border-4 md:border-8 border-white p-6 md:p-8">
+                <h3 className="text-lg font-black text-slate-900 mb-1">Enquire About {service.name}</h3>
+                <p className="text-sm text-slate-500 font-medium mb-6">
+                  Fill in your details and our coordinator will call you back.
+                </p>
+                <LocationLeadForm
+                  formType="book_appointment"
+                  submitLabel="Request Callback"
+                  defaultCategory={CATEGORY_BY_SLUG[slug]}
+                  compact
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -162,22 +146,6 @@ export default function SpecialtyPage() {
                     ))}
                   </div>
                 </div>
-
-                {/* Pages without a hero video get the enquiry form there instead; pages with a video get it here. */}
-                {service.videoGallery.length > 0 && (
-                  <div className="bg-white rounded-2xl md:rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-10">
-                    <h3 className="text-lg font-black text-slate-900 mb-1">Enquire About {service.name}</h3>
-                    <p className="text-sm text-slate-500 font-medium mb-6">
-                      Fill in your details and our coordinator will call you back.
-                    </p>
-                    <LocationLeadForm
-                      formType="book_appointment"
-                      submitLabel="Request Callback"
-                      defaultCategory={CATEGORY_BY_SLUG[slug]}
-                      compact
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </div>
